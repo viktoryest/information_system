@@ -12,16 +12,17 @@ from PySide6 import QtCore, QtGui, QtWidgets
 class Ui_MyMainWindow(object):
     def setupUi(self, MyMainWindow):
         MyMainWindow.setObjectName("MyMainWindow")
-        MyMainWindow.setEnabled(False)
-        MyMainWindow.resize(1916, 1071)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
+        MyMainWindow.setEnabled(True)
+        MyMainWindow.resize(1920, 1080)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred,
+                                           QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MyMainWindow.sizePolicy().hasHeightForWidth())
         MyMainWindow.setSizePolicy(sizePolicy)
         MyMainWindow.setStyleSheet("background-image: url(:/images/background.png);")
         self.centralwidget = QtWidgets.QWidget(parent=MyMainWindow)
-        self.centralwidget.setEnabled(False)
+        self.centralwidget.setEnabled(True)
         self.centralwidget.setStyleSheet("")
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton = QtWidgets.QPushButton(parent=self.centralwidget)
@@ -32,7 +33,7 @@ class Ui_MyMainWindow(object):
         sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
         self.pushButton.setSizePolicy(sizePolicy)
         self.pushButton.setStyleSheet("background-image: url(:/images/main_button.png);\n"
-"border: 0;")
+                                      "border: 0;")
         self.pushButton.setText("")
         self.pushButton.setObjectName("pushButton")
         MyMainWindow.setCentralWidget(self.centralwidget)
