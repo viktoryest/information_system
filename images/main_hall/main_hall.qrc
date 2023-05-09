@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="main_hall">
+    <file>painting.png</file>
+    <file>embroidery.png</file>
+    <file>jewelry.png</file>
+  </qresource>
+</RCC>

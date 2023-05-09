@@ -2,7 +2,7 @@ import sys
 from PySide6.QtGui import QKeySequence, Qt
 from PySide6.QtWidgets import QApplication, QMainWindow
 from info_sys import Ui_MyMainWindow
-import images
+import images, main_hall
 
 
 class MainWindow(QMainWindow):
@@ -11,6 +11,8 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MyMainWindow()
         self.ui.setupUi(self)
         # self.setWindowState(Qt.WindowFullScreen)
+
+
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_F11:
