@@ -10,9 +10,6 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.ui = Ui_MyMainWindow()
         self.ui.setupUi(self)
-        # self.setWindowState(Qt.WindowFullScreen)
-
-
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_F11:

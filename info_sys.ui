@@ -32,7 +32,7 @@
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="main_button">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -55,7 +55,7 @@ border: 0;</string>
      <string/>
     </property>
    </widget>
-   <widget class="QStackedWidget" name="stackedWidget">
+   <widget class="QWidget" name="main_hall" native="true">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -64,69 +64,55 @@ border: 0;</string>
       <height>1080</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">frameShape: NoFrame;</string>
-    </property>
-    <widget class="QWidget" name="page">
-     <property name="styleSheet">
-      <string notr="true"/>
+    <widget class="QPushButton" name="jewerly">
+     <property name="geometry">
+      <rect>
+       <x>153</x>
+       <y>397</y>
+       <width>527</width>
+       <height>265</height>
+      </rect>
      </property>
-     <widget class="QPushButton" name="pushButton_2">
-      <property name="geometry">
-       <rect>
-        <x>153</x>
-        <y>380</y>
-        <width>527</width>
-        <height>256</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-image: url(:/main_hall/jewelry.png);
-border: 0;
-alignment: AlignTop;</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_3">
-      <property name="geometry">
-       <rect>
-        <x>730</x>
-        <y>380</y>
-        <width>527</width>
-        <height>256</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-image: url(:/main_hall/embroidery.png);
-border: 0;</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_4">
-      <property name="geometry">
-       <rect>
-        <x>1300</x>
-        <y>390</y>
-        <width>527</width>
-        <height>256</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-image: url(:/main_hall/painting.png);
-border: 0;</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="page_2">
      <property name="styleSheet">
-      <string notr="true"/>
+      <string notr="true">background-image: url(:/main_hall/jewelry.png);
+border: 0;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="embroidery">
+     <property name="geometry">
+      <rect>
+       <x>721</x>
+       <y>397</y>
+       <width>527</width>
+       <height>265</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-image: url(:/main_hall/embroidery.png);
+border: 0;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="painting">
+     <property name="geometry">
+      <rect>
+       <x>1290</x>
+       <y>397</y>
+       <width>527</width>
+       <height>265</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-image: url(:/main_hall/painting.png);
+border: 0;</string>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </widget>

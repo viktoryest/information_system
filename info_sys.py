@@ -13,7 +13,7 @@ class Ui_MyMainWindow(object):
     def setupUi(self, MyMainWindow):
         MyMainWindow.setObjectName("MyMainWindow")
         MyMainWindow.setEnabled(True)
-        MyMainWindow.resize(1920, 1080)
+        MyMainWindow.resize(1916, 1071)
 
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred,
                                            QtWidgets.QSizePolicy.Policy.Preferred)
@@ -29,66 +29,54 @@ class Ui_MyMainWindow(object):
         self.centralwidget.setStyleSheet("")
         self.centralwidget.setObjectName("centralwidget")
 
-        self.pushButton = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(560, 390, 859, 299))
+        self.main_button = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.main_button.setGeometry(QtCore.QRect(560, 390, 859, 299))
 
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(self.main_button.sizePolicy().hasHeightForWidth())
 
-        self.pushButton.setSizePolicy(sizePolicy)
-        self.pushButton.setStyleSheet("background-image: url(:/images/main_button.png);\n"
+        self.main_button.setSizePolicy(sizePolicy)
+        self.main_button.setStyleSheet("background-image: url(:/images/main_button.png);\n"
+                                       "border: 0;")
+        self.main_button.setText("")
+        self.main_button.setObjectName("main_button")
+        self.main_button.clicked.connect(self.show_main_hall)
+
+        self.main_hall = QtWidgets.QWidget(parent=self.centralwidget)
+        self.main_hall.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.main_hall.setObjectName("main_hall")
+        self.main_hall.hide()
+
+        self.jewerly = QtWidgets.QPushButton(parent=self.main_hall)
+        self.jewerly.setGeometry(QtCore.QRect(153, 397, 527, 265))
+        self.jewerly.setStyleSheet("background-image: url(:/main_hall/jewelry.png);\n"
+                                   "border: 0;")
+        self.jewerly.setText("")
+        self.jewerly.setObjectName("jewerly")
+
+        self.embroidery = QtWidgets.QPushButton(parent=self.main_hall)
+        self.embroidery.setGeometry(QtCore.QRect(721, 397, 527, 265))
+        self.embroidery.setStyleSheet("background-image: url(:/main_hall/embroidery.png);\n"
                                       "border: 0;")
-        self.pushButton.setText("")
-        self.pushButton.setObjectName("pushButton")
-        self.pushButton.clicked.connect(self.show_main_hall)
+        self.embroidery.setText("")
+        self.embroidery.setObjectName("embroidery")
 
-        self.stackedWidget = QtWidgets.QStackedWidget(parent=self.centralwidget)
-        self.stackedWidget.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
-        self.stackedWidget.setStyleSheet("frameShape: NoFrame;")
-        self.stackedWidget.setObjectName("stackedWidget")
-        self.stackedWidget.hide()
+        self.painting = QtWidgets.QPushButton(parent=self.main_hall)
+        self.painting.setGeometry(QtCore.QRect(1290, 397, 527, 265))
+        self.painting.setStyleSheet("background-image: url(:/main_hall/painting.png);\n"
+                                    "border: 0;")
+        self.painting.setText("")
+        self.painting.setObjectName("painting")
 
-        self.page = QtWidgets.QWidget()
-        self.page.setStyleSheet("")
-        self.page.setObjectName("page")
-
-        self.pushButton_2 = QtWidgets.QPushButton(parent=self.page)
-        self.pushButton_2.setGeometry(QtCore.QRect(153, 380, 527, 256))
-        self.pushButton_2.setStyleSheet("background-image: url(:/main_hall/jewelry.png);\n"
-                                        "border: 0;\n"
-                                        "alignment: AlignTop;")
-        self.pushButton_2.setText("")
-        self.pushButton_2.setObjectName("pushButton_2")
-
-        self.pushButton_3 = QtWidgets.QPushButton(parent=self.page)
-        self.pushButton_3.setGeometry(QtCore.QRect(730, 380, 527, 256))
-        self.pushButton_3.setStyleSheet("background-image: url(:/main_hall/embroidery.png);\n"
-                                        "border: 0;")
-        self.pushButton_3.setText("")
-        self.pushButton_3.setObjectName("pushButton_3")
-
-        self.pushButton_4 = QtWidgets.QPushButton(parent=self.page)
-        self.pushButton_4.setGeometry(QtCore.QRect(1300, 390, 527, 256))
-        self.pushButton_4.setStyleSheet("background-image: url(:/main_hall/painting.png);\n"
-                                        "border: 0;")
-        self.pushButton_4.setText("")
-        self.pushButton_4.setObjectName("pushButton_4")
-
-        self.stackedWidget.addWidget(self.page)
-        self.page_2 = QtWidgets.QWidget()
-        self.page_2.setStyleSheet("")
-        self.page_2.setObjectName("page_2")
-        self.stackedWidget.addWidget(self.page_2)
         MyMainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MyMainWindow)
         QtCore.QMetaObject.connectSlotsByName(MyMainWindow)
 
     def show_main_hall(self):
-        self.stackedWidget.show()
-        self.stackedWidget.setCurrentIndex(0)
+        self.main_hall.show()
 
     def retranslateUi(self, MyMainWindow):
         _translate = QtCore.QCoreApplication.translate
