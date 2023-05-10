@@ -115,12 +115,113 @@ border: 0;</string>
       <string/>
      </property>
     </widget>
+    <widget class="QWidget" name="jewelry_widget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>1920</width>
+       <height>1080</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-image: url(:/jewelry/jewelry_bg.png);
+border: 0;</string>
+     </property>
+     <widget class="QPushButton" name="jewelry_pass">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>285</y>
+        <width>465</width>
+        <height>110</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-image: url(:/left_menu/jewelry_menu.png);
+border: 0;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="masters">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>392</y>
+        <width>452</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-image: url(:/jewelry/masters.png);
+border: 0;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="video_photo">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>485</y>
+        <width>452</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-image: url(:/jewelry/video_photo.png);
+border: 0;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="embroidery_left">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>643</y>
+        <width>491</width>
+        <height>160</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-image: url(:/left_menu/embroidery_menu.png);
+border: 0;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="painting_left">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>791</y>
+        <width>491</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-image: url(:/left_menu/painting_menu.png);
+border: 0;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
  </widget>
  <resources>
   <include location="images/images.qrc"/>
+  <include location="images/left_menu/left_menu.qrc"/>
   <include location="images/main_hall/main_hall.qrc"/>
+  <include location="images/jewerly/jewelry.qrc"/>
  </resources>
  <connections/>
 </ui>

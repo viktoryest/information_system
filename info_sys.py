@@ -13,7 +13,7 @@ class Ui_MyMainWindow(object):
     def setupUi(self, MyMainWindow):
         MyMainWindow.setObjectName("MyMainWindow")
         MyMainWindow.setEnabled(True)
-        MyMainWindow.resize(1916, 1071)
+        MyMainWindow.resize(1920, 1080)
 
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred,
                                            QtWidgets.QSizePolicy.Policy.Preferred)
@@ -55,6 +55,7 @@ class Ui_MyMainWindow(object):
                                    "border: 0;")
         self.jewerly.setText("")
         self.jewerly.setObjectName("jewerly")
+        self.jewerly.clicked.connect(self.show_jewelry_widget)
 
         self.embroidery = QtWidgets.QPushButton(parent=self.main_hall)
         self.embroidery.setGeometry(QtCore.QRect(721, 397, 527, 265))
@@ -70,6 +71,49 @@ class Ui_MyMainWindow(object):
         self.painting.setText("")
         self.painting.setObjectName("painting")
 
+        self.jewelry_widget = QtWidgets.QWidget(parent=self.main_hall)
+        self.jewelry_widget.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.jewelry_widget.setStyleSheet("background-image: url(:/jewelry/jewelry_bg.png);\n"
+                                          "border: 0;")
+        self.jewelry_widget.setObjectName("jewelry_widget")
+        self.jewelry_widget.hide()
+
+
+        self.jewelry_pass = QtWidgets.QPushButton(parent=self.jewelry_widget)
+        self.jewelry_pass.setGeometry(QtCore.QRect(0, 285, 465, 110))
+        self.jewelry_pass.setStyleSheet("background-image: url(:/left_menu/jewelry_menu.png);\n"
+                                        "border: 0;")
+        self.jewelry_pass.setText("")
+        self.jewelry_pass.setObjectName("jewelry_pass")
+
+        self.masters = QtWidgets.QPushButton(parent=self.jewelry_widget)
+        self.masters.setGeometry(QtCore.QRect(40, 392, 452, 121))
+        self.masters.setStyleSheet("background-image: url(:/jewelry/masters.png);\n"
+                                   "border: 0;")
+        self.masters.setText("")
+        self.masters.setObjectName("masters")
+
+        self.video_photo = QtWidgets.QPushButton(parent=self.jewelry_widget)
+        self.video_photo.setGeometry(QtCore.QRect(40, 485, 452, 121))
+        self.video_photo.setStyleSheet("background-image: url(:/jewelry/video_photo.png);\n"
+                                       "border: 0;")
+        self.video_photo.setText("")
+        self.video_photo.setObjectName("video_photo")
+
+        self.embroidery_left = QtWidgets.QPushButton(parent=self.jewelry_widget)
+        self.embroidery_left.setGeometry(QtCore.QRect(0, 643, 491, 160))
+        self.embroidery_left.setStyleSheet("background-image: url(:/left_menu/embroidery_menu.png);\n"
+                                           "border: 0;")
+        self.embroidery_left.setText("")
+        self.embroidery_left.setObjectName("embroidery_left")
+
+        self.painting_left = QtWidgets.QPushButton(parent=self.jewelry_widget)
+        self.painting_left.setGeometry(QtCore.QRect(0, 791, 491, 121))
+        self.painting_left.setStyleSheet("background-image: url(:/left_menu/painting_menu.png);\n"
+                                         "border: 0;")
+        self.painting_left.setText("")
+        self.painting_left.setObjectName("painting_left")
+
         MyMainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MyMainWindow)
@@ -77,6 +121,9 @@ class Ui_MyMainWindow(object):
 
     def show_main_hall(self):
         self.main_hall.show()
+
+    def show_jewelry_widget(self):
+        self.jewelry_widget.show()
 
     def retranslateUi(self, MyMainWindow):
         _translate = QtCore.QCoreApplication.translate

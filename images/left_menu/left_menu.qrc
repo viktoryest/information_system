@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="left_menu">
+    <file>painting_menu.png</file>
+    <file>embroidery_menu.png</file>
+    <file>jewelry_menu.png</file>
+  </qresource>
+</RCC>
