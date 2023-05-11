@@ -37,6 +37,7 @@ class Ui_MyMainWindow(object):
         self.main_button.setObjectName("main_button")
         self.main_hall = QtWidgets.QWidget(parent=self.centralwidget)
         self.main_hall.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.main_hall.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
         self.main_hall.setObjectName("main_hall")
         self.jewerly = QtWidgets.QPushButton(parent=self.main_hall)
         self.jewerly.setGeometry(QtCore.QRect(153, 397, 527, 265))
@@ -59,6 +60,7 @@ class Ui_MyMainWindow(object):
         self.jewelry_widget = QtWidgets.QWidget(parent=self.main_hall)
         self.jewelry_widget.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
         self.jewelry_widget.setStyleSheet("background-image: url(:/jewelry/jewelry_bg.png);\n"
+"background-color: rgba(0, 0, 0, 0);\n"
 "border: 0;")
         self.jewelry_widget.setObjectName("jewelry_widget")
         self.jewelry_pass = QtWidgets.QPushButton(parent=self.jewelry_widget)
@@ -91,6 +93,9 @@ class Ui_MyMainWindow(object):
 "border: 0;")
         self.painting_left.setText("")
         self.painting_left.setObjectName("painting_left")
+        self.textEdit = QtWidgets.QTextEdit(parent=self.jewelry_widget)
+        self.textEdit.setGeometry(QtCore.QRect(603, 229, 1174, 36))
+        self.textEdit.setObjectName("textEdit")
         MyMainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MyMainWindow)

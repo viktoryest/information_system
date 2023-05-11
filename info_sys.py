@@ -7,6 +7,9 @@
 
 
 from PySide6 import QtCore, QtGui, QtWidgets
+import json
+
+from PySide6.QtGui import QColor, QPalette, QFont
 
 
 class Ui_MyMainWindow(object):
@@ -113,6 +116,18 @@ class Ui_MyMainWindow(object):
                                          "border: 0;")
         self.painting_left.setText("")
         self.painting_left.setObjectName("painting_left")
+
+        with open('texts/jewelry/masters.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
+
+        self.textEdit = QtWidgets.QTextEdit(parent=self.jewelry_widget)
+        self.textEdit.setStyleSheet("background: transparent;")
+        self.textEdit.setAutoFillBackground(False)
+        self.textEdit.setText(data['title'])
+        self.textEdit.setFontPointSize(20)
+        self.textEdit.setGeometry(QtCore.QRect(603, 229, 1174, 36))
+        self.textEdit.setObjectName("textEdit")
+        self.textEdit.setReadOnly(True)
 
         MyMainWindow.setCentralWidget(self.centralwidget)
 

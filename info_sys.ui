@@ -64,6 +64,9 @@ border: 0;</string>
       <height>1080</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+    </property>
     <widget class="QPushButton" name="jewerly">
      <property name="geometry">
       <rect>
@@ -126,6 +129,7 @@ border: 0;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">background-image: url(:/jewelry/jewelry_bg.png);
+background-color: rgba(0, 0, 0, 0);
 border: 0;</string>
      </property>
      <widget class="QPushButton" name="jewelry_pass">
@@ -211,6 +215,16 @@ border: 0;</string>
       </property>
       <property name="text">
        <string/>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="textEdit">
+      <property name="geometry">
+       <rect>
+        <x>603</x>
+        <y>229</y>
+        <width>1174</width>
+        <height>36</height>
+       </rect>
       </property>
      </widget>
     </widget>

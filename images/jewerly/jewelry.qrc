@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="jewelry">
+    <file>text_bg.png</file>
     <file>video_photo.png</file>
     <file>masters.png</file>
     <file>jewelry_bg.png</file>
