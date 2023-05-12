@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="fonts">
+    <file>MinionPro-Regular.ttf</file>
+  </qresource>
+</RCC>

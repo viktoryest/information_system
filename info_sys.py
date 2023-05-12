@@ -9,7 +9,8 @@
 from PySide6 import QtCore, QtGui, QtWidgets
 import json
 
-from PySide6.QtGui import QColor, QPalette, QFont
+from PySide6.QtGui import QColor, QPalette, QFont, QFontDatabase, Qt
+from PySide6.QtWidgets import QMessageBox
 
 
 class Ui_MyMainWindow(object):
@@ -81,7 +82,6 @@ class Ui_MyMainWindow(object):
         self.jewelry_widget.setObjectName("jewelry_widget")
         self.jewelry_widget.hide()
 
-
         self.jewelry_pass = QtWidgets.QPushButton(parent=self.jewelry_widget)
         self.jewelry_pass.setGeometry(QtCore.QRect(0, 285, 465, 110))
         self.jewelry_pass.setStyleSheet("background-image: url(:/left_menu/jewelry_menu.png);\n"
@@ -120,14 +120,31 @@ class Ui_MyMainWindow(object):
         with open('texts/jewelry/masters.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
 
-        self.textEdit = QtWidgets.QTextEdit(parent=self.jewelry_widget)
-        self.textEdit.setStyleSheet("background: transparent;")
-        self.textEdit.setAutoFillBackground(False)
-        self.textEdit.setText(data['title'])
-        self.textEdit.setFontPointSize(20)
-        self.textEdit.setGeometry(QtCore.QRect(603, 229, 1174, 36))
-        self.textEdit.setObjectName("textEdit")
-        self.textEdit.setReadOnly(True)
+        self.jewelry_title_1 = QtWidgets.QTextEdit(parent=self.jewelry_widget)
+        self.jewelry_title_1.setStyleSheet("background: transparent;")
+        self.jewelry_title_1.setAutoFillBackground(False)
+        self.jewelry_title_1.setText(data['title'])
+        self.jewelry_title_1.setFontPointSize(20)
+
+        fontId = QFontDatabase.addApplicationFont(":/fonts/MinionPro-Regular.ttf")
+        fontName = QFontDatabase.applicationFontFamilies(fontId)[0]
+        self.font = QFont(fontName, 20)
+        self.jewelry_title_1.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.jewelry_title_1.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.jewelry_title_1.setFont(self.font)
+        self.jewelry_title_1.setGeometry(QtCore.QRect(603, 229, 1174, 36))
+        self.jewelry_title_1.setObjectName("textEdit")
+        self.jewelry_title_1.setReadOnly(True)
+
+        self.back_button = QtWidgets.QPushButton(parent=self.jewelry_widget)
+        self.back_button.setGeometry(QtCore.QRect(1110, 975, 166, 63))
+        self.back_button.setStyleSheet("background-image: url(:/images/back.png);\n"
+                                       "border: 0;")
+        self.back_button.setText("")
+        self.back_button.setObjectName("back_button")
+        self.back_button.clicked.connect(self.show_main_hall)
+        self.back_button.clicked.connect(self.jewelry_widget.hide)
+
 
         MyMainWindow.setCentralWidget(self.centralwidget)
 
@@ -142,4 +159,4 @@ class Ui_MyMainWindow(object):
 
     def retranslateUi(self, MyMainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MyMainWindow.setWindowTitle(_translate("MyMainWindow", "Museum"))
+        MyMainWindow.setWindowTitle(_translate("MyMainWindow", "Мстёрский музей"))

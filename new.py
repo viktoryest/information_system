@@ -95,7 +95,15 @@ class Ui_MyMainWindow(object):
         self.painting_left.setObjectName("painting_left")
         self.textEdit = QtWidgets.QTextEdit(parent=self.jewelry_widget)
         self.textEdit.setGeometry(QtCore.QRect(603, 229, 1174, 36))
+        self.textEdit.setStyleSheet("background: transparent;\n"
+"border: 0;")
         self.textEdit.setObjectName("textEdit")
+        self.pushButton = QtWidgets.QPushButton(parent=self.jewelry_widget)
+        self.pushButton.setGeometry(QtCore.QRect(1110, 975, 166, 63))
+        self.pushButton.setStyleSheet("background-image: url(:/images/back.png);\n"
+"border: 0;")
+        self.pushButton.setText("")
+        self.pushButton.setObjectName("pushButton")
         MyMainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MyMainWindow)
@@ -104,3 +112,11 @@ class Ui_MyMainWindow(object):
     def retranslateUi(self, MyMainWindow):
         _translate = QtCore.QCoreApplication.translate
         MyMainWindow.setWindowTitle(_translate("MyMainWindow", "Museum"))
+        self.textEdit.setHtml(_translate("MyMainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:28pt; color:#aa0000;\">Test</span></p></body></html>"))

@@ -2,7 +2,7 @@ import sys
 from PySide6.QtGui import QKeySequence, Qt
 from PySide6.QtWidgets import QApplication, QMainWindow
 from info_sys import Ui_MyMainWindow
-import images, main_hall, jewelry, left_menu
+import images, main_hall, jewelry, left_menu, fonts
 
 
 class MainWindow(QMainWindow):
