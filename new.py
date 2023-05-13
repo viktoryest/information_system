@@ -13,7 +13,7 @@ class Ui_MyMainWindow(object):
     def setupUi(self, MyMainWindow):
         MyMainWindow.setObjectName("MyMainWindow")
         MyMainWindow.setEnabled(False)
-        MyMainWindow.resize(1916, 1071)
+        MyMainWindow.resize(1912, 1062)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -93,17 +93,66 @@ class Ui_MyMainWindow(object):
 "border: 0;")
         self.painting_left.setText("")
         self.painting_left.setObjectName("painting_left")
-        self.textEdit = QtWidgets.QTextEdit(parent=self.jewelry_widget)
-        self.textEdit.setGeometry(QtCore.QRect(603, 229, 1174, 36))
-        self.textEdit.setStyleSheet("background: transparent;\n"
-"border: 0;")
-        self.textEdit.setObjectName("textEdit")
         self.pushButton = QtWidgets.QPushButton(parent=self.jewelry_widget)
         self.pushButton.setGeometry(QtCore.QRect(1110, 975, 166, 63))
         self.pushButton.setStyleSheet("background-image: url(:/images/back.png);\n"
 "border: 0;")
         self.pushButton.setText("")
         self.pushButton.setObjectName("pushButton")
+        self.photo_video = QtWidgets.QWidget(parent=self.jewelry_widget)
+        self.photo_video.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.photo_video.setStyleSheet("background-image: url(:/jewelry/jewelry_bg.png);\n"
+"background-color: rgba(0, 0, 0, 0);\n"
+"border: 0;")
+        self.photo_video.setObjectName("photo_video")
+        self.jewelry_pass_2 = QtWidgets.QPushButton(parent=self.photo_video)
+        self.jewelry_pass_2.setGeometry(QtCore.QRect(0, 285, 465, 110))
+        self.jewelry_pass_2.setStyleSheet("background-image: url(:/left_menu/jewelry_menu.png);\n"
+"border: 0;")
+        self.jewelry_pass_2.setText("")
+        self.jewelry_pass_2.setObjectName("jewelry_pass_2")
+        self.masters_2 = QtWidgets.QPushButton(parent=self.photo_video)
+        self.masters_2.setGeometry(QtCore.QRect(40, 392, 452, 121))
+        self.masters_2.setStyleSheet("background-image: url(:/jewelry/masters.png);\n"
+"border: 0;")
+        self.masters_2.setText("")
+        self.masters_2.setObjectName("masters_2")
+        self.video_photo_2 = QtWidgets.QPushButton(parent=self.photo_video)
+        self.video_photo_2.setGeometry(QtCore.QRect(40, 485, 452, 121))
+        self.video_photo_2.setStyleSheet("background-image: url(:/jewelry/video_photo.png);\n"
+"border: 0;")
+        self.video_photo_2.setText("")
+        self.video_photo_2.setObjectName("video_photo_2")
+        self.embroidery_left_2 = QtWidgets.QPushButton(parent=self.photo_video)
+        self.embroidery_left_2.setGeometry(QtCore.QRect(0, 643, 491, 160))
+        self.embroidery_left_2.setStyleSheet("background-image: url(:/left_menu/embroidery_menu.png);\n"
+"border: 0;")
+        self.embroidery_left_2.setText("")
+        self.embroidery_left_2.setObjectName("embroidery_left_2")
+        self.painting_left_2 = QtWidgets.QPushButton(parent=self.photo_video)
+        self.painting_left_2.setGeometry(QtCore.QRect(0, 791, 491, 121))
+        self.painting_left_2.setStyleSheet("background-image: url(:/left_menu/painting_menu.png);\n"
+"border: 0;")
+        self.painting_left_2.setText("")
+        self.painting_left_2.setObjectName("painting_left_2")
+        self.pushButton_2 = QtWidgets.QPushButton(parent=self.photo_video)
+        self.pushButton_2.setGeometry(QtCore.QRect(1110, 975, 166, 63))
+        self.pushButton_2.setStyleSheet("background-image: url(:/images/back.png);\n"
+"border: 0;")
+        self.pushButton_2.setText("")
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.label = QtWidgets.QLabel(parent=self.photo_video)
+        self.label.setGeometry(QtCore.QRect(1007, 213, 370, 43))
+        self.label.setStyleSheet("background-image: url(:/jewelry/video_title.png);\n"
+"border: 0;")
+        self.label.setText("")
+        self.label.setObjectName("label")
+        self.label_2 = QtWidgets.QLabel(parent=self.photo_video)
+        self.label_2.setGeometry(QtCore.QRect(1007, 600, 370, 43))
+        self.label_2.setStyleSheet("background-image: url(:/jewelry/photo_title.png);\n"
+"border: 0;")
+        self.label_2.setText("")
+        self.label_2.setObjectName("label_2")
         MyMainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MyMainWindow)
@@ -112,11 +161,3 @@ class Ui_MyMainWindow(object):
     def retranslateUi(self, MyMainWindow):
         _translate = QtCore.QCoreApplication.translate
         MyMainWindow.setWindowTitle(_translate("MyMainWindow", "Museum"))
-        self.textEdit.setHtml(_translate("MyMainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:28pt; color:#aa0000;\">Test</span></p></body></html>"))

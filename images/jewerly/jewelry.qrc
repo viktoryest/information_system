@@ -3,5 +3,7 @@
     <file>video_photo.png</file>
     <file>masters.png</file>
     <file>jewelry_bg.png</file>
+    <file>photo_title.png</file>
+    <file>video_title.png</file>
   </qresource>
 </RCC>

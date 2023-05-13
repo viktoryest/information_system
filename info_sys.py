@@ -124,22 +124,57 @@ class Ui_MyMainWindow(object):
         with open('texts/jewelry/masters.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
 
-        self.jewelry_title_1 = QtWidgets.QTextEdit(parent=self.jewelry_widget)
-        self.jewelry_title_1.setStyleSheet("background: transparent;")
-        self.jewelry_title_1.setAutoFillBackground(False)
-        self.jewelry_title_1.setText(data['title'])
-        self.jewelry_title_1.setFontPointSize(20)
-
         fontId = QFontDatabase.addApplicationFont(":/fonts/MinionPro-Regular.ttf")
         fontName = QFontDatabase.applicationFontFamilies(fontId)[0]
-        self.font = QFont(fontName, 20)
+        self.font_20 = QFont(fontName, 20)
+        self.font_16 = QFont(fontName, 16)
+
+        self.jewelry_title_1 = QtWidgets.QTextEdit(parent=self.jewelry_widget)
+        self.jewelry_title_1.setGeometry(QtCore.QRect(583, 229, 1174, 36))
+        self.jewelry_title_1.setStyleSheet("background: transparent;")
+        self.jewelry_title_1.setText(data['title_1'])
         self.jewelry_title_1.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         self.jewelry_title_1.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.jewelry_title_1.setTextColor(QColor(73, 64, 69))
-        self.jewelry_title_1.setFont(self.font)
-        self.jewelry_title_1.setGeometry(QtCore.QRect(603, 229, 1174, 36))
+        self.jewelry_title_1.setFont(self.font_20)
         self.jewelry_title_1.setObjectName("jewelry_title_1")
         self.jewelry_title_1.setReadOnly(True)
+
+        self.jewelry_main_text_1 = QtWidgets.QTextEdit(parent=self.jewelry_widget)
+        self.jewelry_main_text_1.setGeometry(QtCore.QRect(588, 270, 1201, 390))
+        self.jewelry_main_text_1.setStyleSheet("background: transparent;\n"
+                                               "border: 0; line-height: 90%;")
+        self.jewelry_main_text_1.setText(data['main_text_1'])
+        self.jewelry_main_text_1.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
+        self.jewelry_main_text_1.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.jewelry_main_text_1.setTextColor(QColor(73, 64, 69))
+        self.jewelry_main_text_1.setFont(self.font_16)
+        self.jewelry_main_text_1.setObjectName("jewelry_main_text_1")
+        self.jewelry_main_text_1.setReadOnly(True)
+
+        self.jewelry_title_2 = QtWidgets.QTextEdit(parent=self.jewelry_widget)
+        self.jewelry_title_2.setGeometry(QtCore.QRect(603, 686, 1174, 36))
+        self.jewelry_title_2.setStyleSheet("background: transparent;\n"
+                                           "border: 0;")
+        self.jewelry_title_2.setText(data['title_2'])
+        self.jewelry_title_2.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.jewelry_title_2.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.jewelry_title_2.setTextColor(QColor(73, 64, 69))
+        self.jewelry_title_2.setFont(self.font_20)
+        self.jewelry_title_2.setObjectName("jewelry_title_2")
+        self.jewelry_title_2.setReadOnly(True)
+
+        self.jewelry_main_text_2 = QtWidgets.QTextEdit(parent=self.jewelry_widget)
+        self.jewelry_main_text_2.setGeometry(QtCore.QRect(588, 737, 1201, 220))
+        self.jewelry_main_text_2.setStyleSheet("background: transparent;\n"
+                                               "border: 0;")
+        self.jewelry_main_text_2.setText(data['main_text_2'])
+        self.jewelry_main_text_2.setAlignment(Qt.AlignmentFlag.AlignJustify)
+        self.jewelry_main_text_2.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.jewelry_main_text_2.setTextColor(QColor(73, 64, 69))
+        self.jewelry_main_text_2.setFont(self.font_16)
+        self.jewelry_main_text_2.setObjectName("jewelry_main_text_2")
+        self.jewelry_main_text_2.setReadOnly(True)
 
         self.back_button = QtWidgets.QPushButton(parent=self.jewelry_widget)
         self.back_button.setGeometry(QtCore.QRect(1110, 975, 166, 63))
@@ -162,7 +197,6 @@ class Ui_MyMainWindow(object):
         # self.imageLabel = QtWidgets.QLabel(parent=self.jewelry_widget)
         # pixmap = QtGui.QPixmap(os.path.abspath('C:/Users/Victoria/Downloads/cat.png'))  # create a QPixmap object from the image file
         # self.imageLabel.setPixmap(pixmap)  # set the pixmap on the QLabel widget
-
 
         MyMainWindow.setCentralWidget(self.centralwidget)
 
