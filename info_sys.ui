@@ -350,7 +350,7 @@ border: 0;</string>
         <string/>
        </property>
       </widget>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="video_title">
        <property name="geometry">
         <rect>
          <x>1007</x>
@@ -367,7 +367,7 @@ border: 0;</string>
         <string/>
        </property>
       </widget>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="photo_title">
        <property name="geometry">
         <rect>
          <x>1007</x>
@@ -383,6 +383,37 @@ border: 0;</string>
        <property name="text">
         <string/>
        </property>
+      </widget>
+      <widget class="QWidget" name="widget" native="true">
+       <property name="geometry">
+        <rect>
+         <x>530</x>
+         <y>170</y>
+         <width>1311</width>
+         <height>791</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background: transparent;
+border: 0;</string>
+       </property>
+       <widget class="QLabel" name="label_3">
+        <property name="geometry">
+         <rect>
+          <x>480</x>
+          <y>110</y>
+          <width>361</width>
+          <height>307</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-image: url(:/jewelry/play_preview.png);
+border: 0;</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </widget>
      </widget>
     </widget>

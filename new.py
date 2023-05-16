@@ -141,18 +141,29 @@ class Ui_MyMainWindow(object):
 "border: 0;")
         self.pushButton_2.setText("")
         self.pushButton_2.setObjectName("pushButton_2")
-        self.label = QtWidgets.QLabel(parent=self.photo_video)
-        self.label.setGeometry(QtCore.QRect(1007, 213, 370, 43))
-        self.label.setStyleSheet("background-image: url(:/jewelry/video_title.png);\n"
+        self.video_title = QtWidgets.QLabel(parent=self.photo_video)
+        self.video_title.setGeometry(QtCore.QRect(1007, 213, 370, 43))
+        self.video_title.setStyleSheet("background-image: url(:/jewelry/video_title.png);\n"
 "border: 0;")
-        self.label.setText("")
-        self.label.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel(parent=self.photo_video)
-        self.label_2.setGeometry(QtCore.QRect(1007, 600, 370, 43))
-        self.label_2.setStyleSheet("background-image: url(:/jewelry/photo_title.png);\n"
+        self.video_title.setText("")
+        self.video_title.setObjectName("video_title")
+        self.photo_title = QtWidgets.QLabel(parent=self.photo_video)
+        self.photo_title.setGeometry(QtCore.QRect(1007, 600, 370, 43))
+        self.photo_title.setStyleSheet("background-image: url(:/jewelry/photo_title.png);\n"
 "border: 0;")
-        self.label_2.setText("")
-        self.label_2.setObjectName("label_2")
+        self.photo_title.setText("")
+        self.photo_title.setObjectName("photo_title")
+        self.widget = QtWidgets.QWidget(parent=self.photo_video)
+        self.widget.setGeometry(QtCore.QRect(530, 170, 1311, 791))
+        self.widget.setStyleSheet("background: transparent;\n"
+"border: 0;")
+        self.widget.setObjectName("widget")
+        self.label_3 = QtWidgets.QLabel(parent=self.widget)
+        self.label_3.setGeometry(QtCore.QRect(480, 110, 361, 307))
+        self.label_3.setStyleSheet("background-image: url(:/jewelry/play_preview.png);\n"
+"border: 0;")
+        self.label_3.setText("")
+        self.label_3.setObjectName("label_3")
         MyMainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MyMainWindow)

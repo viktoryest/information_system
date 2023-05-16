@@ -1,8 +1,10 @@
+import os
 import sys
 from PySide6.QtGui import QKeySequence, Qt
 from PySide6.QtWidgets import QApplication, QMainWindow
 from info_sys import Ui_MyMainWindow
 import images, main_hall, jewelry, left_menu, fonts
+import video.thumbnail_script
 
 
 class MainWindow(QMainWindow):
@@ -10,6 +12,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.ui = Ui_MyMainWindow()
         self.ui.setupUi(self)
+        self.setWindowState(Qt.WindowFullScreen)
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_F11:
@@ -25,6 +28,6 @@ if __name__ == "__main__":
 
     window = MainWindow()
     window.show()
-
+    print(os.path.abspath('play_button.png'))
     sys.exit(app.exec())
 
