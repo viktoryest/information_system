@@ -19,6 +19,7 @@ from PySide6.QtWidgets import QMessageBox
 
 
 class Ui_MyMainWindow(object):
+    play_video_state = False
     # main screen
     def setupUi(self, MyMainWindow):
         MyMainWindow.setObjectName("MyMainWindow")
@@ -272,6 +273,7 @@ class Ui_MyMainWindow(object):
         self.jewelry_widget.show()
 
     def show_video_photo(self):
+        self.play_video_state = True
         self.jewelry_content.hide()
         self.video_photo_widget.show()
 
@@ -281,6 +283,11 @@ class Ui_MyMainWindow(object):
         self.videoWidget.show()
         self.player.videoOutput().show()
         self.player.play()
+
+    def stop_video(self):
+        self.play_video_state = False
+        self.player.stop()
+        self.player.videoOutput().hide()
 
 
     def retranslateUi(self, MyMainWindow):

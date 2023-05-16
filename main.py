@@ -3,6 +3,7 @@ import sys
 from PySide6.QtGui import QKeySequence, Qt
 from PySide6.QtWidgets import QApplication, QMainWindow
 from info_sys import Ui_MyMainWindow
+from PySide6.QtGui import QMouseEvent
 import images, main_hall, jewelry, left_menu, fonts
 import video.thumbnail_script
 
@@ -22,12 +23,15 @@ class MainWindow(QMainWindow):
         else:
             super().keyPressEvent(event)
 
+    def mousePressEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton and self.ui.play_video_state:
+            self.ui.stop_video()
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     window = MainWindow()
     window.show()
-    print(os.path.abspath('play_button.png'))
     sys.exit(app.exec())
 
