@@ -6,5 +6,6 @@
     <file>jewelry_bg.png</file>
     <file>photo_title.png</file>
     <file>video_title.png</file>
+    <file>video_photo_pressed.png</file>
   </qresource>
 </RCC>
