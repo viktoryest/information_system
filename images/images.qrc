@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="images">
+    <file>photo_right_button.png</file>
+    <file>photo_left_button.png</file>
     <file>back.png</file>
     <file>background.png</file>
     <file>main_button.png</file>

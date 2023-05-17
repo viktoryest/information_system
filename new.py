@@ -44,7 +44,7 @@ class Ui_MyMainWindow(object):
         self.jewerly.setStyleSheet("background-image: url(:/main_hall/jewelry.png);\n"
 "border: 0;")
         self.jewerly.setText("")
-        self.jewerly.setObjectName("jewerly")
+        self.jewerly.setObjectName("jewelry")
         self.embroidery = QtWidgets.QPushButton(parent=self.main_hall)
         self.embroidery.setGeometry(QtCore.QRect(721, 397, 527, 265))
         self.embroidery.setStyleSheet("background-image: url(:/main_hall/embroidery.png);\n"
@@ -164,6 +164,18 @@ class Ui_MyMainWindow(object):
 "border: 0;")
         self.label_3.setText("")
         self.label_3.setObjectName("label_3")
+        self.photo_left_button = QtWidgets.QPushButton(parent=self.widget)
+        self.photo_left_button.setGeometry(QtCore.QRect(70, 600, 25, 64))
+        self.photo_left_button.setStyleSheet("background-image: url(:/images/photo_left_button.png);\n"
+"border: 0;")
+        self.photo_left_button.setText("")
+        self.photo_left_button.setObjectName("photo_left_button")
+        self.photo_right_button = QtWidgets.QPushButton(parent=self.widget)
+        self.photo_right_button.setGeometry(QtCore.QRect(1230, 600, 25, 64))
+        self.photo_right_button.setStyleSheet("background-image: url(:/images/photo_right_button.png);\n"
+"border: 0;")
+        self.photo_right_button.setText("")
+        self.photo_right_button.setObjectName("photo_right_button")
         MyMainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MyMainWindow)
