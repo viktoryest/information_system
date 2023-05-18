@@ -1,4 +1,5 @@
 import cv2
+import sys
 
 # Set the path to the video file
 video_path = "video/mstera_video.mp4"
@@ -9,7 +10,7 @@ cap = cv2.VideoCapture(video_path)
 # Check if the VideoCapture object was successfully created
 if not cap.isOpened():
     print("Error: Could not open video file.")
-    exit()
+    sys.exit()
 
 # Set the frame position in seconds to capture the thumbnail from (e.g. 10 seconds)
 time_sec = 5
@@ -21,7 +22,7 @@ success, frame = cap.read()
 # Check if the frame was successfully read
 if not success:
     print("Error: Could not read frame.")
-    exit()
+    sys.exit()
 
 # Set the path and filename for the thumbnail image
 thumbnail_path = f"{video_path}_thumbnail.jpg"
