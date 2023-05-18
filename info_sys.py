@@ -390,7 +390,11 @@ class Ui_MyMainWindow(object):
         self.photo_viewer.setStyleSheet("border: 0;")
         self.photo_viewer.setFixedSize(923, 627)
         self.photo_viewer.setGeometry(QtCore.QRect(731, 283, 923, 627))
-        self.photo_viewer.setPixmap(gallery_pixmap)
+
+        # Масштабирование изображения с сохранением соотношения сторон
+        scaled_pixmap = gallery_pixmap.scaledToWidth(923, QtCore.Qt.SmoothTransformation)
+        self.photo_viewer.setPixmap(scaled_pixmap)
+
         self.photo_viewer.setAlignment(QtCore.Qt.AlignCenter)
         self.photo_viewer.setText("")
         self.photo_viewer.setObjectName("photo_viewer")
