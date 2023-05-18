@@ -53,8 +53,8 @@ class RoundedLabel(QtWidgets.QLabel):
 class Ui_MyMainWindow(object):
     play_video_state = False
     current_photo_index = 0
-    current_real_photo_index = 0
-    current_photo_gallery = 0
+    clicked_photo_index = 0
+
     dirname = os.path.dirname(__file__)
     jewelry_photo_common = os.path.join(dirname, 'images/jewelry/photo_common')
     jewelry_photo_common_path = os.path.join(jewelry_photo_common, '*')
@@ -294,10 +294,10 @@ class Ui_MyMainWindow(object):
         jewelry_photo_common_path = os.path.join(jewelry_photo_common, '*')
         files_amount = len(glob.glob(jewelry_photo_common_path))
         if files_amount <= 4:
-            print('hey')
             self.photo_left_button.hide()
             self.photo_right_button.hide()
         self.photo_widgets = []
+
         for i in range(4):
             if i <= files_amount - 1:
                 self.photo_preview = RoundedLabel(parent=self.video_photo_widget)
@@ -316,7 +316,7 @@ class Ui_MyMainWindow(object):
                 self.photo_preview_button.setStyleSheet("background-image: transparent; border: 0;")
                 self.photo_preview_button.setText("")
                 self.photo_preview_button.setObjectName("photo_preview_button")
-                self.photo_preview_button.clicked.connect(partial(self.open_gallery, i))
+                self.photo_preview_button.clicked.connect(partial(self.change_cliked, i))
 
         # set button for masters
         self.masters = QtWidgets.QPushButton(parent=self.jewelry_widget)
@@ -381,17 +381,19 @@ class Ui_MyMainWindow(object):
         self.video_preview.show()
         self.play_button.show()
 
-    def open_gallery(self, photo_index):
+    def open_gallery(self):
         self.video_photo_widget.hide()
-        self.current_photo_index = photo_index
         self.photo_viewer = QtWidgets.QLabel(parent=self.photo_gallery_widget)
-        gallery_pixmap = QtGui.QPixmap(self.photo_paths[photo_index])
 
+        clicked_index = self.current_photo_index + self.clicked_photo_index
+        if clicked_index >= len(self.photo_paths):
+            clicked_index = clicked_index - len(self.photo_paths)
+
+        gallery_pixmap = QtGui.QPixmap(self.photo_paths[clicked_index])
         self.photo_viewer.setStyleSheet("border: 0;")
         self.photo_viewer.setFixedSize(923, 627)
         self.photo_viewer.setGeometry(QtCore.QRect(731, 283, 923, 627))
 
-        # Масштабирование изображения с сохранением соотношения сторон
         scaled_pixmap = gallery_pixmap.scaledToWidth(923, QtCore.Qt.SmoothTransformation)
         self.photo_viewer.setPixmap(scaled_pixmap)
 
@@ -399,6 +401,10 @@ class Ui_MyMainWindow(object):
         self.photo_viewer.setText("")
         self.photo_viewer.setObjectName("photo_viewer")
         self.photo_gallery_widget.show()
+
+    def change_cliked(self, clicked_index):
+        self.clicked_photo_index = clicked_index
+        self.open_gallery()
 
     def video_photo_pressed(self):
         self.video_photo.setGeometry(QtCore.QRect(64, 508, 452, 121))
