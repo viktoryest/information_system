@@ -18,6 +18,7 @@ from PySide6.QtMultimediaWidgets import QVideoWidget
 from PySide6.QtOpenGLWidgets import QOpenGLWidget
 from PySide6.QtWidgets import QMessageBox
 from pathlib import Path
+from functools import partial
 
 
 from PySide6 import QtCore, QtGui, QtWidgets
@@ -25,12 +26,13 @@ from PySide6 import QtCore, QtGui, QtWidgets
 class RoundedLabel(QtWidgets.QLabel):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.radius = 20
+        self.radius = 10
 
         # Создаем QGraphicsDropShadowEffect и задаем параметры тени
         self.shadow = QtWidgets.QGraphicsDropShadowEffect(self)
         self.shadow.setBlurRadius(10)
         self.shadow.setColor(QtGui.QColor(0, 0, 0, 128))
+        self.shadow.setOffset(0, 0)
         self.setGraphicsEffect(self.shadow)
 
     def paintEvent(self, event):
@@ -51,6 +53,11 @@ class RoundedLabel(QtWidgets.QLabel):
 class Ui_MyMainWindow(object):
     play_video_state = False
     current_photo_index = 0
+    current_photo_gallery = 0
+    dirname = os.path.dirname(__file__)
+    jewelry_photo_common = os.path.join(dirname, 'images/jewelry/photo_common')
+    jewelry_photo_common_path = os.path.join(jewelry_photo_common, '*')
+    photo_paths = sorted(glob.glob(jewelry_photo_common_path))
 
     # main screen
     def setupUi(self, MyMainWindow):
@@ -263,6 +270,20 @@ class Ui_MyMainWindow(object):
         self.player.videoOutput().hide()
         self.player.setAudioOutput(QtMultimedia.QAudioOutput(self.videoWidget))
 
+        self.photo_gallery_widget = QtWidgets.QWidget(parent=self.jewelry_widget)
+        self.photo_gallery_widget.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.photo_gallery_widget.setStyleSheet("background: transparent; border: 0;")
+        self.photo_gallery_widget.setObjectName("video_photo_widget")
+        self.photo_gallery_widget.hide()
+
+        self.photo_viewer = QtWidgets.QLabel(parent=self.photo_gallery_widget)
+
+        self.photo_title_main = QtWidgets.QLabel(parent=self.photo_gallery_widget)
+        self.photo_title_main.setGeometry(QtCore.QRect(1007, 200, 370, 43))
+        self.photo_title_main.setStyleSheet("background-image: url(:/jewelry/photo_title.png); border: 0;")
+        self.photo_title_main.setText("")
+        self.photo_title_main.setObjectName("photo_title")
+
         dirname = os.path.dirname(__file__)
         jewelry_photo_common = os.path.join(dirname, 'images/jewelry/photo_common')
         jewelry_photo_common_path = os.path.join(jewelry_photo_common, '*')
@@ -281,6 +302,13 @@ class Ui_MyMainWindow(object):
                 self.photo_preview.setObjectName("photo_preview")
                 self.photo_widgets.append(self.photo_preview)
 
+                self.photo_preview_button = QtWidgets.QPushButton(parent=self.video_photo_widget)
+                self.photo_preview_button.setGeometry(QtCore.QRect(630 + i * 290, 705, 264, 211))
+                self.photo_preview_button.setStyleSheet("background-image: transparent; border: 0;")
+                self.photo_preview_button.setText("")
+                self.photo_preview_button.setObjectName("photo_preview_button")
+                self.photo_preview_button.clicked.connect(partial(self.open_gallery, i))
+
         # set button for masters
         self.masters = QtWidgets.QPushButton(parent=self.jewelry_widget)
         self.masters.setGeometry(QtCore.QRect(40, 392, 452, 121))
@@ -295,6 +323,8 @@ class Ui_MyMainWindow(object):
         self.video_photo.setText("")
         self.video_photo.setObjectName("video_photo")
         self.video_photo.clicked.connect(self.video_photo_pressed)
+        self.video_photo.clicked.connect(self.video_photo_widget.show)
+        self.video_photo.clicked.connect(self.photo_gallery_widget.hide)
 
         # set button for embroidery
         self.embroidery_left = QtWidgets.QPushButton(parent=self.jewelry_widget)
@@ -309,10 +339,6 @@ class Ui_MyMainWindow(object):
         self.painting_left.setStyleSheet("background-image: url(:/left_menu/painting_menu.png); border: 0;")
         self.painting_left.setText("")
         self.painting_left.setObjectName("painting_left")
-
-        # self.imageLabel = QtWidgets.QLabel(parent=self.jewelry_widget)
-        # pixmap = QtGui.QPixmap(os.path.abspath('C:/Users/Victoria/Downloads/cat.png'))
-        # self.imageLabel.setPixmap(pixmap)
 
         MyMainWindow.setCentralWidget(self.centralwidget)
 
@@ -344,19 +370,36 @@ class Ui_MyMainWindow(object):
         self.video_preview.show()
         self.play_button.show()
 
+    def open_gallery(self, photo_index):
+        self.video_photo_widget.hide()
+        self.current_photo_index = photo_index
+        self.photo_viewer = QtWidgets.QLabel(parent=self.photo_gallery_widget)
+        gallery_pixmap = QtGui.QPixmap(self.photo_paths[photo_index])
+        self.photo_viewer.setStyleSheet("border: 0;")
+        self.photo_viewer.setFixedSize(923, 627)
+        self.photo_viewer.setGeometry(QtCore.QRect(731, 283, 923, 627))
+        self.photo_viewer.setPixmap(gallery_pixmap)
+        self.photo_viewer.setAlignment(QtCore.Qt.AlignCenter)
+        self.photo_viewer.setText("")
+        self.photo_viewer.setObjectName("photo_viewer")
+        self.photo_gallery_widget.show()
+
     def video_photo_pressed(self):
         self.video_photo.setGeometry(QtCore.QRect(64, 508, 452, 121))
         self.video_photo.setStyleSheet("background-image: url(:/jewelry/video_photo_pressed.png);"
                                        "background-repeat: no-repeat; border: 0;")
         self.show_video_photo()
-
+        # self.photo_viewer.deleteLater()
+        self.photo_viewer.hide()
 
     def show_images(self):
         dirname = os.path.dirname(__file__)
         jewelry_photo_common = os.path.join(dirname, 'images/jewelry/photo_common')
         jewelry_photo_common_path = os.path.join(jewelry_photo_common, '*')
         photo_paths = sorted(glob.glob(jewelry_photo_common_path))
-        if self.current_photo_index >= len(photo_paths):
+        if len(photo_paths) < 4:
+            return
+        elif self.current_photo_index >= len(photo_paths):
             self.current_photo_index = 0
         elif self.current_photo_index < 0:
             self.current_photo_index = len(photo_paths) - 1
