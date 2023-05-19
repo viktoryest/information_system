@@ -292,7 +292,7 @@ class Ui_MyMainWindow(object):
         self.gallery_left_button.setStyleSheet("background-image: url(:/images/photo_left_button.png); border: 0;")
         self.gallery_left_button.setText("")
         self.gallery_left_button.setObjectName("gallery_left_button")
-        # self.gallery_left_button.clicked.connect(self.show_previous_photo)
+        self.gallery_left_button.clicked.connect(self.show_previous_photo)
 
         # set right arrow button for photo gallery
         self.gallery_right_button = QtWidgets.QPushButton(parent=self.photo_gallery_widget)
@@ -300,7 +300,7 @@ class Ui_MyMainWindow(object):
         self.gallery_right_button.setStyleSheet("background-image: url(:/images/photo_right_button.png); border: 0;")
         self.gallery_right_button.setText("")
         self.gallery_right_button.setObjectName("gallery_right_button")
-        # self.photo_right_button.clicked.connect(self.show_next_photo)
+        self.gallery_right_button.clicked.connect(self.show_next_photo)
 
         # widget for the current photo
         self.photo_viewer = QtWidgets.QLabel(parent=self.photo_gallery_widget)
@@ -409,6 +409,8 @@ class Ui_MyMainWindow(object):
         clicked_index = self.current_photo_index + self.clicked_photo_index
         if clicked_index >= len(self.photo_paths):
             clicked_index = clicked_index - len(self.photo_paths)
+        if clicked_index < 0:
+            clicked_index = clicked_index + len(self.photo_paths)
 
         gallery_pixmap = QtGui.QPixmap(self.photo_paths[clicked_index])
         self.photo_viewer.setStyleSheet("border: 0;")
@@ -441,6 +443,11 @@ class Ui_MyMainWindow(object):
         jewelry_photo_common = os.path.join(dirname, 'images/jewelry/photo_common')
         jewelry_photo_common_path = os.path.join(jewelry_photo_common, '*')
         photo_paths = sorted(glob.glob(jewelry_photo_common_path))
+        if self.photo_gallery_widget.isVisible():
+            self.photo_paths = photo_paths
+            self.video_photo_pressed()
+            self.open_gallery()
+            return
         if len(photo_paths) < 4:
             return
         elif self.current_photo_index >= len(photo_paths):
