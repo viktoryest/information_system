@@ -279,10 +279,33 @@ class Ui_MyMainWindow(object):
         self.photo_gallery_widget.setObjectName("video_photo_widget")
         self.photo_gallery_widget.hide()
 
+        self.back_button_photo = QtWidgets.QPushButton(parent=self.photo_gallery_widget)
+        self.back_button_photo.setGeometry(QtCore.QRect(1110, 975, 166, 63))
+        self.back_button_photo.setStyleSheet("background-image: url(:/images/back.png); border: 0;")
+        self.back_button_photo.setText("")
+        self.back_button_photo.setObjectName("back_button_photo")
+        self.back_button_photo.clicked.connect(self.video_photo_pressed)
+
+        # set left arrow button for photo gallery
+        self.gallery_left_button = QtWidgets.QPushButton(parent=self.photo_gallery_widget)
+        self.gallery_left_button.setGeometry(QtCore.QRect(593, 605, 25, 64))
+        self.gallery_left_button.setStyleSheet("background-image: url(:/images/photo_left_button.png); border: 0;")
+        self.gallery_left_button.setText("")
+        self.gallery_left_button.setObjectName("gallery_left_button")
+        # self.gallery_left_button.clicked.connect(self.show_previous_photo)
+
+        # set right arrow button for photo gallery
+        self.gallery_right_button = QtWidgets.QPushButton(parent=self.photo_gallery_widget)
+        self.gallery_right_button.setGeometry(QtCore.QRect(1770, 605, 25, 64))
+        self.gallery_right_button.setStyleSheet("background-image: url(:/images/photo_right_button.png); border: 0;")
+        self.gallery_right_button.setText("")
+        self.gallery_right_button.setObjectName("gallery_right_button")
+        # self.photo_right_button.clicked.connect(self.show_next_photo)
+
         # widget for the current photo
         self.photo_viewer = QtWidgets.QLabel(parent=self.photo_gallery_widget)
 
-        # set left arrow button for photo
+        # set left title for photo
         self.photo_title_main = QtWidgets.QLabel(parent=self.photo_gallery_widget)
         self.photo_title_main.setGeometry(QtCore.QRect(1007, 200, 370, 43))
         self.photo_title_main.setStyleSheet("background-image: url(:/jewelry/photo_title.png); border: 0;")
@@ -332,8 +355,6 @@ class Ui_MyMainWindow(object):
         self.video_photo.setText("")
         self.video_photo.setObjectName("video_photo")
         self.video_photo.clicked.connect(self.video_photo_pressed)
-        self.video_photo.clicked.connect(self.video_photo_widget.show)
-        self.video_photo.clicked.connect(self.photo_gallery_widget.hide)
 
         # set button for embroidery
         self.embroidery_left = QtWidgets.QPushButton(parent=self.jewelry_widget)
@@ -412,6 +433,8 @@ class Ui_MyMainWindow(object):
                                        "background-repeat: no-repeat; border: 0;")
         self.show_video_photo()
         self.photo_viewer.hide()
+        self.video_photo_widget.show()
+        self.photo_gallery_widget.hide()
 
     def show_images(self):
         dirname = os.path.dirname(__file__)

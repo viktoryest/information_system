@@ -1,6 +1,5 @@
-import os
 import sys
-from PySide6.QtGui import QKeySequence, Qt
+from PySide6.QtGui import Qt
 from PySide6.QtWidgets import QApplication, QMainWindow
 from info_sys import Ui_MyMainWindow
 from PySide6.QtGui import QMouseEvent
