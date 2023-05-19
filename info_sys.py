@@ -327,7 +327,31 @@ class Ui_MyMainWindow(object):
                 self.photo_preview.setGeometry(QtCore.QRect(630 + i * 290, 705, 264, 211))
                 pixmap = QtGui.QPixmap(glob.glob(jewelry_photo_common_path)[i])
                 self.photo_preview.setStyleSheet("border: 0")
-                self.photo_preview.setPixmap(pixmap)
+
+                preview_width = 264
+                preview_height = 211
+
+                image_ratio = pixmap.width() / pixmap.height()
+
+                if image_ratio > 1:
+                    scaled_width = int(preview_height * image_ratio)
+                    scaled_height = preview_height
+                else:
+                    scaled_width = preview_width
+                    scaled_height = int(preview_width / image_ratio)
+
+                scaled_pixmap = pixmap.scaled(scaled_width, scaled_height, QtCore.Qt.KeepAspectRatio,
+                                              QtCore.Qt.SmoothTransformation)
+                x_offset = (preview_width - scaled_width) // 2
+                y_offset = (preview_height - scaled_height) // 2
+                canvas = QtGui.QPixmap(preview_width, preview_height)
+                canvas.fill(QtCore.Qt.transparent)
+
+                painter = QtGui.QPainter(canvas)
+                painter.drawPixmap(x_offset, y_offset, scaled_pixmap)
+                painter.end()
+
+                self.photo_preview.setPixmap(canvas)
                 self.photo_preview.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 self.photo_preview.setText("")
                 self.photo_preview.setObjectName("photo_preview")
@@ -414,10 +438,12 @@ class Ui_MyMainWindow(object):
 
         gallery_pixmap = QtGui.QPixmap(self.photo_paths[clicked_index])
         self.photo_viewer.setStyleSheet("border: 0;")
-        self.photo_viewer.setFixedSize(923, 627)
         self.photo_viewer.setGeometry(QtCore.QRect(731, 283, 923, 627))
 
-        scaled_pixmap = gallery_pixmap.scaledToWidth(923, QtCore.Qt.SmoothTransformation)
+        max_width = 923
+        max_height = 627
+        scaled_pixmap = gallery_pixmap.scaled(max_width, max_height, QtCore.Qt.KeepAspectRatio,
+                                              QtCore.Qt.SmoothTransformation)
         self.photo_viewer.setPixmap(scaled_pixmap)
 
         self.photo_viewer.setAlignment(QtCore.Qt.AlignCenter)
@@ -443,11 +469,13 @@ class Ui_MyMainWindow(object):
         jewelry_photo_common = os.path.join(dirname, 'images/jewelry/photo_common')
         jewelry_photo_common_path = os.path.join(jewelry_photo_common, '*')
         photo_paths = sorted(glob.glob(jewelry_photo_common_path))
+
         if self.photo_gallery_widget.isVisible():
             self.photo_paths = photo_paths
             self.video_photo_pressed()
             self.open_gallery()
             return
+
         if len(photo_paths) < 4:
             return
         elif self.current_photo_index >= len(photo_paths):
@@ -459,9 +487,33 @@ class Ui_MyMainWindow(object):
             photo_index = self.current_photo_index + i
             if photo_index >= len(photo_paths):
                 photo_index = photo_index - len(photo_paths)
-            pixmap = QtGui.QPixmap(photo_paths[photo_index])
-            self.photo_widgets[i].setPixmap(pixmap)
 
+            pixmap = QtGui.QPixmap(photo_paths[photo_index])
+
+            preview_width = self.photo_widgets[i].width()
+            preview_height = self.photo_widgets[i].height()
+
+            image_ratio = pixmap.width() / pixmap.height()
+
+            if image_ratio > 1:
+                scaled_width = int(preview_height * image_ratio)
+                scaled_height = preview_height
+            else:
+                scaled_width = preview_width
+                scaled_height = int(preview_width / image_ratio)
+
+            scaled_pixmap = pixmap.scaled(scaled_width, scaled_height, QtCore.Qt.KeepAspectRatio,
+                                          QtCore.Qt.SmoothTransformation)
+            x_offset = (preview_width - scaled_width) // 2
+            y_offset = (preview_height - scaled_height) // 2
+            canvas = QtGui.QPixmap(preview_width, preview_height)
+            canvas.fill(QtCore.Qt.transparent)
+
+            painter = QtGui.QPainter(canvas)
+            painter.drawPixmap(x_offset, y_offset, scaled_pixmap)
+            painter.end()
+
+            self.photo_widgets[i].setPixmap(canvas)
 
     def show_next_photo(self):
         self.current_photo_index += 1
