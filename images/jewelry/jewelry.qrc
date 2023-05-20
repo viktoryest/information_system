@@ -7,5 +7,7 @@
     <file>photo_title.png</file>
     <file>video_title.png</file>
     <file>video_photo_pressed.png</file>
+    <file>indicator.png</file>
+    <file>indicator_active.png</file>
   </qresource>
 </RCC>

@@ -15,8 +15,8 @@ from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimediaWidgets import QVideoWidget
 from functools import partial
 
-
 from PySide6 import QtCore, QtGui, QtWidgets
+
 
 class RoundedLabel(QtWidgets.QLabel):
     def __init__(self, parent=None):
@@ -54,6 +54,7 @@ class Ui_MyMainWindow(object):
     play_video_state = False
     current_photo_index = 0
     clicked_photo_index = 0
+    indicators = []
 
     dirname = os.path.dirname(__file__)
     jewelry_photo_common = os.path.join(dirname, 'images/jewelry/photo_common')
@@ -429,12 +430,27 @@ class Ui_MyMainWindow(object):
     def open_gallery(self):
         self.video_photo_widget.hide()
         self.photo_viewer = QtWidgets.QLabel(parent=self.photo_gallery_widget)
+        photo_amount = len(self.photo_paths)
+        half_photo_amount = photo_amount // 2
+        offset = 1180 - half_photo_amount * 32
+        if 10 >= photo_amount > 0:
+            for i in range(photo_amount):
+                indicator = QtWidgets.QLabel(parent=self.photo_gallery_widget)
+                indicator.setGeometry(QtCore.QRect(offset + i * 32, 830, 30, 29))
+                indicator.setStyleSheet("background-image: url(:/jewelry/indicator.png); border: 0; "
+                                        "background-repeat: no-repeat")
+                indicator.setText("")
+                indicator.setObjectName("indicator")
+                self.indicators.append(indicator)
 
         clicked_index = self.current_photo_index + self.clicked_photo_index
         if clicked_index >= len(self.photo_paths):
             clicked_index = clicked_index - len(self.photo_paths)
         if clicked_index < 0:
             clicked_index = clicked_index + len(self.photo_paths)
+
+        self.indicators[clicked_index].setStyleSheet(
+            "background-image: url(:/jewelry/indicator_active.png); border: 0;")
 
         gallery_pixmap = QtGui.QPixmap(self.photo_paths[clicked_index])
         self.photo_viewer.setStyleSheet("border: 0;")
@@ -517,10 +533,18 @@ class Ui_MyMainWindow(object):
 
     def show_next_photo(self):
         self.current_photo_index += 1
+        self.indicators.clear()
+        if len(self.photo_paths) < 4:
+            return
+        elif self.current_photo_index >= len(self.photo_paths):
+            self.current_photo_index = 0
+        elif self.current_photo_index < 0:
+            self.current_photo_index = len(self.photo_paths) - 1
         self.show_images()
 
     def show_previous_photo(self):
         self.current_photo_index -= 1
+        self.indicators.clear()
         self.show_images()
 
     def retranslateUi(self, MyMainWindow):
