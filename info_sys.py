@@ -366,34 +366,42 @@ class Ui_MyMainWindow(object):
                 self.photo_preview_button.setObjectName("photo_preview_button")
                 self.photo_preview_button.clicked.connect(partial(self.change_cliked, i))
 
+        # set widget for masters
+        self.masters = QtWidgets.QWidget(parent=self.jewelry_widget)
+        self.masters.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.masters.setStyleSheet("background: transparent; border: 0;")
+        self.masters.setObjectName("video_photo_widget")
+        self.masters.hide()
+
         # set button for masters
-        self.masters = QtWidgets.QPushButton(parent=self.jewelry_widget)
-        self.masters.setGeometry(QtCore.QRect(40, 392, 452, 121))
-        self.masters.setStyleSheet("background-image: url(:/jewelry/masters.png); border: 0;")
-        self.masters.setText("")
-        self.masters.setObjectName("masters")
+        self.masters_button = QtWidgets.QPushButton(parent=self.jewelry_widget)
+        self.masters_button.setGeometry(QtCore.QRect(40, 392, 452, 121))
+        self.masters_button.setStyleSheet("background-image: url(:/jewelry/masters.png); border: 0;")
+        self.masters_button.setText("")
+        self.masters_button.setObjectName("masters_button")
+        self.masters_button.clicked.connect(self.masters_pressed)
 
         # set button for video and photo
-        self.video_photo = QtWidgets.QPushButton(parent=self.jewelry_widget)
-        self.video_photo.setGeometry(QtCore.QRect(40, 485, 452, 121))
-        self.video_photo.setStyleSheet("background-image: url(:/jewelry/video_photo.png); border: 0;")
-        self.video_photo.setText("")
-        self.video_photo.setObjectName("video_photo")
-        self.video_photo.clicked.connect(self.video_photo_pressed)
+        self.video_photo_button = QtWidgets.QPushButton(parent=self.jewelry_widget)
+        self.video_photo_button.setGeometry(QtCore.QRect(40, 485, 452, 121))
+        self.video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png); border: 0;")
+        self.video_photo_button.setText("")
+        self.video_photo_button.setObjectName("video_photo")
+        self.video_photo_button.clicked.connect(self.video_photo_pressed)
 
         # set button for embroidery
-        self.embroidery_left = QtWidgets.QPushButton(parent=self.jewelry_widget)
-        self.embroidery_left.setGeometry(QtCore.QRect(0, 643, 491, 160))
-        self.embroidery_left.setStyleSheet("background-image: url(:/left_menu/embroidery_menu.png); border: 0;")
-        self.embroidery_left.setText("")
-        self.embroidery_left.setObjectName("embroidery_left")
+        self.embroidery_button = QtWidgets.QPushButton(parent=self.jewelry_widget)
+        self.embroidery_button.setGeometry(QtCore.QRect(0, 643, 491, 160))
+        self.embroidery_button.setStyleSheet("background-image: url(:/left_menu/embroidery_menu.png); border: 0;")
+        self.embroidery_button.setText("")
+        self.embroidery_button.setObjectName("embroidery_button")
 
         # set button for painting
-        self.painting_left = QtWidgets.QPushButton(parent=self.jewelry_widget)
-        self.painting_left.setGeometry(QtCore.QRect(0, 791, 491, 121))
-        self.painting_left.setStyleSheet("background-image: url(:/left_menu/painting_menu.png); border: 0;")
-        self.painting_left.setText("")
-        self.painting_left.setObjectName("painting_left")
+        self.painting_button = QtWidgets.QPushButton(parent=self.jewelry_widget)
+        self.painting_button.setGeometry(QtCore.QRect(0, 791, 491, 121))
+        self.painting_button.setStyleSheet("background-image: url(:/left_menu/painting_menu.png); border: 0;")
+        self.painting_button.setText("")
+        self.painting_button.setObjectName("painting_button")
 
         MyMainWindow.setCentralWidget(self.centralwidget)
 
@@ -472,13 +480,24 @@ class Ui_MyMainWindow(object):
         self.open_gallery()
 
     def video_photo_pressed(self):
-        self.video_photo.setGeometry(QtCore.QRect(64, 508, 452, 121))
-        self.video_photo.setStyleSheet("background-image: url(:/jewelry/video_photo_pressed.png);"
+        self.video_photo_button.setGeometry(QtCore.QRect(64, 508, 452, 121))
+        self.video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo_pressed.png);"
                                        "background-repeat: no-repeat; border: 0;")
+        self.masters_button.setGeometry(QtCore.QRect(40, 392, 452, 121))
+        self.masters_button.setStyleSheet("background-image: url(:/jewelry/masters.png); border: 0;")
         self.show_video_photo()
         self.photo_viewer.hide()
         self.video_photo_widget.show()
         self.photo_gallery_widget.hide()
+
+    def masters_pressed(self):
+        self.masters.show()
+        self.video_photo_widget.hide()
+        self.video_photo_button.setGeometry(QtCore.QRect(40, 485, 452, 121))
+        self.video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png); border: 0;")
+        self.masters_button.setGeometry(QtCore.QRect(64, 395, 452, 121))
+        self.masters_button.setStyleSheet("background-image: url(:/jewelry/masters_pressed.png); "
+                                          "background-repeat: no-repeat")
 
     def show_images(self):
         dirname = os.path.dirname(__file__)
