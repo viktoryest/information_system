@@ -17,37 +17,11 @@ from functools import partial
 
 from PySide6 import QtCore, QtGui, QtWidgets
 
-
-class RoundedLabel(QtWidgets.QLabel):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.radius = 10
-
-        # Создаем QGraphicsDropShadowEffect и задаем параметры тени
-        self.shadow = QtWidgets.QGraphicsDropShadowEffect(self)
-        self.shadow.setBlurRadius(10)
-        self.shadow.setColor(QtGui.QColor(0, 0, 0, 128))
-        self.shadow.setOffset(0, 0)
-        self.setGraphicsEffect(self.shadow)
-
-    def paintEvent(self, event):
-        painter = QtGui.QPainter(self)
-        painter.setRenderHint(QtGui.QPainter.Antialiasing)
-
-        path = QtGui.QPainterPath()
-        path.addRoundedRect(QtCore.QRectF(self.rect()), self.radius, self.radius)
-
-        painter.setClipPath(path)
-        painter.drawPixmap(self.rect(), self.pixmap())
-
-    def setPixmap(self, pixmap):
-        if not pixmap.isNull():
-            size = pixmap.size()
-            scaled_size = self.size().scaled(size, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
-            pixmap = pixmap.scaled(scaled_size, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
-
-        super().setPixmap(pixmap)
-        self.setScaledContents(True)
+from back_button import create_back_button
+from jewelry_widget_elements import create_jewelry_pass, create_jewelry_content, create_jewelry_title_1, \
+    create_jewelry_main_text_1, create_jewelry_title_2, create_jewelry_main_text_2
+from main_hall_buttons import create_jewelry, create_embroidery, create_painting
+from round_label import RoundedLabel
 
 
 class Ui_MyMainWindow(object):
@@ -97,27 +71,10 @@ class Ui_MyMainWindow(object):
         self.main_hall.setObjectName("main_hall")
         self.main_hall.hide()
 
-        # set jewelry button
-        self.jewerly = QtWidgets.QPushButton(parent=self.main_hall)
-        self.jewerly.setGeometry(QtCore.QRect(153, 397, 527, 265))
-        self.jewerly.setStyleSheet("background-image: url(:/main_hall/jewelry.png); border: 0;")
-        self.jewerly.setText("")
-        self.jewerly.setObjectName("jewelry")
-        self.jewerly.clicked.connect(self.show_jewelry_widget)
-
-        # set embroidery button
-        self.embroidery = QtWidgets.QPushButton(parent=self.main_hall)
-        self.embroidery.setGeometry(QtCore.QRect(721, 397, 527, 265))
-        self.embroidery.setStyleSheet("background-image: url(:/main_hall/embroidery.png); border: 0;")
-        self.embroidery.setText("")
-        self.embroidery.setObjectName("embroidery")
-
-        # set painting button
-        self.painting = QtWidgets.QPushButton(parent=self.main_hall)
-        self.painting.setGeometry(QtCore.QRect(1290, 397, 527, 265))
-        self.painting.setStyleSheet("background-image: url(:/main_hall/painting.png); border: 0;")
-        self.painting.setText("")
-        self.painting.setObjectName("painting")
+        # set main hall buttons
+        self.jewelry = create_jewelry(self.main_hall, self.show_jewelry_widget)
+        self.embroidery = create_embroidery(self.main_hall, None)
+        self.painting = create_painting(self.main_hall, None)
 
         # set left menu widget
         self.jewelry_widget = QtWidgets.QWidget(parent=self.main_hall)
@@ -126,18 +83,9 @@ class Ui_MyMainWindow(object):
         self.jewelry_widget.setObjectName("jewelry_widget")
         self.jewelry_widget.hide()
 
-        # set inactive button for jewelry
-        self.jewelry_pass = QtWidgets.QPushButton(parent=self.jewelry_widget)
-        self.jewelry_pass.setGeometry(QtCore.QRect(0, 285, 465, 110))
-        self.jewelry_pass.setStyleSheet("background-image: url(:/left_menu/jewelry_menu.png); border: 0;")
-        self.jewelry_pass.setText("")
-        self.jewelry_pass.setObjectName("jewelry_pass")
-
-        # set widget for jewelry content
-        self.jewelry_content = QtWidgets.QWidget(parent=self.jewelry_widget)
-        self.jewelry_content.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
-        self.jewelry_content.setStyleSheet("background: transparent; border: 0;")
-        self.jewelry_content.setObjectName("jewelry_content")
+        # set inactive button and content for jewelry
+        self.jewelry_pass = create_jewelry_pass(self.jewelry_widget, None)
+        self.jewelry_content = create_jewelry_content(self.jewelry_widget)
 
         # set fornt for jewelry content
         with open('texts/jewelry/masters.json', 'r', encoding='utf-8') as file:
@@ -150,60 +98,15 @@ class Ui_MyMainWindow(object):
         # font for text
         self.font_16 = QFont(fontName, 16)
 
-        # set the 1st title for jewelry content
-        self.jewelry_title_1 = QtWidgets.QTextEdit(parent=self.jewelry_content)
-        self.jewelry_title_1.setGeometry(QtCore.QRect(583, 229, 1174, 36))
-        self.jewelry_title_1.setStyleSheet("background: transparent;")
-        self.jewelry_title_1.setText(data['title_1'])
-        self.jewelry_title_1.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-        self.jewelry_title_1.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.jewelry_title_1.setTextColor(QColor(73, 64, 69))
-        self.jewelry_title_1.setFont(self.font_20)
-        self.jewelry_title_1.setObjectName("jewelry_title_1")
-        self.jewelry_title_1.setReadOnly(True)
+        # set text for jewelry content
+        self.jewelry_title_1 = create_jewelry_title_1(self.jewelry_content, data, self.font_20)
+        self.jewelry_main_text_1 = create_jewelry_main_text_1(self.jewelry_content, data, self.font_16)
+        self.jewelry_title_2 = create_jewelry_title_2(self.jewelry_content, data, self.font_20)
+        self.jewelry_main_text_2 = create_jewelry_main_text_2(self.jewelry_content, data, self.font_16)
 
-        # set the 1st text for jewelry content
-        self.jewelry_main_text_1 = QtWidgets.QTextEdit(parent=self.jewelry_content)
-        self.jewelry_main_text_1.setGeometry(QtCore.QRect(588, 270, 1201, 390))
-        self.jewelry_main_text_1.setStyleSheet("background: transparent; border: 0; line-height: 90%;")
-        self.jewelry_main_text_1.setText(data['main_text_1'])
-        self.jewelry_main_text_1.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
-        self.jewelry_main_text_1.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.jewelry_main_text_1.setTextColor(QColor(73, 64, 69))
-        self.jewelry_main_text_1.setFont(self.font_16)
-        self.jewelry_main_text_1.setObjectName("jewelry_main_text_1")
-        self.jewelry_main_text_1.setReadOnly(True)
-
-        # set the 2nd title for jewelry content
-        self.jewelry_title_2 = QtWidgets.QTextEdit(parent=self.jewelry_content)
-        self.jewelry_title_2.setGeometry(QtCore.QRect(603, 686, 1174, 36))
-        self.jewelry_title_2.setStyleSheet("background: transparent; border: 0;")
-        self.jewelry_title_2.setText(data['title_2'])
-        self.jewelry_title_2.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-        self.jewelry_title_2.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.jewelry_title_2.setTextColor(QColor(73, 64, 69))
-        self.jewelry_title_2.setFont(self.font_20)
-        self.jewelry_title_2.setObjectName("jewelry_title_2")
-        self.jewelry_title_2.setReadOnly(True)
-
-        # set the 2nd text for jewelry content
-        self.jewelry_main_text_2 = QtWidgets.QTextEdit(parent=self.jewelry_content)
-        self.jewelry_main_text_2.setGeometry(QtCore.QRect(588, 737, 1201, 220))
-        self.jewelry_main_text_2.setStyleSheet("background: transparent; border: 0;")
-        self.jewelry_main_text_2.setText(data['main_text_2'])
-        self.jewelry_main_text_2.setAlignment(Qt.AlignmentFlag.AlignJustify)
-        self.jewelry_main_text_2.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.jewelry_main_text_2.setTextColor(QColor(73, 64, 69))
-        self.jewelry_main_text_2.setFont(self.font_16)
-        self.jewelry_main_text_2.setObjectName("jewelry_main_text_2")
-        self.jewelry_main_text_2.setReadOnly(True)
 
         # set back button
-        self.back_button = QtWidgets.QPushButton(parent=self.jewelry_content)
-        self.back_button.setGeometry(QtCore.QRect(1110, 975, 166, 63))
-        self.back_button.setStyleSheet("background-image: url(:/images/back.png); border: 0;")
-        self.back_button.setText("")
-        self.back_button.setObjectName("back_button")
+        self.back_button = create_back_button(self.jewelry_content)
         self.back_button.clicked.connect(self.show_main_hall)
         self.back_button.clicked.connect(self.jewelry_widget.hide)
 
@@ -213,6 +116,11 @@ class Ui_MyMainWindow(object):
         self.video_photo_widget.setStyleSheet("background: transparent; border: 0;")
         self.video_photo_widget.setObjectName("video_photo_widget")
         self.video_photo_widget.hide()
+
+        self.back_button_video_photo = create_back_button(self.video_photo_widget)
+        self.back_button_video_photo.clicked.connect(self.video_photo_widget.hide)
+        self.back_button_video_photo.clicked.connect(self.jewelry_content.show)
+
 
         # set left arrow button for photo
         self.photo_left_button = QtWidgets.QPushButton(parent=self.video_photo_widget)
