@@ -3,7 +3,7 @@ import json
 import os.path
 from PySide6 import QtMultimedia
 from PySide6.QtCore import QUrl
-from PySide6.QtGui import QColor, QFont, QFontDatabase, Qt
+from PySide6.QtGui import QFont, QFontDatabase
 from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimediaWidgets import QVideoWidget
 from functools import partial
@@ -28,6 +28,7 @@ class Ui_MyMainWindow(object):
     clicked_photo_index = 0
     indicators = []
     photo_widgets = []
+    photo_preview_buttons = []
     photo_preview = None
 
     dirname = os.path.dirname(__file__)
@@ -215,6 +216,7 @@ class Ui_MyMainWindow(object):
                 self.photo_preview_button.setText("")
                 self.photo_preview_button.setObjectName("photo_preview_button")
                 self.photo_preview_button.clicked.connect(partial(self.change_cliked, i))
+                self.photo_preview_buttons.append(self.photo_preview_button)
 
         # set widget for masters
         self.masters = QtWidgets.QWidget(parent=self.jewelry_widget)
@@ -248,8 +250,8 @@ class Ui_MyMainWindow(object):
     def play_video(self):
         self.video_preview.hide()
         self.play_button.hide()
-        # make buttons inactive
-        # ...
+        for button in self.photo_preview_buttons:
+            button.hide()
         self.videoWidget.show()
         self.player.videoOutput().show()
         self.player.play()
@@ -258,6 +260,8 @@ class Ui_MyMainWindow(object):
         self.play_video_state = False
         self.player.stop()
         self.player.videoOutput().hide()
+        for button in self.photo_preview_buttons:
+            button.show()
         self.video_preview.show()
         self.play_button.show()
 
@@ -320,6 +324,7 @@ class Ui_MyMainWindow(object):
     def masters_pressed(self):
         self.masters.show()
         self.video_photo_widget.hide()
+        self.photo_gallery_widget.hide()
         self.video_photo_button.setGeometry(QtCore.QRect(40, 485, 452, 121))
         self.video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png); border: 0;")
         self.masters_button.setGeometry(QtCore.QRect(64, 395, 452, 121))
