@@ -13,7 +13,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 from left_menu_buttons import create_masters_button, create_video_photo_button, create_embroidery_button, \
     create_painting_button
 from photo_elements import create_left_arrow_button, create_right_arrow_button, create_photo_title, \
-    create_left_arrow_button_full, create_right_arrow_button_full
+    create_left_arrow_button_full, create_right_arrow_button_full, create_photo_previews
 from common_elements import create_back_button
 from jewelry_widget_elements import create_jewelry_pass, create_jewelry_content, create_jewelry_title_1, \
     create_jewelry_main_text_1, create_jewelry_title_2, create_jewelry_main_text_2
@@ -174,49 +174,24 @@ class Ui_MyMainWindow(object):
             self.photo_right_button.hide()
 
         for i in range(4):
-            if i <= self.files_amount - 1:
-                self.photo_preview = RoundedLabel(parent=self.video_photo_widget)
-                self.photo_preview.setGeometry(QtCore.QRect(630 + i * 290, 705, 264, 211))
-                pixmap = QtGui.QPixmap(glob.glob(self.jewelry_photo_common_path)[i])
-                self.photo_preview.setStyleSheet("border: 0")
+            canvas = create_photo_previews(i, self.files_amount, self.video_photo_widget,
+                                           self.jewelry_photo_common_path)[1]
+            self.photo_preview = create_photo_previews(i, self.files_amount, self.video_photo_widget,
+                                                       self.jewelry_photo_common_path)[0]
+            self.photo_preview.setPixmap(canvas)
+            self.photo_preview.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+            self.photo_preview.setText("")
+            self.photo_preview.setObjectName("photo_preview")
+            self.photo_widgets.append(self.photo_preview)
 
-                preview_width = 264
-                preview_height = 211
-
-                image_ratio = pixmap.width() / pixmap.height()
-
-                if image_ratio > 1:
-                    scaled_width = int(preview_height * image_ratio)
-                    scaled_height = preview_height
-                else:
-                    scaled_width = preview_width
-                    scaled_height = int(preview_width / image_ratio)
-
-                scaled_pixmap = pixmap.scaled(scaled_width, scaled_height, QtCore.Qt.KeepAspectRatio,
-                                              QtCore.Qt.SmoothTransformation)
-                x_offset = (preview_width - scaled_width) // 2
-                y_offset = (preview_height - scaled_height) // 2
-                canvas = QtGui.QPixmap(preview_width, preview_height)
-                canvas.fill(QtCore.Qt.transparent)
-
-                painter = QtGui.QPainter(canvas)
-                painter.drawPixmap(x_offset, y_offset, scaled_pixmap)
-                painter.end()
-
-                self.photo_preview.setPixmap(canvas)
-                self.photo_preview.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                self.photo_preview.setText("")
-                self.photo_preview.setObjectName("photo_preview")
-                self.photo_widgets.append(self.photo_preview)
-
-                # set button for photo preview
-                self.photo_preview_button = QtWidgets.QPushButton(parent=self.video_photo_widget)
-                self.photo_preview_button.setGeometry(QtCore.QRect(630 + i * 290, 705, 264, 211))
-                self.photo_preview_button.setStyleSheet("background-image: transparent; border: 0;")
-                self.photo_preview_button.setText("")
-                self.photo_preview_button.setObjectName("photo_preview_button")
-                self.photo_preview_button.clicked.connect(partial(self.change_cliked, i))
-                self.photo_preview_buttons.append(self.photo_preview_button)
+            # set button for photo preview
+            self.photo_preview_button = QtWidgets.QPushButton(parent=self.video_photo_widget)
+            self.photo_preview_button.setGeometry(QtCore.QRect(630 + i * 290, 705, 264, 211))
+            self.photo_preview_button.setStyleSheet("background-image: transparent; border: 0;")
+            self.photo_preview_button.setText("")
+            self.photo_preview_button.setObjectName("photo_preview_button")
+            self.photo_preview_button.clicked.connect(partial(self.change_cliked, i))
+            self.photo_preview_buttons.append(self.photo_preview_button)
 
         # set widget for masters
         self.masters = QtWidgets.QWidget(parent=self.jewelry_widget)
