@@ -316,7 +316,6 @@ class Ui_MyMainWindow(object):
             self.photo_paths = photo_paths
             self.video_photo_pressed()
             self.open_gallery()
-            return
 
         if len(photo_paths) < 4:
             return
@@ -327,6 +326,7 @@ class Ui_MyMainWindow(object):
 
         for i in range(4):
             photo_index = self.current_photo_index + i
+            print(photo_index)
             if photo_index >= len(photo_paths):
                 photo_index = photo_index - len(photo_paths)
 
@@ -349,6 +349,7 @@ class Ui_MyMainWindow(object):
             x_offset = (preview_width - scaled_width) // 2
             y_offset = (preview_height - scaled_height) // 2
             canvas = QtGui.QPixmap(preview_width, preview_height)
+            print(canvas)
             canvas.fill(QtCore.Qt.transparent)
 
             painter = QtGui.QPainter(canvas)
