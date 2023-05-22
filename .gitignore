@@ -161,3 +161,8 @@ cython_debug/
 
 #PyCharm project files
 /.idea/
+
+#Built application files
+build/
+dist/
+
