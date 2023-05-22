@@ -366,10 +366,18 @@ class Ui_MyMainWindow(object):
             self.current_photo_index = 0
         elif self.current_photo_index < 0:
             self.current_photo_index = len(self.photo_paths) - 1
+        # new previews
         self.show_images()
 
     def show_previous_photo(self):
         self.current_photo_index -= 1
+        if len(self.photo_paths) < 4:
+            return
+        elif self.current_photo_index >= len(self.photo_paths):
+            self.current_photo_index = 0
+        elif self.current_photo_index < 0:
+            self.current_photo_index = len(self.photo_paths) - 1
+        # new previews
         self.indicators.clear()
         self.show_images()
 
