@@ -3,7 +3,7 @@ import json
 import os.path
 from PySide6 import QtMultimedia
 from PySide6.QtCore import QUrl
-from PySide6.QtGui import QFont, QFontDatabase
+from PySide6.QtGui import QFont, QFontDatabase, QColor, QPalette
 from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimediaWidgets import QVideoWidget
 from functools import partial
@@ -90,7 +90,7 @@ class Ui_MyMainWindow(object):
         self.jewelry_content = create_jewelry_content(self.jewelry_widget)
 
         # set fornt for jewelry content
-        with open('texts/jewelry/masters.json', 'r', encoding='utf-8') as file:
+        with open('texts/jewelry/jewelry_art.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
 
         fontId = QFontDatabase.addApplicationFont(":/fonts/MinionPro-Regular.ttf")
@@ -99,6 +99,8 @@ class Ui_MyMainWindow(object):
         self.font_20 = QFont(fontName, 20)
         # font for text
         self.font_16 = QFont(fontName, 16)
+        # font for buttons
+        self.font_18 = QFont(fontName, 18)
 
         # set text for jewelry content
         self.jewelry_title_1 = create_jewelry_title_1(self.jewelry_content, data, self.font_20)
@@ -119,9 +121,9 @@ class Ui_MyMainWindow(object):
         self.video_photo_widget.setObjectName("video_photo_widget")
         self.video_photo_widget.hide()
 
-        self.back_button_video_photo = create_back_button(self.video_photo_widget, None)
-        self.back_button_video_photo.clicked.connect(self.video_photo_widget.hide)
-        self.back_button_video_photo.clicked.connect(self.jewelry_content.show)
+        self.back_button_video_photo = create_back_button(self.video_photo_widget, self.back_to_jewelry)
+        # self.back_button_video_photo.clicked.connect(self.video_photo_widget.hide)
+        # self.back_button_video_photo.clicked.connect(self.jewelry_content.show)
 
         # set photo title
         self.photo_title = create_photo_title(self.video_photo_widget)
@@ -194,11 +196,52 @@ class Ui_MyMainWindow(object):
             self.photo_preview_buttons.append(self.photo_preview_button)
 
         # set widget for masters
-        self.masters = QtWidgets.QWidget(parent=self.jewelry_widget)
-        self.masters.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
-        self.masters.setStyleSheet("background: transparent; border: 0;")
-        self.masters.setObjectName("video_photo_widget")
-        self.masters.hide()
+        self.masters_widget = QtWidgets.QWidget(parent=self.jewelry_widget)
+        self.masters_widget.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.masters_widget.setStyleSheet("background: transparent; border: 0;")
+        self.masters_widget.setObjectName("masters_widget")
+        self.masters_widget.hide()
+
+        self.back_button_jewelry_masters = create_back_button(self.masters_widget, self.back_to_jewelry)
+
+        with open('texts/jewelry/jewelry_masters.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
+        rows = len(data['persons']) // 4
+        last_row = len(data['persons']) % 4
+        offset = (1330 - last_row * 310) // 2
+        for i in range(rows):
+            for j in range(4):
+                self.jewelry_master_button = QtWidgets.QPushButton(parent=self.masters_widget)
+                self.jewelry_master_button.setGeometry(QtCore.QRect(589 + j * 300, 275 + i * 137, 300, 137))
+                self.jewelry_master_button.setStyleSheet("background-image: url(:/jewelry/jewelry_masters_button.png); border: 0;")
+                self.jewelry_master_button.setFont(self.font_18)
+                palette = self.jewelry_master_button.palette()
+                color = QColor(228, 213, 189)
+                palette.setColor(QPalette.ButtonText, color)
+                self.jewelry_master_button.setPalette(palette)
+                self.jewelry_master_button.setText(f"{data['persons'][j]['person']}")
+                self.jewelry_master_button.setObjectName("jewelry_master_button")
+                # self.jewelry_master_button.clicked.connect()
+        for i in range(last_row):
+            self.jewelry_master_button = QtWidgets.QPushButton(parent=self.masters_widget)
+            self.jewelry_master_button.setGeometry(QtCore.QRect(570 + offset + i * 300, 275 + rows * 137, 300, 137))
+            self.jewelry_master_button.setStyleSheet("background-image: url(:/jewelry/jewelry_masters_button.png); border: 0;")
+            self.jewelry_master_button.setFont(self.font_18)
+            palette = self.jewelry_master_button.palette()
+            color = QColor(228, 213, 189)
+            palette.setColor(QPalette.ButtonText, color)
+            self.jewelry_master_button.setPalette(palette)
+            self.jewelry_master_button.setText(f"{data['persons'][i]['person']}")
+            self.jewelry_master_button.setObjectName("jewelry_master_button")
+            # self.jewelry_master_button.clicked.connect()
+
+        # set widget for master
+        self.current_master = QtWidgets.QWidget(parent=self.masters_widget)
+        self.masters_widget.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.masters_widget.setStyleSheet("background: transparent; border: 0;")
+        self.masters_widget.setObjectName("masters_widget")
+        self.masters_widget.hide()
+
 
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
@@ -294,10 +337,11 @@ class Ui_MyMainWindow(object):
         self.photo_viewer.hide()
         self.video_photo_widget.show()
         self.photo_gallery_widget.hide()
-        self.masters.hide()
+        self.masters_widget.hide()
 
     def masters_pressed(self):
-        self.masters.show()
+        self.masters_widget.show()
+        self.jewelry_content.hide()
         self.video_photo_widget.hide()
         self.photo_gallery_widget.hide()
         self.video_photo_button.setGeometry(QtCore.QRect(40, 485, 452, 121))
@@ -305,6 +349,18 @@ class Ui_MyMainWindow(object):
         self.masters_button.setGeometry(QtCore.QRect(64, 395, 452, 121))
         self.masters_button.setStyleSheet("background-image: url(:/jewelry/masters_pressed.png); "
                                           "background-repeat: no-repeat")
+
+    def back_to_jewelry(self):
+        self.masters_widget.hide()
+        self.video_photo_widget.hide()
+        self.jewelry_content.show()
+        self.video_photo_button.setGeometry(QtCore.QRect(64, 508, 452, 121))
+        self.video_photo_button.setGeometry(QtCore.QRect(40, 485, 452, 121))
+        self.video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png); border: 0;")
+        self.masters_button.setGeometry(QtCore.QRect(40, 392, 452, 121))
+        self.masters_button.setStyleSheet("background-image: url(:/jewelry/masters.png); border: 0;")
+
+
 
     def show_images(self):
         dirname = os.path.dirname(__file__)
