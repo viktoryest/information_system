@@ -3,7 +3,7 @@ import json
 import os.path
 from PySide6 import QtMultimedia
 from PySide6.QtCore import QUrl
-from PySide6.QtGui import QFont, QFontDatabase, QColor, QPalette
+from PySide6.QtGui import QFont, QFontDatabase, QColor, QPalette, QPixmap
 from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimediaWidgets import QVideoWidget
 from functools import partial
@@ -202,7 +202,13 @@ class Ui_MyMainWindow(object):
         self.masters_widget.setObjectName("masters_widget")
         self.masters_widget.hide()
 
-        self.back_button_jewelry_masters = create_back_button(self.masters_widget, self.back_to_jewelry)
+        self.masters_buttons_widget = QtWidgets.QWidget(parent=self.masters_widget)
+        self.masters_buttons_widget.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.masters_buttons_widget.setStyleSheet("background: transparent; border: 0;")
+        self.masters_buttons_widget.setObjectName("masters_widget")
+        self.masters_buttons_widget.hide()
+
+        self.back_button_jewelry_masters = create_back_button(self.masters_buttons_widget, self.back_to_jewelry)
 
         with open('texts/jewelry/jewelry_masters.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
@@ -211,9 +217,10 @@ class Ui_MyMainWindow(object):
         offset = (1330 - last_row * 310) // 2
         for i in range(rows):
             for j in range(4):
-                self.jewelry_master_button = QtWidgets.QPushButton(parent=self.masters_widget)
+                self.jewelry_master_button = QtWidgets.QPushButton(parent=self.masters_buttons_widget)
                 self.jewelry_master_button.setGeometry(QtCore.QRect(589 + j * 300, 275 + i * 137, 300, 137))
-                self.jewelry_master_button.setStyleSheet("background-image: url(:/jewelry/jewelry_masters_button.png); border: 0;")
+                self.jewelry_master_button.setStyleSheet("background-image: url(:/jewelry/jewelry_masters_button.png); "
+                                                         "border: 0;")
                 self.jewelry_master_button.setFont(self.font_18)
                 palette = self.jewelry_master_button.palette()
                 color = QColor(228, 213, 189)
@@ -221,27 +228,35 @@ class Ui_MyMainWindow(object):
                 self.jewelry_master_button.setPalette(palette)
                 self.jewelry_master_button.setText(f"{data['persons'][j]['person']}")
                 self.jewelry_master_button.setObjectName("jewelry_master_button")
-                # self.jewelry_master_button.clicked.connect()
+                self.jewelry_master_button.clicked.connect(partial(self.show_current_master, j))
         for i in range(last_row):
-            self.jewelry_master_button = QtWidgets.QPushButton(parent=self.masters_widget)
+            self.jewelry_master_button = QtWidgets.QPushButton(parent=self.masters_buttons_widget)
             self.jewelry_master_button.setGeometry(QtCore.QRect(570 + offset + i * 300, 275 + rows * 137, 300, 137))
-            self.jewelry_master_button.setStyleSheet("background-image: url(:/jewelry/jewelry_masters_button.png); border: 0;")
+            self.jewelry_master_button.setStyleSheet("background-image: url(:/jewelry/jewelry_masters_button.png); "
+                                                     "border: 0;")
             self.jewelry_master_button.setFont(self.font_18)
             palette = self.jewelry_master_button.palette()
             color = QColor(228, 213, 189)
             palette.setColor(QPalette.ButtonText, color)
             self.jewelry_master_button.setPalette(palette)
-            self.jewelry_master_button.setText(f"{data['persons'][i]['person']}")
+            self.jewelry_master_button.setText(f"{data['persons'][i+rows*4]['person']}")
             self.jewelry_master_button.setObjectName("jewelry_master_button")
-            # self.jewelry_master_button.clicked.connect()
+            self.jewelry_master_button.clicked.connect(partial(self.show_current_master, i+rows*4))
 
         # set widget for master
         self.current_master = QtWidgets.QWidget(parent=self.masters_widget)
-        self.masters_widget.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
-        self.masters_widget.setStyleSheet("background: transparent; border: 0;")
-        self.masters_widget.setObjectName("masters_widget")
-        self.masters_widget.hide()
+        self.current_master.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.current_master.setStyleSheet("background: transparent; border: 0;")
+        self.current_master.setObjectName("masters_widget")
+        self.current_master.hide()
 
+        # set label for master
+        self.master_photo_label = QtWidgets.QLabel(parent=self.current_master)
+        self.master_photo_label.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        pixmap = QPixmap(f"images/jewelry/masters/{data['persons'][0]['image']}")
+        self.master_photo_label.setPixmap(pixmap)
+        self.master_photo_label.setStyleSheet("background: transparent; border: 0;")
+        self.master_photo_label.setObjectName("master_photo_label")
 
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
@@ -341,6 +356,8 @@ class Ui_MyMainWindow(object):
 
     def masters_pressed(self):
         self.masters_widget.show()
+        self.masters_buttons_widget.show()
+        self.current_master.hide()
         self.jewelry_content.hide()
         self.video_photo_widget.hide()
         self.photo_gallery_widget.hide()
@@ -359,8 +376,6 @@ class Ui_MyMainWindow(object):
         self.video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png); border: 0;")
         self.masters_button.setGeometry(QtCore.QRect(40, 392, 452, 121))
         self.masters_button.setStyleSheet("background-image: url(:/jewelry/masters.png); border: 0;")
-
-
 
     def show_images(self):
         dirname = os.path.dirname(__file__)
@@ -435,6 +450,11 @@ class Ui_MyMainWindow(object):
         # new previews
         self.indicators.clear()
         self.show_images()
+
+    def show_current_master(self, index):
+        print(index)
+        self.masters_buttons_widget.hide()
+        self.current_master.show()
 
     def retranslateUi(self, MyMainWindow):
         _translate = QtCore.QCoreApplication.translate
