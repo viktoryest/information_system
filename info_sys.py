@@ -104,6 +104,7 @@ class Ui_MyMainWindow(object):
         self.font_16 = QFont(fontName, 16)
         # font for buttons
         self.font_18 = QFont(fontName, 18)
+        self.font_24 = QFont(fontName, 24)
 
         # set text for jewelry content
         self.jewelry_title_1 = create_jewelry_title_1(self.jewelry_content, data, self.font_20)
@@ -254,14 +255,6 @@ class Ui_MyMainWindow(object):
         self.current_master.setObjectName("masters_widget")
         self.current_master.hide()
 
-        # set label for master
-        # self.master_photo_label = QtWidgets.QLabel(parent=self.current_master)
-        # self.master_photo_label.setGeometry(QtCore.QRect(633, 393, 413, 517))
-        # full_path = os.path.abspath(f"{data['persons'][0]['image']}")
-        # pixmap = QtGui.QPixmap(full_path)
-        # self.master_photo_label.setPixmap(pixmap)
-        # self.master_photo_label.setStyleSheet("background: transparent; border: 0;")
-        # self.master_photo_label.setObjectName("master_photo_label")
 
 
         # buttons for left menu
@@ -360,6 +353,7 @@ class Ui_MyMainWindow(object):
         self.photo_gallery_widget.hide()
         self.masters_widget.hide()
 
+
     def masters_pressed(self):
         self.masters_widget.show()
         self.masters_buttons_widget.show()
@@ -448,35 +442,35 @@ class Ui_MyMainWindow(object):
             self.current_photo_index = 0
         elif self.current_photo_index < 0:
             self.current_photo_index = len(self.photo_paths) - 1
-        # new previews
         self.indicators.clear()
         self.show_images()
 
     def show_current_master(self, index):
         self.masters_buttons_widget.hide()
 
-
-        if hasattr(self, "master_photo_label"):
-            self.master_photo_label.clear()
-            del self.master_photo_label
-
         self.master_photo_label = QtWidgets.QLabel(parent=self.current_master)
-        self.master_photo_label.setGeometry(QtCore.QRect(633, 393, 413, 517))
+        self.master_photo_label.setGeometry(QtCore.QRect(633, 400, 413, 517))
         full_path = os.path.abspath(f"{self.jewelry_data['persons'][index]['image']}")
         pixmap = QtGui.QPixmap(full_path)
-
-
         pixmap = pixmap.scaledToWidth(413)
         pixmap = pixmap.scaledToHeight(517)
-
-
         self.master_photo_label.setPixmap(pixmap)
-
-
         self.master_photo_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-
         self.master_photo_label.setStyleSheet("background: transparent; border: 0;")
         self.master_photo_label.setObjectName("master_photo_label")
+
+        self.person_name_button = QtWidgets.QPushButton(parent=self.current_master)
+        self.person_name_button.setGeometry(QtCore.QRect(633, 240, 596, 110))
+        self.person_name_button.setStyleSheet("background-image: url(:/jewelry/person_button.png); border: 0; "
+                                              "text-align: center; text-decoration: bold; color: #7c2832;")
+        self.person_name_button.setText(self.jewelry_data['persons'][index]['full_name'])
+        self.person_name_button.setFont(self.font_24)
+        palette = self.jewelry_master_button.palette()
+        color = QColor(124, 40, 50)
+        palette.setColor(QPalette.ButtonText, color)
+        self.jewelry_master_button.setPalette(palette)
+        self.person_name_button.setObjectName("person_name_button")
+
         self.current_master.show()
 
     def retranslateUi(self, MyMainWindow):

@@ -11,5 +11,6 @@
     <file>indicator.png</file>
     <file>indicator_active.png</file>
     <file>jewelry_masters_button.png</file>
+    <file>person_button.png</file>
   </qresource>
 </RCC>
