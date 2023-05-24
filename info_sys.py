@@ -459,6 +459,9 @@ class Ui_MyMainWindow(object):
         self.master_photo_label.setStyleSheet("background: transparent; border: 0;")
         self.master_photo_label.setObjectName("master_photo_label")
 
+        if hasattr(self, 'person_name_button'):
+            self.person_name_button.deleteLater()
+
         self.person_name_button = QtWidgets.QPushButton(parent=self.current_master)
         self.person_name_button.setGeometry(QtCore.QRect(633, 240, 596, 110))
         self.person_name_button.setStyleSheet("background-image: url(:/jewelry/person_button.png); border: 0; "
