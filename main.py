@@ -27,7 +27,6 @@ class MainWindow(QMainWindow):
             self.ui.stop_video()
             self.ui.play_video_state = True
 
-
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 

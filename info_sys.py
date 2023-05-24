@@ -7,7 +7,6 @@ from PySide6.QtGui import QFont, QFontDatabase, QColor, QPalette, QPixmap
 from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimediaWidgets import QVideoWidget
 from functools import partial
-
 from PySide6 import QtCore, QtGui, QtWidgets
 
 from left_menu_buttons import create_masters_button, create_video_photo_button, create_embroidery_button, \
@@ -30,10 +29,14 @@ class Ui_MyMainWindow(object):
     photo_widgets = []
     photo_preview_buttons = []
     photo_preview = None
+    jewelry_data = None
 
     dirname = os.path.dirname(__file__)
     jewelry_photo_common = os.path.join(dirname, 'images/jewelry/photo_common')
     jewelry_photo_common_path = os.path.join(jewelry_photo_common, '*')
+    jewelry_photo_masters = os.path.join(dirname, 'images/jewelry/photo_masters')
+    jewelry_photo_masters_path = os.path.join(jewelry_photo_masters, '*')
+    masters_paths = sorted(glob.glob(jewelry_photo_masters_path))
     photo_paths = sorted(glob.glob(jewelry_photo_common_path))
     files_amount = len(glob.glob(jewelry_photo_common_path))
 
@@ -212,6 +215,7 @@ class Ui_MyMainWindow(object):
 
         with open('texts/jewelry/jewelry_masters.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
+            self.jewelry_data = data
         rows = len(data['persons']) // 4
         last_row = len(data['persons']) % 4
         offset = (1330 - last_row * 310) // 2
@@ -251,12 +255,14 @@ class Ui_MyMainWindow(object):
         self.current_master.hide()
 
         # set label for master
-        self.master_photo_label = QtWidgets.QLabel(parent=self.current_master)
-        self.master_photo_label.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
-        pixmap = QPixmap(f"images/jewelry/masters/{data['persons'][0]['image']}")
-        self.master_photo_label.setPixmap(pixmap)
-        self.master_photo_label.setStyleSheet("background: transparent; border: 0;")
-        self.master_photo_label.setObjectName("master_photo_label")
+        # self.master_photo_label = QtWidgets.QLabel(parent=self.current_master)
+        # self.master_photo_label.setGeometry(QtCore.QRect(633, 393, 413, 517))
+        # full_path = os.path.abspath(f"{data['persons'][0]['image']}")
+        # pixmap = QtGui.QPixmap(full_path)
+        # self.master_photo_label.setPixmap(pixmap)
+        # self.master_photo_label.setStyleSheet("background: transparent; border: 0;")
+        # self.master_photo_label.setObjectName("master_photo_label")
+
 
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
@@ -371,18 +377,13 @@ class Ui_MyMainWindow(object):
         self.masters_widget.hide()
         self.video_photo_widget.hide()
         self.jewelry_content.show()
-        self.video_photo_button.setGeometry(QtCore.QRect(64, 508, 452, 121))
         self.video_photo_button.setGeometry(QtCore.QRect(40, 485, 452, 121))
         self.video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png); border: 0;")
         self.masters_button.setGeometry(QtCore.QRect(40, 392, 452, 121))
         self.masters_button.setStyleSheet("background-image: url(:/jewelry/masters.png); border: 0;")
 
     def show_images(self):
-        dirname = os.path.dirname(__file__)
-        jewelry_photo_common = os.path.join(dirname, 'images/jewelry/photo_common')
-        jewelry_photo_common_path = os.path.join(jewelry_photo_common, '*')
-        photo_paths = sorted(glob.glob(jewelry_photo_common_path))
-
+        photo_paths = sorted(glob.glob(self.jewelry_photo_common_path))
         if self.photo_gallery_widget.isVisible():
             self.photo_paths = photo_paths
             self.video_photo_pressed()
@@ -452,8 +453,30 @@ class Ui_MyMainWindow(object):
         self.show_images()
 
     def show_current_master(self, index):
-        print(index)
         self.masters_buttons_widget.hide()
+
+
+        if hasattr(self, "master_photo_label"):
+            self.master_photo_label.clear()
+            del self.master_photo_label
+
+        self.master_photo_label = QtWidgets.QLabel(parent=self.current_master)
+        self.master_photo_label.setGeometry(QtCore.QRect(633, 393, 413, 517))
+        full_path = os.path.abspath(f"{self.jewelry_data['persons'][index]['image']}")
+        pixmap = QtGui.QPixmap(full_path)
+
+
+        pixmap = pixmap.scaledToWidth(413)
+        pixmap = pixmap.scaledToHeight(517)
+
+
+        self.master_photo_label.setPixmap(pixmap)
+
+
+        self.master_photo_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+
+        self.master_photo_label.setStyleSheet("background: transparent; border: 0;")
+        self.master_photo_label.setObjectName("master_photo_label")
         self.current_master.show()
 
     def retranslateUi(self, MyMainWindow):
