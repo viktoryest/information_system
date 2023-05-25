@@ -13,5 +13,7 @@
     <file>jewelry_masters_button.png</file>
     <file>person_button.png</file>
     <file>line.png</file>
+    <file>left_arrow.png</file>
+    <file>right_arrow.png</file>
   </qresource>
 </RCC>

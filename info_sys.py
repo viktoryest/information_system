@@ -9,7 +9,8 @@ from PySide6.QtMultimediaWidgets import QVideoWidget
 from functools import partial
 from PySide6 import QtCore, QtGui, QtWidgets
 
-from current_master_elements import create_current_master_button, create_name_button, create_current_master_title
+from current_master_elements import create_current_master_button, create_name_button, create_current_master_title, \
+    create_current_master_description, create_left_arrow, create_right_arrow
 from jewelry_masters_buttons import create_jewelry_masters_buttons
 from left_menu_buttons import create_masters_button, create_video_photo_button, create_embroidery_button, \
     create_painting_button
@@ -436,29 +437,20 @@ class Ui_MyMainWindow(object):
         if hasattr(self, 'master_title'):
             self.master_title.deleteLater()
         self.master_title = create_current_master_title(self.current_master, index, self.jewelry_data, self.font_20)
-        # self.master_title.setGeometry(QtCore.QRect(1109, 393, 684, 36))
-        # self.master_title.setStyleSheet("background: transparent; qproperty-textInteractionFlags: NoTextInteraction;")
-        # self.master_title.setText(self.jewelry_data['persons'][index]['title'])
-        # self.master_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-        # self.master_title.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        # self.master_title.setTextColor(QColor(68, 59, 64))
-        # self.master_title.setFont(self.font_20)
-        # self.master_title.setObjectName("master_title")
-        # self.master_title.setReadOnly(True)
 
         if hasattr(self, 'master_description'):
             self.master_description.deleteLater()
+        self.master_description = create_current_master_description(self.current_master, index, self.jewelry_data,
+                                                                    self.font_16)
 
-        self.master_description = QtWidgets.QTextEdit(parent=self.current_master)
-        self.master_description.setGeometry(QtCore.QRect(1109, 440, 684, 477))
-        self.master_description.setStyleSheet("background: transparent; qproperty-textInteractionFlags: NoTextInteraction;")
-        self.master_description.setText(self.jewelry_data['persons'][index]['description'])
-        self.master_description.setAlignment(Qt.AlignmentFlag.AlignJustify)
-        self.master_description.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.master_description.setTextColor(QColor(68, 59, 64, 1))
-        self.master_description.setFont(self.font_16)
-        self.master_description.setObjectName("master_description")
-        self.master_description.setReadOnly(True)
+        # create arrows in masters
+        if hasattr(self, 'left_arrow'):
+            self.left_arrow.deleteLater()
+        self.left_arrow = create_left_arrow(self.current_master)
+
+        if hasattr(self, 'right_arrow'):
+            self.right_arrow.deleteLater()
+        self.right_arrow = create_right_arrow(self.current_master)
 
 
         self.current_master.show()

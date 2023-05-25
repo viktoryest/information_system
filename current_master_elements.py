@@ -44,3 +44,33 @@ def create_current_master_title(parent, index, jewelry_data, font_20):
     master_title.setObjectName("master_title")
     master_title.setReadOnly(True)
     return master_title
+
+
+def create_current_master_description(parent, index, jewelry_data, font_16):
+    master_description = QtWidgets.QTextEdit(parent=parent)
+    master_description.setGeometry(QtCore.QRect(1109, 440, 684, 477))
+    master_description.setStyleSheet("background: transparent; qproperty-textInteractionFlags: NoTextInteraction;")
+    master_description.setText(jewelry_data['persons'][index]['description'])
+    master_description.setAlignment(Qt.AlignmentFlag.AlignJustify)
+    master_description.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+    master_description.setTextColor(QColor(68, 59, 64, 1))
+    master_description.setFont(font_16)
+    master_description.setObjectName("master_description")
+    master_description.setReadOnly(True)
+    return master_description
+
+
+def create_left_arrow(parent):
+    left_arrow = QtWidgets.QPushButton(parent=parent)
+    left_arrow.setGeometry(QtCore.QRect(589, 270, 21, 52))
+    left_arrow.setStyleSheet("background-image: url(:/jewelry/left_arrow.png); border: 0;")
+    left_arrow.setObjectName("left_arrow")
+    return left_arrow
+
+
+def create_right_arrow(parent):
+    right_arrow = QtWidgets.QPushButton(parent=parent)
+    right_arrow.setGeometry(QtCore.QRect(1250, 270, 21, 52))
+    right_arrow.setStyleSheet("background-image: url(:/jewelry/right_arrow.png); border: 0;")
+    right_arrow.setObjectName("right_arrow")
+    return right_arrow
