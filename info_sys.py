@@ -11,6 +11,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 
 from current_master_elements import create_current_master_button, create_name_button, create_current_master_title, \
     create_current_master_description, create_left_arrow, create_right_arrow
+from embroidery_widget_elements import create_embroiderers_button
 from jewelry_masters_buttons import create_jewelry_masters_buttons
 from left_menu_buttons import create_masters_button, create_video_photo_button, create_embroidery_button, \
     create_painting_button
@@ -239,6 +240,17 @@ class Ui_MyMainWindow(object):
         self.embroidery_widget.setObjectName("embroidery_widget")
         self.embroidery_widget.hide()
 
+        self.jewelry_button_on_embroidery = create_jewelry_pass(self.embroidery_widget, self.show_jewelry_widget)
+        self.jewelry_button_on_embroidery.setStyleSheet("background-image: url(:/left_menu/jewelry_menu_inactive.png);"
+                                                        " border: 0;")
+        self.jewelry_button_on_embroidery.setGeometry(QtCore.QRect(0, 285, 491, 161))
+
+        self.embroidery_button_on_embroidery = create_embroidery_button(self.embroidery_widget, None)
+        self.embroidery_button_on_embroidery.setStyleSheet("background-image: "
+                                                           "url(:/left_menu/embroidery_menu_active.png); border: 0;")
+        self.embroidery_button_on_embroidery.setGeometry(QtCore.QRect(0, 445, 465, 121))
+        self.embroiderers_button = create_embroiderers_button(self.embroidery_widget, None)
+
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
         self.video_photo_button = create_video_photo_button(self.jewelry_widget, self.video_photo_pressed)
@@ -256,6 +268,7 @@ class Ui_MyMainWindow(object):
 
     def show_jewelry_widget(self):
         self.jewelry_widget.show()
+        self.embroidery_widget.hide()
 
     def show_embroidery_widget(self):
         self.embroidery_widget.show()

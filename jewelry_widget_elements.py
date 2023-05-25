@@ -12,6 +12,7 @@ def create_jewelry_pass(parent, clicked):
     jewelry_pass.setText("")
     jewelry_pass.setObjectName("jewelry_pass")
     jewelry_pass.clicked.connect(clicked)
+    return jewelry_pass
 
 
 def create_jewelry_content(parent):

@@ -3,5 +3,8 @@
     <file>painting_menu.png</file>
     <file>embroidery_menu.png</file>
     <file>jewelry_menu.png</file>
+    <file>jewelry_menu_inactive.png</file>
+    <file>embroidery_menu_active.png</file>
+    <file>embroiderers.png</file>
   </qresource>
 </RCC>
