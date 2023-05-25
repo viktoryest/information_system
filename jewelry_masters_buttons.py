@@ -5,7 +5,7 @@ from PySide6 import QtWidgets, QtCore
 from PySide6.QtGui import QColor, QPalette
 
 
-def create_jewelry_masters_buttons(parent, font_18, show_current_master, jewelry_master_buttons):
+def create_jewelry_masters_buttons(parent, font_18, show_current_master, jewelry_master_buttons, change_clicked_master):
     with open('texts/jewelry/jewelry_masters.json', 'r', encoding='utf-8') as file:
         data = json.load(file)
         jewelry_data = data
@@ -25,7 +25,7 @@ def create_jewelry_masters_buttons(parent, font_18, show_current_master, jewelry
             jewelry_master_button.setPalette(palette)
             jewelry_master_button.setText(f"{data['persons'][j]['person']}")
             jewelry_master_button.setObjectName(f"jewelry_master_button_{j}")
-            jewelry_master_button.clicked.connect(partial(show_current_master, j))
+            jewelry_master_button.clicked.connect(partial(change_clicked_master, j))
             jewelry_master_buttons.append(jewelry_master_button)
     for i in range(last_row):
         jewelry_master_button = QtWidgets.QPushButton(parent=parent)
@@ -39,7 +39,7 @@ def create_jewelry_masters_buttons(parent, font_18, show_current_master, jewelry
         jewelry_master_button.setPalette(palette)
         jewelry_master_button.setText(f"{data['persons'][i + rows * 4]['person']}")
         jewelry_master_button.setObjectName(f"jewelry_master_button_{i + rows * 4}")
-        jewelry_master_button.clicked.connect(partial(show_current_master, i + rows * 4))
+        jewelry_master_button.clicked.connect(partial(change_clicked_master, i + rows * 4))
         jewelry_master_buttons.append(jewelry_master_button)
 
     return jewelry_master_buttons, jewelry_data

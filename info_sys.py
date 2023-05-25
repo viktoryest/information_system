@@ -3,7 +3,7 @@ import json
 import os.path
 from PySide6 import QtMultimedia
 from PySide6.QtCore import QUrl
-from PySide6.QtGui import QFont, QFontDatabase, QColor, QPalette, Qt
+from PySide6.QtGui import QFont, QFontDatabase, Qt
 from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimediaWidgets import QVideoWidget
 from functools import partial
@@ -33,6 +33,7 @@ class Ui_MyMainWindow(object):
     photo_preview = None
     jewelry_data = None
     jewelry_master_buttons = []
+    current_master_index = 0
 
     dirname = os.path.dirname(__file__)
     jewelry_photo_common = os.path.join(dirname, 'images/jewelry/photo_common')
@@ -216,9 +217,11 @@ class Ui_MyMainWindow(object):
         self.back_button_jewelry_masters = create_back_button(self.masters_buttons_widget, self.back_to_jewelry)
         self.jewelry_master_buttons = create_jewelry_masters_buttons(self.masters_buttons_widget, self.font_18,
                                                                      self.show_current_master,
-                                                                     self.jewelry_master_buttons)[0]
+                                                                     self.jewelry_master_buttons,
+                                                                     self.change_clicked_master)[0]
         self.jewelry_data = create_jewelry_masters_buttons(self.masters_buttons_widget, self.font_18,
-                                                           self.show_current_master, self.jewelry_master_buttons)[1]
+                                                           self.show_current_master, self.jewelry_master_buttons,
+                                                           self.change_clicked_master)[1]
 
         # set widget for master
         self.current_master = QtWidgets.QWidget(parent=self.masters_widget)
@@ -233,6 +236,9 @@ class Ui_MyMainWindow(object):
         self.line.setGeometry(QtCore.QRect(1300, 292, 564, 2))
         self.line.setStyleSheet("background-image: url(:/jewelry/line.png); border: 0;")
         self.line.setObjectName("line")
+
+        self.left_arrow = create_left_arrow(self.current_master, self.show_previous_master)
+        self.right_arrow = create_right_arrow(self.current_master, self.show_next_master)
 
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
@@ -356,6 +362,10 @@ class Ui_MyMainWindow(object):
         self.current_master.hide()
         self.masters_buttons_widget.show()
 
+    def change_clicked_master(self, master_index):
+        self.current_master_index = master_index
+        self.show_current_master(self.current_master_index)
+
     def show_images(self):
         photo_paths = sorted(glob.glob(self.jewelry_photo_common_path))
         if self.photo_gallery_widget.isVisible():
@@ -411,7 +421,6 @@ class Ui_MyMainWindow(object):
             self.current_photo_index = 0
         elif self.current_photo_index < 0:
             self.current_photo_index = len(self.photo_paths) - 1
-        # new previews
         self.show_images()
 
     def show_previous_photo(self):
@@ -425,33 +434,49 @@ class Ui_MyMainWindow(object):
         self.indicators.clear()
         self.show_images()
 
+    def show_next_master(self):
+        if self.current_master_index < len(self.jewelry_data['persons']) - 1:
+            self.current_master_index += 1
+        else:
+            self.current_master_index = 0
+        self.show_current_master(self.current_master_index)
+
+    def show_previous_master(self):
+        if self.current_master_index > 0:
+            self.current_master_index -= 1
+        else:
+            self.current_master_index = len(self.jewelry_data['persons']) - 1
+        self.show_current_master(self.current_master_index)
+
     def show_current_master(self, index):
         self.masters_buttons_widget.hide()
 
-        self.master_photo_label = create_current_master_button(self.current_master, index, self.jewelry_data)
+        if hasattr(self, 'master_photo_label'):
+            full_path = os.path.abspath(f"{self.jewelry_data['persons'][index]['image']}")
+            pixmap = QtGui.QPixmap(full_path)
+            pixmap = pixmap.scaledToWidth(413)
+            pixmap = pixmap.scaledToHeight(517)
+            self.master_photo_label.setPixmap(pixmap)
+        else:
+            self.master_photo_label = create_current_master_button(self.current_master, index, self.jewelry_data)
 
         if hasattr(self, 'person_name_button'):
-            self.person_name_button.deleteLater()
-        self.person_name_button = create_name_button(self.current_master, index, self.jewelry_data, self.font_24)
+            self.person_name_button.setText(self.jewelry_data['persons'][index]['full_name'])
+        else:
+            self.person_name_button = create_name_button(self.current_master, index, self.jewelry_data, self.font_24)
 
         if hasattr(self, 'master_title'):
-            self.master_title.deleteLater()
-        self.master_title = create_current_master_title(self.current_master, index, self.jewelry_data, self.font_20)
+            self.master_title.setText(self.jewelry_data['persons'][index]['title'])
+            self.master_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        else:
+            self.master_title = create_current_master_title(self.current_master, index, self.jewelry_data, self.font_20)
 
         if hasattr(self, 'master_description'):
-            self.master_description.deleteLater()
-        self.master_description = create_current_master_description(self.current_master, index, self.jewelry_data,
+            self.master_description.setText(self.jewelry_data['persons'][index]['description'])
+            self.master_description.setAlignment(Qt.AlignmentFlag.AlignJustify)
+        else:
+            self.master_description = create_current_master_description(self.current_master, index, self.jewelry_data,
                                                                     self.font_16)
-
-        # create arrows in masters
-        if hasattr(self, 'left_arrow'):
-            self.left_arrow.deleteLater()
-        self.left_arrow = create_left_arrow(self.current_master)
-
-        if hasattr(self, 'right_arrow'):
-            self.right_arrow.deleteLater()
-        self.right_arrow = create_right_arrow(self.current_master)
-
 
         self.current_master.show()
 
