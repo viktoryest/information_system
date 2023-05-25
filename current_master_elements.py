@@ -1,7 +1,6 @@
 import os
-
 from PySide6 import QtWidgets, QtCore, QtGui
-from PySide6.QtGui import QColor, QPalette
+from PySide6.QtGui import QColor, QPalette, Qt
 
 
 def create_current_master_button(parent, index, jewelry_data):
@@ -31,3 +30,17 @@ def create_name_button(parent, index, jewelry_data, font_24):
     person_name_button.setPalette(palette)
     person_name_button.setObjectName("person_name_button")
     return person_name_button
+
+
+def create_current_master_title(parent, index, jewelry_data, font_20):
+    master_title = QtWidgets.QTextEdit(parent=parent)
+    master_title.setGeometry(QtCore.QRect(1109, 393, 684, 36))
+    master_title.setStyleSheet("background: transparent; qproperty-textInteractionFlags: NoTextInteraction;")
+    master_title.setText(jewelry_data['persons'][index]['title'])
+    master_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+    master_title.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+    master_title.setTextColor(QColor(68, 59, 64))
+    master_title.setFont(font_20)
+    master_title.setObjectName("master_title")
+    master_title.setReadOnly(True)
+    return master_title

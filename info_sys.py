@@ -9,7 +9,7 @@ from PySide6.QtMultimediaWidgets import QVideoWidget
 from functools import partial
 from PySide6 import QtCore, QtGui, QtWidgets
 
-from current_master_elements import create_current_master_button, create_name_button
+from current_master_elements import create_current_master_button, create_name_button, create_current_master_title
 from jewelry_masters_buttons import create_jewelry_masters_buttons
 from left_menu_buttons import create_masters_button, create_video_photo_button, create_embroidery_button, \
     create_painting_button
@@ -428,23 +428,23 @@ class Ui_MyMainWindow(object):
         self.masters_buttons_widget.hide()
 
         self.master_photo_label = create_current_master_button(self.current_master, index, self.jewelry_data)
+
         if hasattr(self, 'person_name_button'):
             self.person_name_button.deleteLater()
-
         self.person_name_button = create_name_button(self.current_master, index, self.jewelry_data, self.font_24)
+
         if hasattr(self, 'master_title'):
             self.master_title.deleteLater()
-
-        self.master_title = QtWidgets.QTextEdit(parent=self.current_master)
-        self.master_title.setGeometry(QtCore.QRect(1109, 393, 684, 36))
-        self.master_title.setStyleSheet("background: transparent; qproperty-textInteractionFlags: NoTextInteraction;")
-        self.master_title.setText(self.jewelry_data['persons'][index]['title'])
-        self.master_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-        self.master_title.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.master_title.setTextColor(QColor(68, 59, 64))
-        self.master_title.setFont(self.font_20)
-        self.master_title.setObjectName("master_title")
-        self.master_title.setReadOnly(True)
+        self.master_title = create_current_master_title(self.current_master, index, self.jewelry_data, self.font_20)
+        # self.master_title.setGeometry(QtCore.QRect(1109, 393, 684, 36))
+        # self.master_title.setStyleSheet("background: transparent; qproperty-textInteractionFlags: NoTextInteraction;")
+        # self.master_title.setText(self.jewelry_data['persons'][index]['title'])
+        # self.master_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        # self.master_title.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        # self.master_title.setTextColor(QColor(68, 59, 64))
+        # self.master_title.setFont(self.font_20)
+        # self.master_title.setObjectName("master_title")
+        # self.master_title.setReadOnly(True)
 
         if hasattr(self, 'master_description'):
             self.master_description.deleteLater()
