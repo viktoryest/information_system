@@ -227,6 +227,11 @@ class Ui_MyMainWindow(object):
 
         self.back_button_master = create_back_button(self.current_master, self.back_to_masters)
 
+        self.line = QtWidgets.QLabel(parent=self.current_master)
+        self.line.setGeometry(QtCore.QRect(1300, 292, 564, 2))
+        self.line.setStyleSheet("background-image: url(:/jewelry/line.png); border: 0;")
+        self.line.setObjectName("line")
+
 
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
