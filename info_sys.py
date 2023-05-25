@@ -117,9 +117,7 @@ class Ui_MyMainWindow(object):
         self.jewelry_main_text_2 = create_jewelry_main_text_2(self.jewelry_content, data, self.font_16)
 
         # set back button
-        self.back_button_jewelry_content = create_back_button(self.jewelry_content, None)
-        self.back_button_jewelry_content.clicked.connect(self.show_main_hall)
-        self.back_button_jewelry_content.clicked.connect(self.jewelry_widget.hide)
+        self.back_button_jewelry_content = create_back_button(self.jewelry_content, self.show_main_hall)
 
         # set widget for video and photo content
         self.video_photo_widget = QtWidgets.QWidget(parent=self.jewelry_widget)
@@ -128,26 +126,21 @@ class Ui_MyMainWindow(object):
         self.video_photo_widget.setObjectName("video_photo_widget")
         self.video_photo_widget.hide()
 
+        # set back button for video and photo content
         self.back_button_video_photo = create_back_button(self.video_photo_widget, self.back_to_jewelry)
-        # self.back_button_video_photo.clicked.connect(self.video_photo_widget.hide)
-        # self.back_button_video_photo.clicked.connect(self.jewelry_content.show)
 
         # set photo title
         self.photo_title = create_photo_title(self.video_photo_widget)
-
         # set arrow buttons for photo
         self.photo_left_button = create_left_arrow_button(self.video_photo_widget, self.show_previous_photo)
         self.photo_right_button = create_right_arrow_button(self.video_photo_widget, self.show_next_photo)
 
         # set video title
         self.video_title = create_video_title(self.video_photo_widget)
-
         # set video preview
         self.video_preview = create_video_preview(self.video_photo_widget)
-
         # set play button for video
         self.play_button = create_play_button(self.video_photo_widget, self.play_video)
-
         # video player
         self.player = QMediaPlayer()
         self.player.setSource(QUrl.fromLocalFile("video/mstera_video.mp4"))
@@ -253,6 +246,7 @@ class Ui_MyMainWindow(object):
 
     def show_main_hall(self):
         self.main_hall.show()
+        self.jewelry_widget.hide()
 
     def show_jewelry_widget(self):
         self.jewelry_widget.show()
