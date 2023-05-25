@@ -223,33 +223,33 @@ class Ui_MyMainWindow(object):
         offset = (1330 - last_row * 310) // 2
         for i in range(rows):
             for j in range(4):
-                self.jewelry_master_button = QtWidgets.QPushButton(parent=self.masters_buttons_widget)
-                self.jewelry_master_button.setGeometry(QtCore.QRect(589 + j * 300, 275 + i * 137, 300, 137))
-                self.jewelry_master_button.setStyleSheet("background-image: url(:/jewelry/jewelry_masters_button.png); "
+                jewelry_master_button = QtWidgets.QPushButton(parent=self.masters_buttons_widget)
+                jewelry_master_button.setGeometry(QtCore.QRect(589 + j * 300, 275 + i * 137, 300, 137))
+                jewelry_master_button.setStyleSheet("background-image: url(:/jewelry/jewelry_masters_button.png); "
                                                          "border: 0;")
-                self.jewelry_master_button.setFont(self.font_18)
-                palette = self.jewelry_master_button.palette()
+                jewelry_master_button.setFont(self.font_18)
+                palette = jewelry_master_button.palette()
                 color = QColor(228, 213, 189)
                 palette.setColor(QPalette.ButtonText, color)
-                self.jewelry_master_button.setPalette(palette)
-                self.jewelry_master_button.setText(f"{data['persons'][j]['person']}")
-                self.jewelry_master_button.setObjectName(f"jewelry_master_button_{j}")
-                self.jewelry_master_button.clicked.connect(partial(self.show_current_master, j))
-                self.jewelry_master_buttons.append(self.jewelry_master_button)
+                jewelry_master_button.setPalette(palette)
+                jewelry_master_button.setText(f"{data['persons'][j]['person']}")
+                jewelry_master_button.setObjectName(f"jewelry_master_button_{j}")
+                jewelry_master_button.clicked.connect(partial(self.show_current_master, j))
+                self.jewelry_master_buttons.append(jewelry_master_button)
         for i in range(last_row):
-            self.jewelry_master_button = QtWidgets.QPushButton(parent=self.masters_buttons_widget)
-            self.jewelry_master_button.setGeometry(QtCore.QRect(570 + offset + i * 300, 275 + rows * 137, 300, 137))
-            self.jewelry_master_button.setStyleSheet("background-image: url(:/jewelry/jewelry_masters_button.png); "
+            jewelry_master_button = QtWidgets.QPushButton(parent=self.masters_buttons_widget)
+            jewelry_master_button.setGeometry(QtCore.QRect(570 + offset + i * 300, 275 + rows * 137, 300, 137))
+            jewelry_master_button.setStyleSheet("background-image: url(:/jewelry/jewelry_masters_button.png); "
                                                      "border: 0;")
-            self.jewelry_master_button.setFont(self.font_18)
-            palette = self.jewelry_master_button.palette()
+            jewelry_master_button.setFont(self.font_18)
+            palette = jewelry_master_button.palette()
             color = QColor(228, 213, 189)
             palette.setColor(QPalette.ButtonText, color)
-            self.jewelry_master_button.setPalette(palette)
-            self.jewelry_master_button.setText(f"{data['persons'][i+rows*4]['person']}")
-            self.jewelry_master_button.setObjectName(f"jewelry_master_button_{i+rows*4}")
-            self.jewelry_master_button.clicked.connect(partial(self.show_current_master, i+rows*4))
-            self.jewelry_master_buttons.append(self.jewelry_master_button)
+            jewelry_master_button.setPalette(palette)
+            jewelry_master_button.setText(f"{data['persons'][i+rows*4]['person']}")
+            jewelry_master_button.setObjectName(f"jewelry_master_button_{i+rows*4}")
+            jewelry_master_button.clicked.connect(partial(self.show_current_master, i+rows*4))
+            self.jewelry_master_buttons.append(jewelry_master_button)
 
         # set widget for master
         self.current_master = QtWidgets.QWidget(parent=self.masters_widget)
@@ -471,10 +471,10 @@ class Ui_MyMainWindow(object):
                                               "text-align: center; text-decoration: bold; color: #7c2832;")
         self.person_name_button.setText(self.jewelry_data['persons'][index]['full_name'])
         self.person_name_button.setFont(self.font_24)
-        palette = self.jewelry_master_button.palette()
+        palette = self.person_name_button.palette()
         color = QColor(124, 40, 50)
         palette.setColor(QPalette.ButtonText, color)
-        self.jewelry_master_button.setPalette(palette)
+        self.person_name_button.setPalette(palette)
         self.person_name_button.setObjectName("person_name_button")
 
         self.current_master.show()
