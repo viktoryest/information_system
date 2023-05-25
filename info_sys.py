@@ -82,7 +82,7 @@ class Ui_MyMainWindow(object):
 
         # set main hall buttons
         self.jewelry = create_jewelry(self.main_hall, self.show_jewelry_widget)
-        self.embroidery = create_embroidery(self.main_hall, None)
+        self.embroidery = create_embroidery(self.main_hall, self.show_embroidery_widget)
         self.painting = create_painting(self.main_hall, None)
 
         # set left menu widget
@@ -233,6 +233,12 @@ class Ui_MyMainWindow(object):
         self.left_arrow = create_left_arrow(self.current_master, self.show_previous_master)
         self.right_arrow = create_right_arrow(self.current_master, self.show_next_master)
 
+        self.embroidery_widget = QtWidgets.QWidget(parent=self.main_hall)
+        self.embroidery_widget.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.embroidery_widget.setStyleSheet("background-image: url(:/embroidery/embroidery_bg.png); border: 0;")
+        self.embroidery_widget.setObjectName("embroidery_widget")
+        self.embroidery_widget.hide()
+
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
         self.video_photo_button = create_video_photo_button(self.jewelry_widget, self.video_photo_pressed)
@@ -250,6 +256,9 @@ class Ui_MyMainWindow(object):
 
     def show_jewelry_widget(self):
         self.jewelry_widget.show()
+
+    def show_embroidery_widget(self):
+        self.embroidery_widget.show()
 
     def show_video_photo(self):
         self.play_video_state = True

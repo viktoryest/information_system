@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="embroidery">
+    <file>embroidery_bg.png</file>
+  </qresource>
+</RCC>

@@ -3,7 +3,7 @@ from PySide6.QtGui import Qt
 from PySide6.QtWidgets import QApplication, QMainWindow
 from info_sys import Ui_MyMainWindow
 from PySide6.QtGui import QMouseEvent
-import images, main_hall, jewelry, left_menu, fonts
+import images, main_hall, jewelry, left_menu, fonts, embroidery
 import video.thumbnail_script
 
 
