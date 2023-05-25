@@ -30,6 +30,7 @@ class Ui_MyMainWindow(object):
     photo_preview_buttons = []
     photo_preview = None
     jewelry_data = None
+    jewelry_master_buttons = []
 
     dirname = os.path.dirname(__file__)
     jewelry_photo_common = os.path.join(dirname, 'images/jewelry/photo_common')
@@ -232,8 +233,9 @@ class Ui_MyMainWindow(object):
                 palette.setColor(QPalette.ButtonText, color)
                 self.jewelry_master_button.setPalette(palette)
                 self.jewelry_master_button.setText(f"{data['persons'][j]['person']}")
-                self.jewelry_master_button.setObjectName("jewelry_master_button")
+                self.jewelry_master_button.setObjectName(f"jewelry_master_button_{j}")
                 self.jewelry_master_button.clicked.connect(partial(self.show_current_master, j))
+                self.jewelry_master_buttons.append(self.jewelry_master_button)
         for i in range(last_row):
             self.jewelry_master_button = QtWidgets.QPushButton(parent=self.masters_buttons_widget)
             self.jewelry_master_button.setGeometry(QtCore.QRect(570 + offset + i * 300, 275 + rows * 137, 300, 137))
@@ -245,8 +247,9 @@ class Ui_MyMainWindow(object):
             palette.setColor(QPalette.ButtonText, color)
             self.jewelry_master_button.setPalette(palette)
             self.jewelry_master_button.setText(f"{data['persons'][i+rows*4]['person']}")
-            self.jewelry_master_button.setObjectName("jewelry_master_button")
+            self.jewelry_master_button.setObjectName(f"jewelry_master_button_{i+rows*4}")
             self.jewelry_master_button.clicked.connect(partial(self.show_current_master, i+rows*4))
+            self.jewelry_master_buttons.append(self.jewelry_master_button)
 
         # set widget for master
         self.current_master = QtWidgets.QWidget(parent=self.masters_widget)
