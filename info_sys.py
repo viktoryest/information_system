@@ -3,7 +3,7 @@ import json
 import os.path
 from PySide6 import QtMultimedia
 from PySide6.QtCore import QUrl
-from PySide6.QtGui import QFont, QFontDatabase, QColor, QPalette, QPixmap
+from PySide6.QtGui import QFont, QFontDatabase, QColor, QPalette, Qt
 from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimediaWidgets import QVideoWidget
 from functools import partial
@@ -18,7 +18,6 @@ from common_elements import create_back_button
 from jewelry_widget_elements import create_jewelry_pass, create_jewelry_content, create_jewelry_title_1, \
     create_jewelry_main_text_1, create_jewelry_title_2, create_jewelry_main_text_2
 from main_hall_buttons import create_jewelry, create_embroidery, create_painting
-from round_label import RoundedLabel
 from video_elements import create_video_title, create_video_preview, create_play_button
 
 
@@ -226,11 +225,25 @@ class Ui_MyMainWindow(object):
         self.current_master.setObjectName("masters_widget")
         self.current_master.hide()
 
+        self.back_button_master = create_back_button(self.current_master, self.back_to_masters)
+
+
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
         self.video_photo_button = create_video_photo_button(self.jewelry_widget, self.video_photo_pressed)
         self.embroidery_button = create_embroidery_button(self.jewelry_widget, None)
         self.painting_button = create_painting_button(self.jewelry_widget, None)
+
+        # self.master_title = QtWidgets.QTextEdit(parent=self.current_master)
+        # self.master_title.setGeometry(QtCore.QRect(583, 229, 1174, 36))
+        # self.master_title.setStyleSheet("background: transparent; qproperty-textInteractionFlags: NoTextInteraction;")
+        # self.master_title.setText(data['title_1'])
+        # self.master_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        # self.master_title.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        # self.master_title.setTextColor(QColor(73, 64, 69))
+        # self.master_title.setFont(self.font_20)
+        # self.master_title.setObjectName("jewelry_title_1")
+        # self.master_title.setReadOnly(True)
 
         MyMainWindow.setCentralWidget(self.centralwidget)
 
@@ -343,6 +356,10 @@ class Ui_MyMainWindow(object):
         self.video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png); border: 0;")
         self.masters_button.setGeometry(QtCore.QRect(40, 392, 452, 121))
         self.masters_button.setStyleSheet("background-image: url(:/jewelry/masters.png); border: 0;")
+
+    def back_to_masters(self):
+        self.current_master.hide()
+        self.masters_buttons_widget.show()
 
     def show_images(self):
         photo_paths = sorted(glob.glob(self.jewelry_photo_common_path))
