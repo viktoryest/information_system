@@ -1,6 +1,7 @@
 import os
 
 from PySide6 import QtWidgets, QtCore, QtGui
+from PySide6.QtGui import QColor, QPalette
 
 
 def create_current_master_button(parent, index, jewelry_data):
@@ -15,3 +16,18 @@ def create_current_master_button(parent, index, jewelry_data):
     master_photo_label.setStyleSheet("background: transparent; border: 0;")
     master_photo_label.setObjectName("master_photo_label")
     return master_photo_label
+
+
+def create_name_button(parent, index, jewelry_data, font_24):
+    person_name_button = QtWidgets.QPushButton(parent=parent)
+    person_name_button.setGeometry(QtCore.QRect(633, 240, 596, 110))
+    person_name_button.setStyleSheet("background-image: url(:/jewelry/person_button.png); border: 0; "
+                                          "text-align: center; text-decoration: bold; color: #7c2832;")
+    person_name_button.setText(jewelry_data['persons'][index]['full_name'])
+    person_name_button.setFont(font_24)
+    palette = person_name_button.palette()
+    color = QColor(124, 40, 50)
+    palette.setColor(QPalette.ButtonText, color)
+    person_name_button.setPalette(palette)
+    person_name_button.setObjectName("person_name_button")
+    return person_name_button

@@ -9,7 +9,7 @@ from PySide6.QtMultimediaWidgets import QVideoWidget
 from functools import partial
 from PySide6 import QtCore, QtGui, QtWidgets
 
-from current_master_elements import create_current_master_button
+from current_master_elements import create_current_master_button, create_name_button
 from jewelry_masters_buttons import create_jewelry_masters_buttons
 from left_menu_buttons import create_masters_button, create_video_photo_button, create_embroidery_button, \
     create_painting_button
@@ -428,22 +428,10 @@ class Ui_MyMainWindow(object):
         self.masters_buttons_widget.hide()
 
         self.master_photo_label = create_current_master_button(self.current_master, index, self.jewelry_data)
-
         if hasattr(self, 'person_name_button'):
             self.person_name_button.deleteLater()
 
-        self.person_name_button = QtWidgets.QPushButton(parent=self.current_master)
-        self.person_name_button.setGeometry(QtCore.QRect(633, 240, 596, 110))
-        self.person_name_button.setStyleSheet("background-image: url(:/jewelry/person_button.png); border: 0; "
-                                              "text-align: center; text-decoration: bold; color: #7c2832;")
-        self.person_name_button.setText(self.jewelry_data['persons'][index]['full_name'])
-        self.person_name_button.setFont(self.font_24)
-        palette = self.person_name_button.palette()
-        color = QColor(124, 40, 50)
-        palette.setColor(QPalette.ButtonText, color)
-        self.person_name_button.setPalette(palette)
-        self.person_name_button.setObjectName("person_name_button")
-
+        self.person_name_button = create_name_button(self.current_master, index, self.jewelry_data, self.font_24)
         if hasattr(self, 'master_title'):
             self.master_title.deleteLater()
 
