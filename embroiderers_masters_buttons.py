@@ -23,9 +23,9 @@ def create_embroidery_masters_buttons(parent, font_18, embroidery_master_buttons
             color = QColor(228, 213, 189)
             palette.setColor(QPalette.ButtonText, color)
             embroidery_master_button.setPalette(palette)
-            embroidery_master_button.setText(f"{data['persons'][j]['person']}")
-            embroidery_master_button.setObjectName(f"jewelry_master_button_{j}")
-            embroidery_master_button.clicked.connect(partial(change_clicked_master, j))
+            embroidery_master_button.setText(f"{data['persons'][j+i*4]['person']}")
+            embroidery_master_button.setObjectName(f"jewelry_master_button_{j+i*4}")
+            embroidery_master_button.clicked.connect(partial(change_clicked_master, j+i*4))
             embroidery_master_buttons.append(embroidery_master_button)
     for i in range(last_row):
         embroidery_master_button = QtWidgets.QPushButton(parent=parent)

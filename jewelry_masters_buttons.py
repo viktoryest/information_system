@@ -23,9 +23,9 @@ def create_jewelry_masters_buttons(parent, font_18, jewelry_master_buttons, chan
             color = QColor(228, 213, 189)
             palette.setColor(QPalette.ButtonText, color)
             jewelry_master_button.setPalette(palette)
-            jewelry_master_button.setText(f"{data['persons'][j]['person']}")
-            jewelry_master_button.setObjectName(f"jewelry_master_button_{j}")
-            jewelry_master_button.clicked.connect(partial(change_clicked_master, j))
+            jewelry_master_button.setText(f"{data['persons'][j+i*4]['person']}")
+            jewelry_master_button.setObjectName(f"jewelry_master_button_{j+i*4}")
+            jewelry_master_button.clicked.connect(partial(change_clicked_master, j+i*4))
             jewelry_master_buttons.append(jewelry_master_button)
     for i in range(last_row):
         jewelry_master_button = QtWidgets.QPushButton(parent=parent)

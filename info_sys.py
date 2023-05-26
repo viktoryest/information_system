@@ -10,6 +10,7 @@ from functools import partial
 from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtWidgets import QScrollArea, QVBoxLayout, QWidget
 
+from current_embroiderer_elements import create_current_embroiderer_page
 from current_master_elements import create_current_master_button, create_name_button, create_current_master_title, \
     create_current_master_description, create_left_arrow, create_right_arrow
 from embroiderers_masters_buttons import create_embroidery_masters_buttons
@@ -278,6 +279,14 @@ class Ui_MyMainWindow(object):
         # embroiderers back button
         self.back_button_embroiderers = create_back_button(self.embroiderers, self.back_to_embroidery)
 
+        # current embroiderer
+        self.current_embroiderer = QtWidgets.QWidget(parent=self.embroiderers)
+        self.current_embroiderer.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.current_embroiderer.setStyleSheet("background: transparent; border: 0;")
+        self.current_embroiderer.setObjectName("current_embroiderer")
+        self.current_embroiderer.hide()
+
+
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
         self.video_photo_button = create_video_photo_button(self.jewelry_widget, self.video_photo_pressed)
@@ -543,6 +552,18 @@ class Ui_MyMainWindow(object):
     def show_current_embroiderer(self, index):
         self.embroiderers.hide()
         print(index)
+
+        if hasattr(self, 'embroiderer_photo_label'):
+            full_path = os.path.abspath(f"{self.embroidery_data['persons'][index]['image']}")
+            pixmap = QtGui.QPixmap(full_path)
+            pixmap = pixmap.scaledToWidth(413)
+            pixmap = pixmap.scaledToHeight(517)
+            self.embroiderer_photo_label.setPixmap(pixmap)
+        else:
+            self.embroiderer_photo_label = create_current_embroiderer_page(self.current_embroiderer, index, self.embroidery_data)
+
+        self.current_embroiderer.show()
+
 
     def retranslateUi(self, MyMainWindow):
         _translate = QtCore.QCoreApplication.translate
