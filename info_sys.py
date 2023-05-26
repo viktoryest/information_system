@@ -241,6 +241,12 @@ class Ui_MyMainWindow(object):
         self.embroidery_widget.setObjectName("embroidery_widget")
         self.embroidery_widget.hide()
 
+        self.embroiderers = QtWidgets.QWidget(parent=self.embroidery_widget)
+        self.embroiderers.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.embroiderers.setStyleSheet("background-image: transparent; border: 0;")
+        self.embroiderers.setObjectName("embroiderers")
+        self.embroiderers.hide()
+
         self.jewelry_button_on_embroidery = create_jewelry_pass(self.embroidery_widget, self.show_jewelry_widget)
         self.jewelry_button_on_embroidery.setStyleSheet("background-image: url(:/left_menu/jewelry_menu_inactive.png);"
                                                         " border: 0;")
@@ -250,7 +256,7 @@ class Ui_MyMainWindow(object):
         self.embroidery_button_on_embroidery.setStyleSheet("background-image: "
                                                            "url(:/left_menu/embroidery_menu_active.png); border: 0;")
         self.embroidery_button_on_embroidery.setGeometry(QtCore.QRect(0, 445, 465, 121))
-        self.embroiderers_button = create_embroiderers_button(self.embroidery_widget, None)
+        self.embroiderers_button = create_embroiderers_button(self.embroidery_widget, self.show_embroderers)
         self.embroidery_video_photo_button = create_video_photo_button(self.embroidery_widget, None)
         self.embroidery_video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png); border: 0;"
                                                          "background-repeat: no-repeat;")
@@ -258,42 +264,42 @@ class Ui_MyMainWindow(object):
         self.embroidery_painting_button = create_painting_button(self.embroidery_widget, None)
         self.embroidery_back_button = create_back_button(self.embroidery_widget, self.show_main_hall)
 
-        layout = QVBoxLayout(parent=self.embroidery_widget)
-
-        scroll_area = QScrollArea(parent=self.embroidery_widget)
-        scroll_area.setWidgetResizable(True)
-        scroll_area.setGeometry(QtCore.QRect(550, 200, 1300, 700))
-        scroll_area.setStyleSheet("background: transparent; border: 0;")
-        scroll_area.setObjectName("scroll_area")
-        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
-        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-
-
-        widget = QWidget()
-        widget.setLayout(layout)
-        # set text on embroidery widget
-        self.embroidery_title_1 = create_embroidery_title(self.embroidery_widget, self.font_20, 'title_1', 200)
-        layout.addWidget(self.embroidery_title_1)
-        self.embroidery_main_text = create_embroidery_main_text(self.embroidery_widget, self.font_18, 'main_text_1', 250)
-        self.embroidery_main_text.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
-        layout.addWidget(self.embroidery_main_text)
-        self.embroidery_title_2 = create_embroidery_title(self.embroidery_widget, self.font_20, 'title_2', 350)
-        layout.addWidget(self.embroidery_title_2)
-        self.embroidery_main_text_2 = create_embroidery_main_text(self.embroidery_widget, self.font_18, 'main_text_2', 400)
-        self.embroidery_main_text_2.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
-        layout.addWidget(self.embroidery_main_text_2)
-        self.embroidery_title_3 = create_embroidery_title(self.embroidery_widget, self.font_20, 'title_3', 500)
-        layout.addWidget(self.embroidery_title_3)
-        self.embroidery_main_text_3 = create_embroidery_main_text(self.embroidery_widget, self.font_18, 'main_text_3', 550)
-        self.embroidery_main_text_3.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
-        layout.addWidget(self.embroidery_main_text_3)
-        self.embroidery_title_4 = create_embroidery_title(self.embroidery_widget, self.font_20, 'title_4', 650)
-        layout.addWidget(self.embroidery_title_4)
-        self.embroidery_main_text_4 = create_embroidery_main_text(self.embroidery_widget, self.font_18, 'main_text_4', 700)
-        self.embroidery_main_text_4.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
-        layout.addWidget(self.embroidery_main_text_4)
-
-        scroll_area.setWidget(widget)
+        # layout = QVBoxLayout(parent=self.embroidery_widget)
+        #
+        # scroll_area = QScrollArea(parent=self.embroidery_widget)
+        # scroll_area.setWidgetResizable(True)
+        # scroll_area.setGeometry(QtCore.QRect(550, 200, 1300, 700))
+        # scroll_area.setStyleSheet("background: transparent; border: 0;")
+        # scroll_area.setObjectName("scroll_area")
+        # scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        # scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        #
+        #
+        # self.widget = QWidget()
+        # self.widget.setLayout(layout)
+        # # set text on embroidery widget
+        # self.embroidery_title_1 = create_embroidery_title(self.embroidery_widget, self.font_20, 'title_1', 200)
+        # layout.addWidget(self.embroidery_title_1)
+        # self.embroidery_main_text = create_embroidery_main_text(self.embroidery_widget, self.font_18, 'main_text_1', 250)
+        # self.embroidery_main_text.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
+        # layout.addWidget(self.embroidery_main_text)
+        # self.embroidery_title_2 = create_embroidery_title(self.embroidery_widget, self.font_20, 'title_2', 350)
+        # layout.addWidget(self.embroidery_title_2)
+        # self.embroidery_main_text_2 = create_embroidery_main_text(self.embroidery_widget, self.font_18, 'main_text_2', 400)
+        # self.embroidery_main_text_2.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
+        # layout.addWidget(self.embroidery_main_text_2)
+        # self.embroidery_title_3 = create_embroidery_title(self.embroidery_widget, self.font_20, 'title_3', 500)
+        # layout.addWidget(self.embroidery_title_3)
+        # self.embroidery_main_text_3 = create_embroidery_main_text(self.embroidery_widget, self.font_18, 'main_text_3', 550)
+        # self.embroidery_main_text_3.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
+        # layout.addWidget(self.embroidery_main_text_3)
+        # self.embroidery_title_4 = create_embroidery_title(self.embroidery_widget, self.font_20, 'title_4', 650)
+        # layout.addWidget(self.embroidery_title_4)
+        # self.embroidery_main_text_4 = create_embroidery_main_text(self.embroidery_widget, self.font_18, 'main_text_4', 700)
+        # self.embroidery_main_text_4.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
+        # layout.addWidget(self.embroidery_main_text_4)
+        #
+        # scroll_area.setWidget(self.widget)
 
 
         # buttons for left menu
@@ -318,6 +324,10 @@ class Ui_MyMainWindow(object):
 
     def show_embroidery_widget(self):
         self.embroidery_widget.show()
+
+    def show_embroderers(self):
+        self.embroiderers.show()
+        print('show embroiderers')
 
     def show_video_photo(self):
         self.play_video_state = True
