@@ -12,6 +12,7 @@ from PySide6.QtWidgets import QScrollArea, QVBoxLayout, QWidget
 
 from current_master_elements import create_current_master_button, create_name_button, create_current_master_title, \
     create_current_master_description, create_left_arrow, create_right_arrow
+from embroiderers_masters_buttons import create_embroidery_masters_buttons
 from embroidery_widget_elements import create_embroiderers_button, create_embroidery_title, create_embroidery_main_text
 from jewelry_masters_buttons import create_jewelry_masters_buttons
 from left_menu_buttons import create_masters_button, create_video_photo_button, create_embroidery_button, \
@@ -34,8 +35,11 @@ class Ui_MyMainWindow(object):
     photo_preview_buttons = []
     photo_preview = None
     jewelry_data = None
+    embroidery_data = None
     jewelry_master_buttons = []
+    embroidery_master_buttons = []
     current_master_index = 0
+    current_embroiderer_index = 0
 
     dirname = os.path.dirname(__file__)
     jewelry_photo_common = os.path.join(dirname, 'images/jewelry/photo_common')
@@ -211,11 +215,10 @@ class Ui_MyMainWindow(object):
 
         self.back_button_jewelry_masters = create_back_button(self.masters_buttons_widget, self.back_to_jewelry)
         self.jewelry_master_buttons = create_jewelry_masters_buttons(self.masters_buttons_widget, self.font_18,
-                                                                     self.show_current_master,
                                                                      self.jewelry_master_buttons,
                                                                      self.change_clicked_master)[0]
         self.jewelry_data = create_jewelry_masters_buttons(self.masters_buttons_widget, self.font_18,
-                                                           self.show_current_master, self.jewelry_master_buttons,
+                                                           self.jewelry_master_buttons,
                                                            self.change_clicked_master)[1]
 
         # set widget for master
@@ -264,43 +267,16 @@ class Ui_MyMainWindow(object):
         self.embroidery_painting_button = create_painting_button(self.embroidery_widget, None)
         self.embroidery_back_button = create_back_button(self.embroidery_widget, self.show_main_hall)
 
-        # layout = QVBoxLayout(parent=self.embroidery_widget)
-        #
-        # scroll_area = QScrollArea(parent=self.embroidery_widget)
-        # scroll_area.setWidgetResizable(True)
-        # scroll_area.setGeometry(QtCore.QRect(550, 200, 1300, 700))
-        # scroll_area.setStyleSheet("background: transparent; border: 0;")
-        # scroll_area.setObjectName("scroll_area")
-        # scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
-        # scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        #
-        #
-        # self.widget = QWidget()
-        # self.widget.setLayout(layout)
-        # # set text on embroidery widget
-        # self.embroidery_title_1 = create_embroidery_title(self.embroidery_widget, self.font_20, 'title_1', 200)
-        # layout.addWidget(self.embroidery_title_1)
-        # self.embroidery_main_text = create_embroidery_main_text(self.embroidery_widget, self.font_18, 'main_text_1', 250)
-        # self.embroidery_main_text.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
-        # layout.addWidget(self.embroidery_main_text)
-        # self.embroidery_title_2 = create_embroidery_title(self.embroidery_widget, self.font_20, 'title_2', 350)
-        # layout.addWidget(self.embroidery_title_2)
-        # self.embroidery_main_text_2 = create_embroidery_main_text(self.embroidery_widget, self.font_18, 'main_text_2', 400)
-        # self.embroidery_main_text_2.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
-        # layout.addWidget(self.embroidery_main_text_2)
-        # self.embroidery_title_3 = create_embroidery_title(self.embroidery_widget, self.font_20, 'title_3', 500)
-        # layout.addWidget(self.embroidery_title_3)
-        # self.embroidery_main_text_3 = create_embroidery_main_text(self.embroidery_widget, self.font_18, 'main_text_3', 550)
-        # self.embroidery_main_text_3.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
-        # layout.addWidget(self.embroidery_main_text_3)
-        # self.embroidery_title_4 = create_embroidery_title(self.embroidery_widget, self.font_20, 'title_4', 650)
-        # layout.addWidget(self.embroidery_title_4)
-        # self.embroidery_main_text_4 = create_embroidery_main_text(self.embroidery_widget, self.font_18, 'main_text_4', 700)
-        # self.embroidery_main_text_4.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
-        # layout.addWidget(self.embroidery_main_text_4)
-        #
-        # scroll_area.setWidget(self.widget)
+        # embroidery masters buttons
+        self.embroidery_master_buttons = create_embroidery_masters_buttons(self.embroiderers, self.font_18,
+                                                                     self.embroidery_master_buttons,
+                                                                     self.change_clicked_embroiderer)[0]
+        self.embroidery_data = create_embroidery_masters_buttons(self.embroiderers, self.font_18,
+                                                           self.embroidery_master_buttons,
+                                                           self.change_clicked_embroiderer)[1]
 
+        # embroiderers back button
+        self.back_button_embroiderers = create_back_button(self.embroiderers, self.back_to_embroidery)
 
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
@@ -327,7 +303,7 @@ class Ui_MyMainWindow(object):
 
     def show_embroiderers(self):
         self.embroiderers.show()
-        print('show embroiderers')
+        self.embroidery_back_button.hide()
 
     def show_video_photo(self):
         self.play_video_state = True
@@ -438,9 +414,17 @@ class Ui_MyMainWindow(object):
         self.current_master.hide()
         self.masters_buttons_widget.show()
 
+    def back_to_embroidery(self):
+        self.embroiderers.hide()
+        self.embroidery_widget.show()
+
     def change_clicked_master(self, master_index):
         self.current_master_index = master_index
         self.show_current_master(self.current_master_index)
+
+    def change_clicked_embroiderer(self, embroiderer_index):
+        self.current_embroiderer_index = embroiderer_index
+        self.show_current_embroiderer(self.current_embroiderer_index)
 
     def show_images(self):
         photo_paths = sorted(glob.glob(self.jewelry_photo_common_path))
@@ -555,6 +539,10 @@ class Ui_MyMainWindow(object):
                                                                     self.font_16)
 
         self.current_master.show()
+
+    def show_current_embroiderer(self, index):
+        self.embroiderers.hide()
+        print(index)
 
     def retranslateUi(self, MyMainWindow):
         _translate = QtCore.QCoreApplication.translate

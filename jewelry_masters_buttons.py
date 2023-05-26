@@ -5,7 +5,7 @@ from PySide6 import QtWidgets, QtCore
 from PySide6.QtGui import QColor, QPalette
 
 
-def create_jewelry_masters_buttons(parent, font_18, show_current_master, jewelry_master_buttons, change_clicked_master):
+def create_jewelry_masters_buttons(parent, font_18, jewelry_master_buttons, change_clicked_master):
     with open('texts/jewelry/jewelry_masters.json', 'r', encoding='utf-8') as file:
         data = json.load(file)
         jewelry_data = data
