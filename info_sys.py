@@ -10,7 +10,7 @@ from functools import partial
 from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtWidgets import QScrollArea, QVBoxLayout, QWidget
 
-from current_embroiderer_elements import create_current_embroiderer_page
+from current_embroiderer_elements import create_current_embroiderer_photo
 from current_master_elements import create_current_master_button, create_name_button, create_current_master_title, \
     create_current_master_description, create_left_arrow, create_right_arrow
 from embroiderers_masters_buttons import create_embroidery_masters_buttons
@@ -251,6 +251,13 @@ class Ui_MyMainWindow(object):
         self.embroiderers.setObjectName("embroiderers")
         self.embroiderers.hide()
 
+        self.embroidery_content = QtWidgets.QWidget(parent=self.embroiderers)
+        self.embroidery_content.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.embroidery_content.setStyleSheet("background-image: transparent; border: 0;")
+        self.embroidery_content.setObjectName("embroiderers")
+        self.embroidery_content.hide()
+
+
         self.jewelry_button_on_embroidery = create_jewelry_pass(self.embroidery_widget, self.show_jewelry_widget)
         self.jewelry_button_on_embroidery.setStyleSheet("background-image: url(:/left_menu/jewelry_menu_inactive.png);"
                                                         " border: 0;")
@@ -260,24 +267,32 @@ class Ui_MyMainWindow(object):
         self.embroidery_button_on_embroidery.setStyleSheet("background-image: "
                                                            "url(:/left_menu/embroidery_menu_active.png); border: 0;")
         self.embroidery_button_on_embroidery.setGeometry(QtCore.QRect(0, 445, 465, 121))
-        self.embroiderers_button = create_embroiderers_button(self.embroidery_widget, self.show_embroiderers)
+        self.embroiderers_button = create_embroiderers_button(self.embroidery_widget, self.show_embroiderers_buttons)
         self.embroidery_video_photo_button = create_video_photo_button(self.embroidery_widget, None)
         self.embroidery_video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png); border: 0;"
                                                          "background-repeat: no-repeat;")
         self.embroidery_video_photo_button.setGeometry(QtCore.QRect(40, 645, 452, 130))
         self.embroidery_painting_button = create_painting_button(self.embroidery_widget, None)
-        self.embroidery_back_button = create_back_button(self.embroidery_widget, self.show_main_hall)
+        self.embroidery_content_back_button = create_back_button(self.embroidery_content, self.show_main_hall)
+
+
+
+        self.embroidery_buttons_widget = QtWidgets.QWidget(parent=self.embroiderers)
+        self.embroidery_buttons_widget.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.embroidery_buttons_widget.setStyleSheet("background: transparent; border: 0;")
+        self.embroidery_buttons_widget.setObjectName("embroidery_buttons_widget")
+        self.embroidery_buttons_widget.hide()
 
         # embroidery masters buttons
-        self.embroidery_master_buttons = create_embroidery_masters_buttons(self.embroiderers, self.font_18,
-                                                                     self.embroidery_master_buttons,
-                                                                     self.change_clicked_embroiderer)[0]
-        self.embroidery_data = create_embroidery_masters_buttons(self.embroiderers, self.font_18,
-                                                           self.embroidery_master_buttons,
-                                                           self.change_clicked_embroiderer)[1]
+        self.embroidery_master_buttons = create_embroidery_masters_buttons(self.embroidery_buttons_widget, self.font_18,
+                                                                           self.embroidery_master_buttons,
+                                                                           self.change_clicked_embroiderer)[0]
+        self.embroidery_data = create_embroidery_masters_buttons(self.embroidery_buttons_widget, self.font_18,
+                                                                 self.embroidery_master_buttons,
+                                                                 self.change_clicked_embroiderer)[1]
 
         # embroiderers back button
-        self.back_button_embroiderers = create_back_button(self.embroiderers, self.back_to_embroidery)
+        self.back_button_embroiderers = create_back_button(self.embroidery_buttons_widget, self.back_to_embroidery)
 
         # current embroiderer
         self.current_embroiderer = QtWidgets.QWidget(parent=self.embroiderers)
@@ -310,9 +325,11 @@ class Ui_MyMainWindow(object):
     def show_embroidery_widget(self):
         self.embroidery_widget.show()
 
-    def show_embroiderers(self):
+    def show_embroiderers_buttons(self):
+        self.embroidery_content.hide()
+        self.embroidery_buttons_widget.show()
         self.embroiderers.show()
-        self.embroidery_back_button.hide()
+        self.current_embroiderer.hide()
 
     def show_video_photo(self):
         self.play_video_state = True
@@ -424,7 +441,7 @@ class Ui_MyMainWindow(object):
         self.masters_buttons_widget.show()
 
     def back_to_embroidery(self):
-        self.embroiderers.hide()
+        self.embroidery_content.hide()
         self.embroidery_widget.show()
 
     def change_clicked_master(self, master_index):
@@ -550,8 +567,9 @@ class Ui_MyMainWindow(object):
         self.current_master.show()
 
     def show_current_embroiderer(self, index):
-        self.embroiderers.hide()
-        print(index)
+        self.embroidery_buttons_widget.hide()
+        self.embroidery_content.hide()
+
 
         if hasattr(self, 'embroiderer_photo_label'):
             full_path = os.path.abspath(f"{self.embroidery_data['persons'][index]['image']}")
@@ -560,7 +578,7 @@ class Ui_MyMainWindow(object):
             pixmap = pixmap.scaledToHeight(517)
             self.embroiderer_photo_label.setPixmap(pixmap)
         else:
-            self.embroiderer_photo_label = create_current_embroiderer_page(self.current_embroiderer, index, self.embroidery_data)
+            self.embroiderer_photo_label = create_current_embroiderer_photo(self.current_embroiderer, index, self.embroidery_data)
 
         self.current_embroiderer.show()
 
