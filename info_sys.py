@@ -10,7 +10,8 @@ from functools import partial
 from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtWidgets import QScrollArea, QVBoxLayout, QWidget
 
-from current_embroiderer_elements import create_current_embroiderer_photo
+from current_embroiderer_elements import create_current_embroiderer_photo, create_current_embroiderer_title, \
+    create_current_embroiderer_description
 from current_master_elements import create_current_master_button, create_name_button, create_current_master_title, \
     create_current_master_description, create_left_arrow, create_right_arrow
 from embroiderers_masters_buttons import create_embroidery_masters_buttons
@@ -570,7 +571,6 @@ class Ui_MyMainWindow(object):
         self.embroidery_buttons_widget.hide()
         self.embroidery_content.hide()
 
-
         if hasattr(self, 'embroiderer_photo_label'):
             full_path = os.path.abspath(f"{self.embroidery_data['persons'][index]['image']}")
             pixmap = QtGui.QPixmap(full_path)
@@ -578,7 +578,26 @@ class Ui_MyMainWindow(object):
             pixmap = pixmap.scaledToHeight(517)
             self.embroiderer_photo_label.setPixmap(pixmap)
         else:
-            self.embroiderer_photo_label = create_current_embroiderer_photo(self.current_embroiderer, index, self.embroidery_data)
+            self.embroiderer_photo_label = create_current_embroiderer_photo(self.current_embroiderer, index,
+                                                                            self.embroidery_data)
+
+        if hasattr(self, 'person_name_button'):
+            self.person_name_button.setText(self.embroidery_data['persons'][index]['full_name'])
+        else:
+            self.person_name_button = create_name_button(self.current_embroiderer, index, self.embroidery_data, self.font_24)
+
+        if hasattr(self, 'embroiderer_title'):
+            self.embroiderer_title.setText(self.embroidery_data['persons'][index]['title'])
+            self.embroiderer_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        else:
+            self.embroiderer_title = create_current_embroiderer_title(self.current_embroiderer, index, self.embroidery_data, self.font_20)
+
+        if hasattr(self, 'embroiderer_description'):
+            self.embroiderer_description.setText(self.embroidery_data['persons'][index]['description'])
+            self.embroiderer_description.setAlignment(Qt.AlignmentFlag.AlignJustify)
+        else:
+            self.embroiderer_description = create_current_embroiderer_description(self.current_embroiderer, index,
+                                                                                  self.embroidery_data, self.font_16)
 
         self.current_embroiderer.show()
 
