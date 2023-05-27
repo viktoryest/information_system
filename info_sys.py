@@ -302,6 +302,9 @@ class Ui_MyMainWindow(object):
         self.current_embroiderer.setObjectName("current_embroiderer")
         self.current_embroiderer.hide()
 
+        self.left_arrow = create_left_arrow(self.current_embroiderer, self.show_previous_embroiderer)
+        self.right_arrow = create_right_arrow(self.current_embroiderer, self.show_next_embroiderer)
+
 
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
@@ -534,6 +537,20 @@ class Ui_MyMainWindow(object):
         else:
             self.current_master_index = len(self.jewelry_data['persons']) - 1
         self.show_current_master(self.current_master_index)
+
+    def show_next_embroiderer(self):
+        if self.current_embroiderer_index < len(self.embroidery_data['persons']) - 1:
+            self.current_embroiderer_index += 1
+        else:
+            self.current_embroiderer_index = 0
+        self.show_current_embroiderer(self.current_embroiderer_index)
+
+    def show_previous_embroiderer(self):
+        if self.current_embroiderer_index > 0:
+            self.current_embroiderer_index -= 1
+        else:
+            self.current_embroiderer_index = len(self.embroidery_data['persons']) - 1
+        self.show_current_embroiderer(self.current_embroiderer_index)
 
     def show_current_master(self, index):
         self.masters_buttons_widget.hide()
