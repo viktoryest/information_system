@@ -162,7 +162,8 @@ class Ui_MyMainWindow(object):
         # set video title
         self.video_title = create_video_title(self.video_photo_widget)
         # set video preview
-        self.video_preview = create_video_preview(self.video_photo_widget)
+        self.video_preview = create_video_preview(self.video_photo_widget, 1014, 285, 361, 307,
+                                                  'images/jewelry/play_preview.png')
         # set play button for video
         self.play_button = create_play_button(self.video_photo_widget, self.play_video)
         # video player
@@ -274,24 +275,6 @@ class Ui_MyMainWindow(object):
         self.embroidery_content.setObjectName("embroiderers")
         self.embroidery_content.hide()
 
-
-        self.jewelry_button_on_embroidery = create_jewelry_pass(self.embroidery_widget, self.show_jewelry_widget)
-        self.jewelry_button_on_embroidery.setStyleSheet("background-image: url(:/left_menu/jewelry_menu_inactive.png);"
-                                                        " border: 0;")
-        self.jewelry_button_on_embroidery.setGeometry(QtCore.QRect(0, 285, 491, 161))
-
-        self.embroidery_button_on_embroidery = create_embroidery_button(self.embroidery_widget, None)
-        self.embroidery_button_on_embroidery.setStyleSheet("background-image: "
-                                                           "url(:/left_menu/embroidery_menu_active.png); border: 0;")
-        self.embroidery_button_on_embroidery.setGeometry(QtCore.QRect(0, 445, 465, 121))
-        self.embroiderers_button = create_embroiderers_button(self.embroidery_widget, self.show_embroiderers_buttons)
-        self.embroidery_video_photo_button = create_video_photo_button(self.embroidery_widget, self.show_embroidery_video_photo)
-        self.embroidery_video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png); border: 0;"
-                                                         "background-repeat: no-repeat;")
-        self.embroidery_video_photo_button.setGeometry(QtCore.QRect(40, 645, 452, 130))
-        self.embroidery_painting_button = create_painting_button(self.embroidery_widget, None)
-        self.embroidery_content_back_button = create_back_button(self.embroidery_content, self.show_main_hall)
-
         self.test_label = QtWidgets.QLabel(self.embroidery_content)
         self.test_label.setGeometry(QtCore.QRect(800, 200, 1300, 700))
         self.test_label.setStyleSheet("background: transparent; border: 0;")
@@ -334,7 +317,7 @@ class Ui_MyMainWindow(object):
         self.emb_line.setObjectName("emb_line")
 
         self.embroidery_video_photo = QtWidgets.QWidget(parent=self.embroidery_widget)
-        self.embroidery_video_photo.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.embroidery_video_photo.setGeometry(QtCore.QRect(0, 0, 1800, 1080))
         self.embroidery_video_photo.setStyleSheet("background: transparent; border: 0;")
         self.embroidery_video_photo.setObjectName("embroidery_video_photo")
         self.embroidery_video_photo.hide()
@@ -357,7 +340,7 @@ class Ui_MyMainWindow(object):
             self.embroidery_photo_widgets.append(self.embroidery_photo_preview)
 
             # set button for photo preview
-            self.embroidery_photo_preview_button = QtWidgets.QPushButton(parent=self.video_photo_widget)
+            self.embroidery_photo_preview_button = QtWidgets.QPushButton(parent=self.embroidery_video_photo)
             self.embroidery_photo_preview_button.setGeometry(QtCore.QRect(630 + i * 290, 705, 264, 211))
             self.embroidery_photo_preview_button.setStyleSheet("background-image: transparent; border: 0;")
             self.embroidery_photo_preview_button.setText("")
@@ -365,11 +348,34 @@ class Ui_MyMainWindow(object):
             self.embroidery_photo_preview_button.clicked.connect(partial(self.change_cliked, i))
             self.embroidery_preview_buttons.append(self.embroidery_photo_preview_button)
 
+        for i in range(1, 4):
+            self.embroidery_video_preview = create_video_preview(self.embroidery_video_photo, 290+i*361, 285, 361, 307,
+                                                                 f'images/embroidery/video_previews/preview_{i}.png')
+
+
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
         self.video_photo_button = create_video_photo_button(self.jewelry_widget, self.video_photo_pressed)
         self.embroidery_button = create_embroidery_button(self.jewelry_widget, self.embroidery_pressed)
         self.painting_button = create_painting_button(self.jewelry_widget, None)
+
+        self.jewelry_button_on_embroidery = create_jewelry_pass(self.embroidery_widget, self.show_jewelry_widget)
+        self.jewelry_button_on_embroidery.setStyleSheet("background-image: url(:/left_menu/jewelry_menu_inactive.png);"
+                                                        " border: 0;")
+        self.jewelry_button_on_embroidery.setGeometry(QtCore.QRect(0, 285, 491, 161))
+
+        self.embroidery_button_on_embroidery = create_embroidery_button(self.embroidery_widget, None)
+        self.embroidery_button_on_embroidery.setStyleSheet("background-image: "
+                                                           "url(:/left_menu/embroidery_menu_active.png); border: 0;")
+        self.embroidery_button_on_embroidery.setGeometry(QtCore.QRect(0, 445, 465, 121))
+        self.embroiderers_button = create_embroiderers_button(self.embroidery_widget, self.show_embroiderers_buttons)
+        self.embroidery_video_photo_button = create_video_photo_button(self.embroidery_widget,
+                                                                       self.show_embroidery_video_photo)
+        self.embroidery_video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png); border: 0;"
+                                                         "background-repeat: no-repeat;")
+        self.embroidery_video_photo_button.setGeometry(QtCore.QRect(40, 645, 452, 130))
+        self.embroidery_painting_button = create_painting_button(self.embroidery_widget, None)
+        self.embroidery_content_back_button = create_back_button(self.embroidery_content, self.show_main_hall)
 
         MyMainWindow.setCentralWidget(self.centralwidget)
 
@@ -394,6 +400,7 @@ class Ui_MyMainWindow(object):
         self.embroidery_buttons_widget.show()
         self.embroiderers.show()
         self.current_embroiderer.hide()
+        self.embroidery_video_photo.hide()
 
     def back_to_embroiderers(self):
         self.embroidery_buttons_widget.show()
@@ -403,8 +410,9 @@ class Ui_MyMainWindow(object):
     def show_embroidery_video_photo(self):
         self.embroidery_video_photo.show()
         self.embroidery_content.hide()
-        self.current_embroiderer.hide()
+        self.embroidery_widget.show()
         self.embroidery_buttons_widget.hide()
+        self.current_embroiderer.hide()
 
     def show_video_photo(self):
         self.play_video_state = True
