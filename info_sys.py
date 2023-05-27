@@ -269,7 +269,7 @@ class Ui_MyMainWindow(object):
                                                            "url(:/left_menu/embroidery_menu_active.png); border: 0;")
         self.embroidery_button_on_embroidery.setGeometry(QtCore.QRect(0, 445, 465, 121))
         self.embroiderers_button = create_embroiderers_button(self.embroidery_widget, self.show_embroiderers_buttons)
-        self.embroidery_video_photo_button = create_video_photo_button(self.embroidery_widget, None)
+        self.embroidery_video_photo_button = create_video_photo_button(self.embroidery_widget, self.show_embroidery_video_photo)
         self.embroidery_video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png); border: 0;"
                                                          "background-repeat: no-repeat;")
         self.embroidery_video_photo_button.setGeometry(QtCore.QRect(40, 645, 452, 130))
@@ -323,7 +323,10 @@ class Ui_MyMainWindow(object):
         self.embroidery_video_photo.setObjectName("embroidery_video_photo")
         self.embroidery_video_photo.hide()
 
+        self.embroidery_photo_title = create_photo_title(self.embroidery_video_photo)
+        self.embroidery_video_title = create_video_title(self.embroidery_video_photo)
 
+        self.embroidery_video_photo_back_button = create_back_button(self.embroidery_video_photo, self.back_to_embroidery)
 
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
@@ -359,6 +362,12 @@ class Ui_MyMainWindow(object):
         self.embroidery_buttons_widget.show()
         self.embroidery_content.hide()
         self.current_embroiderer.hide()
+
+    def show_embroidery_video_photo(self):
+        self.embroidery_video_photo.show()
+        self.embroidery_content.hide()
+        self.current_embroiderer.hide()
+        self.embroidery_buttons_widget.hide()
 
     def show_video_photo(self):
         self.play_video_state = True
@@ -474,6 +483,7 @@ class Ui_MyMainWindow(object):
         self.embroidery_widget.show()
         self.embroidery_buttons_widget.hide()
         self.current_embroiderer.hide()
+        self.embroidery_video_photo.hide()
 
     def change_clicked_master(self, master_index):
         self.current_master_index = master_index
