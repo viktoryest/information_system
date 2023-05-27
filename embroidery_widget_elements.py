@@ -35,7 +35,7 @@ def create_embroidery_main_text(parent, font_16, content, y_offset):
     with open('texts/embroidery/embroidery_history.json', 'r', encoding='utf-8') as file:
         data = json.load(file)
     embroidery_main_text = QtWidgets.QTextEdit(parent=parent)
-    embroidery_main_text.setGeometry(QtCore.QRect(588, y_offset, 1201, 100))
+    embroidery_main_text.setGeometry(QtCore.QRect(588, y_offset, 1201, 500))
     embroidery_main_text.setStyleSheet("background: transparent; border: 0;"
                                        "qproperty-textInteractionFlags: NoTextInteraction;")
     embroidery_main_text.setTextColor(QColor(73, 64, 69))

@@ -252,7 +252,7 @@ class Ui_MyMainWindow(object):
         self.embroiderers.setObjectName("embroiderers")
         self.embroiderers.hide()
 
-        self.embroidery_content = QtWidgets.QWidget(parent=self.embroiderers)
+        self.embroidery_content = QtWidgets.QWidget(parent=self.embroidery_widget)
         self.embroidery_content.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
         self.embroidery_content.setStyleSheet("background-image: transparent; border: 0;")
         self.embroidery_content.setObjectName("embroiderers")
@@ -276,6 +276,50 @@ class Ui_MyMainWindow(object):
         self.embroidery_painting_button = create_painting_button(self.embroidery_widget, None)
         self.embroidery_content_back_button = create_back_button(self.embroidery_content, self.show_main_hall)
 
+        # scroll_area = QScrollArea()
+        # scroll_area.setWidgetResizable(True)
+        # scroll_area.setGeometry(QtCore.QRect(550, 200, 1300, 700))
+        # scroll_area.setStyleSheet("background: transparent; border: 0;")
+        # scroll_area.setObjectName("scroll_area")
+        # scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        # scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        #
+        # scroll_content = QWidget()
+        # layout = QVBoxLayout(scroll_content)
+        # scroll_area.setWidget(scroll_content)
+        #
+        # # Создаем QVBoxLayout для self.embroidery_content
+        # embroidery_layout = QVBoxLayout(self.embroidery_content)
+        #
+        # embroidery_layout.addWidget(scroll_area)  # Добавляем scroll_area в self.embroidery_content
+        #
+        # self.embroidery_title_1 = create_embroidery_title(scroll_content, self.font_20, 'title_1', 200)
+        # self.embroidery_main_text_1 = create_embroidery_main_text(scroll_content, self.font_18, 'main_text_1', 250)
+        # self.embroidery_main_text_1.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
+        # self.embroidery_title_2 = create_embroidery_title(scroll_content, self.font_20, 'title_2', 600)
+        # self.embroidery_main_text_2 = create_embroidery_main_text(scroll_content, self.font_18, 'main_text_2', 650)
+        # self.embroidery_main_text_2.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
+        # self.embroidery_title_3 = create_embroidery_title(scroll_content, self.font_20, 'title_3', 1350)
+        # self.embroidery_main_text_3 = create_embroidery_main_text(scroll_content, self.font_18, 'main_text_3', 1400)
+        # self.embroidery_main_text_3.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
+        # self.embroidery_title_4 = create_embroidery_title(scroll_content, self.font_20, 'title_4', 1450)
+        # self.embroidery_main_text_4 = create_embroidery_main_text(scroll_content, self.font_18, 'main_text_4', 1950)
+        # self.embroidery_main_text_4.setAlignment(Qt.AlignmentFlag.AlignJustify | Qt.AlignmentFlag.AlignJustify)
+        #
+        # layout.addWidget(self.embroidery_title_1)
+        # layout.addWidget(self.embroidery_main_text_1)
+        # layout.addWidget(self.embroidery_title_2)
+        # layout.addWidget(self.embroidery_main_text_2)
+        # layout.addWidget(self.embroidery_title_3)
+        # layout.addWidget(self.embroidery_main_text_3)
+        # layout.addWidget(self.embroidery_title_4)
+        # layout.addWidget(self.embroidery_main_text_4)
+
+        self.test_label = QtWidgets.QLabel(self.embroidery_content)
+        self.test_label.setGeometry(QtCore.QRect(800, 200, 1300, 700))
+        self.test_label.setStyleSheet("background: transparent; border: 0;")
+        self.test_label.setText("test")
+        self.test_label.setObjectName("test_label")
 
 
         self.embroidery_buttons_widget = QtWidgets.QWidget(parent=self.embroiderers)
@@ -328,6 +372,7 @@ class Ui_MyMainWindow(object):
 
     def show_embroidery_widget(self):
         self.embroidery_widget.show()
+        self.embroidery_content.show()
 
     def show_embroiderers_buttons(self):
         self.embroidery_content.hide()
@@ -445,8 +490,10 @@ class Ui_MyMainWindow(object):
         self.masters_buttons_widget.show()
 
     def back_to_embroidery(self):
-        self.embroidery_content.hide()
+        self.embroidery_content.show()
         self.embroidery_widget.show()
+        self.embroidery_buttons_widget.hide()
+        self.current_embroiderer.hide()
 
     def change_clicked_master(self, master_index):
         self.current_master_index = master_index
