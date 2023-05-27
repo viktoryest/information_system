@@ -35,6 +35,7 @@ class Ui_MyMainWindow(object):
     indicators = []
     photo_widgets = []
     photo_preview_buttons = []
+    embroidery_preview_buttons = []
     photo_preview = None
     jewelry_data = None
     embroidery_data = None
@@ -44,13 +45,28 @@ class Ui_MyMainWindow(object):
     current_embroiderer_index = 0
 
     dirname = os.path.dirname(__file__)
+
     jewelry_photo_common = os.path.join(dirname, 'images/jewelry/photo_common')
     jewelry_photo_common_path = os.path.join(jewelry_photo_common, '*')
+
     jewelry_photo_masters = os.path.join(dirname, 'images/jewelry/photo_masters')
     jewelry_photo_masters_path = os.path.join(jewelry_photo_masters, '*')
+
     masters_paths = sorted(glob.glob(jewelry_photo_masters_path))
     photo_paths = sorted(glob.glob(jewelry_photo_common_path))
     files_amount = len(glob.glob(jewelry_photo_common_path))
+
+    embroidery_photo_common = os.path.join(dirname, 'images/embroidery/photo_common')
+    embroidery_photo_common_path = os.path.join(embroidery_photo_common, '*')
+
+    embroiderers_photos = os.path.join(dirname, 'images/embroidery/embroiderers_photos')
+    embroidery_photo_path = os.path.join(embroiderers_photos, '*')
+
+    embroiderers_paths = sorted(glob.glob(embroidery_photo_path))
+    embroidery_photo_paths = sorted(glob.glob(embroidery_photo_common_path))
+    embroidery_files_amount = len(glob.glob(embroidery_photo_common_path))
+
+    embroidery_photo_widgets = []
 
     # main screen
     def setupUi(self, MyMainWindow):
@@ -326,7 +342,28 @@ class Ui_MyMainWindow(object):
         self.embroidery_photo_title = create_photo_title(self.embroidery_video_photo)
         self.embroidery_video_title = create_video_title(self.embroidery_video_photo)
 
-        self.embroidery_video_photo_back_button = create_back_button(self.embroidery_video_photo, self.back_to_embroidery)
+        self.embroidery_video_photo_back_button = create_back_button(self.embroidery_video_photo,
+                                                                     self.back_to_embroidery)
+
+        for i in range(4):
+            canvas = create_photo_previews(i, self.embroidery_files_amount, self.embroidery_video_photo,
+                                           self.embroidery_photo_common_path)[1]
+            self.embroidery_photo_preview = create_photo_previews(i, self.embroidery_files_amount, self.embroidery_video_photo,
+                                                       self.embroidery_photo_common_path)[0]
+            self.embroidery_photo_preview.setPixmap(canvas)
+            self.embroidery_photo_preview.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+            self.embroidery_photo_preview.setText("")
+            self.embroidery_photo_preview.setObjectName("embroidery_photo_preview")
+            self.embroidery_photo_widgets.append(self.embroidery_photo_preview)
+
+            # set button for photo preview
+            self.embroidery_photo_preview_button = QtWidgets.QPushButton(parent=self.video_photo_widget)
+            self.embroidery_photo_preview_button.setGeometry(QtCore.QRect(630 + i * 290, 705, 264, 211))
+            self.embroidery_photo_preview_button.setStyleSheet("background-image: transparent; border: 0;")
+            self.embroidery_photo_preview_button.setText("")
+            self.embroidery_photo_preview_button.setObjectName("photo_preview_button")
+            self.embroidery_photo_preview_button.clicked.connect(partial(self.change_cliked, i))
+            self.embroidery_preview_buttons.append(self.embroidery_photo_preview_button)
 
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
@@ -493,8 +530,7 @@ class Ui_MyMainWindow(object):
         self.current_embroiderer_index = embroiderer_index
         self.show_current_embroiderer(self.current_embroiderer_index)
 
-    def show_images(self):
-        photo_paths = sorted(glob.glob(self.jewelry_photo_common_path))
+    def show_images(self, photo_paths):
         if self.photo_gallery_widget.isVisible():
             self.photo_paths = photo_paths
             self.video_photo_pressed()
@@ -548,7 +584,7 @@ class Ui_MyMainWindow(object):
             self.current_photo_index = 0
         elif self.current_photo_index < 0:
             self.current_photo_index = len(self.photo_paths) - 1
-        self.show_images()
+        self.show_images(sorted(glob.glob(self.jewelry_photo_common_path)))
 
     def show_previous_photo(self):
         self.current_photo_index -= 1
@@ -559,7 +595,7 @@ class Ui_MyMainWindow(object):
         elif self.current_photo_index < 0:
             self.current_photo_index = len(self.photo_paths) - 1
         self.indicators.clear()
-        self.show_images()
+        self.show_images(sorted(glob.glob(self.jewelry_photo_common_path)))
 
     def show_next_master(self):
         if self.current_master_index < len(self.jewelry_data['persons']) - 1:
