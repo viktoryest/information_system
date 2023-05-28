@@ -30,6 +30,7 @@ from video_elements import create_video_title, create_video_preview, create_play
 
 class Ui_MyMainWindow(object):
     play_video_state = False
+    embroidery_play_video_state = False
     current_photo_index = 0
     clicked_photo_index = 0
     indicators = []
@@ -281,7 +282,6 @@ class Ui_MyMainWindow(object):
         self.test_label.setText("test")
         self.test_label.setObjectName("test_label")
 
-
         self.embroidery_buttons_widget = QtWidgets.QWidget(parent=self.embroiderers)
         self.embroidery_buttons_widget.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
         self.embroidery_buttons_widget.setStyleSheet("background: transparent; border: 0;")
@@ -323,16 +323,36 @@ class Ui_MyMainWindow(object):
         self.embroidery_video_photo.hide()
 
         self.embroidery_photo_title = create_photo_title(self.embroidery_video_photo)
+        self.photo_left_button = create_left_arrow_button(self.embroidery_video_photo, self.show_previous_photo)
+        self.photo_right_button = create_right_arrow_button(self.embroidery_video_photo, self.show_next_photo)
         self.embroidery_video_title = create_video_title(self.embroidery_video_photo)
 
         self.embroidery_video_photo_back_button = create_back_button(self.embroidery_video_photo,
                                                                      self.back_to_embroidery)
 
+        self.embroidery_player = QMediaPlayer()
+        for i in range(1, 4):
+            self.embroidery_video_preview = create_video_preview(self.embroidery_video_photo, 290 + i * 361, 285,
+                                                                 361, 307,
+                                                                 f'images/embroidery/video_previews/preview_{i}.png')
+            self.embroidery_play_button = create_play_button(self.embroidery_video_photo, self.embroidery_play_video)
+            self.embroidery_play_button.setGeometry(QtCore.QRect(290 + i * 361, 285, 361, 307))
+            self.embroidery_player.setSource(QUrl.fromLocalFile(f"video/embroidery/video_{i}.mp4"))
+            print(f"video/embroidery/video_{i}.mp4")
+            print(self.embroidery_player.errorString())
+            self.embroidery_videoWidget = QVideoWidget(parent=self.embroidery_video_photo)
+            self.embroidery_player.setVideoOutput(self.embroidery_videoWidget)
+            self.embroidery_player.videoOutput().setFixedSize(1920, 1080)
+            self.embroidery_player.videoOutput().move(0, 0)
+            self.embroidery_player.videoOutput().hide()
+            self.embroidery_player.setAudioOutput(QtMultimedia.QAudioOutput(self.embroidery_videoWidget))
+
         for i in range(4):
             canvas = create_photo_previews(i, self.embroidery_files_amount, self.embroidery_video_photo,
                                            self.embroidery_photo_common_path)[1]
-            self.embroidery_photo_preview = create_photo_previews(i, self.embroidery_files_amount, self.embroidery_video_photo,
-                                                       self.embroidery_photo_common_path)[0]
+            self.embroidery_photo_preview = \
+            create_photo_previews(i, self.embroidery_files_amount, self.embroidery_video_photo,
+                                  self.embroidery_photo_common_path)[0]
             self.embroidery_photo_preview.setPixmap(canvas)
             self.embroidery_photo_preview.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
             self.embroidery_photo_preview.setText("")
@@ -347,11 +367,6 @@ class Ui_MyMainWindow(object):
             self.embroidery_photo_preview_button.setObjectName("photo_preview_button")
             self.embroidery_photo_preview_button.clicked.connect(partial(self.change_cliked, i))
             self.embroidery_preview_buttons.append(self.embroidery_photo_preview_button)
-
-        for i in range(1, 4):
-            self.embroidery_video_preview = create_video_preview(self.embroidery_video_photo, 290+i*361, 285, 361, 307,
-                                                                 f'images/embroidery/video_previews/preview_{i}.png')
-
 
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
@@ -428,6 +443,17 @@ class Ui_MyMainWindow(object):
         self.player.videoOutput().show()
         self.player.play()
 
+    def embroidery_play_video(self):
+        self.embroidery_play_video_state = True
+        self.embroidery_play_button.hide()
+        self.embroidery_video_preview.hide()
+
+        # for button in self.photo_preview_buttons:
+        #     button.hide()
+        self.embroidery_videoWidget.show()
+        self.embroidery_player.videoOutput().show()
+        self.embroidery_player.play()
+
     def stop_video(self):
         self.play_video_state = False
         self.player.stop()
@@ -436,6 +462,15 @@ class Ui_MyMainWindow(object):
             button.show()
         self.video_preview.show()
         self.play_button.show()
+
+    def embroidery_stop_video(self):
+        self.embroidery_play_video_state = False
+        self.embroidery_player.stop()
+        self.embroidery_player.videoOutput().hide()
+        # for button in self.photo_preview_buttons:
+        #     button.show()
+        self.embroidery_video_preview.show()
+        self.embroidery_play_button.show()
 
     def open_gallery(self):
         self.video_photo_widget.hide()
@@ -509,6 +544,7 @@ class Ui_MyMainWindow(object):
     def embroidery_pressed(self):
         self.jewelry_widget.hide()
         self.embroidery_widget.show()
+        self.embroidery_content.show()
 
     def back_to_jewelry(self):
         self.masters_widget.hide()
@@ -661,7 +697,7 @@ class Ui_MyMainWindow(object):
             self.master_description.setAlignment(Qt.AlignmentFlag.AlignJustify)
         else:
             self.master_description = create_current_master_description(self.current_master, index, self.jewelry_data,
-                                                                    self.font_16)
+                                                                        self.font_16)
 
         self.current_master.show()
 
@@ -682,13 +718,15 @@ class Ui_MyMainWindow(object):
         if hasattr(self, 'person_name_button'):
             self.person_name_button.setText(self.embroidery_data['persons'][index]['full_name'])
         else:
-            self.person_name_button = create_name_button(self.current_embroiderer, index, self.embroidery_data, self.font_24)
+            self.person_name_button = create_name_button(self.current_embroiderer, index, self.embroidery_data,
+                                                         self.font_24)
 
         if hasattr(self, 'embroiderer_title'):
             self.embroiderer_title.setText(self.embroidery_data['persons'][index]['title'])
             self.embroiderer_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         else:
-            self.embroiderer_title = create_current_embroiderer_title(self.current_embroiderer, index, self.embroidery_data, self.font_20)
+            self.embroiderer_title = create_current_embroiderer_title(self.current_embroiderer, index,
+                                                                      self.embroidery_data, self.font_20)
 
         if hasattr(self, 'embroiderer_description'):
             self.embroiderer_description.setText(self.embroidery_data['persons'][index]['description'])
@@ -698,7 +736,6 @@ class Ui_MyMainWindow(object):
                                                                                   self.embroidery_data, self.font_16)
 
         self.current_embroiderer.show()
-
 
     def retranslateUi(self, MyMainWindow):
         _translate = QtCore.QCoreApplication.translate

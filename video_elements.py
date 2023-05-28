@@ -14,6 +14,7 @@ def create_video_title(parent):
     video_title.setObjectName("video_title")
     return video_title
 
+
 def create_video_preview(parent, xoffset, yoffset, width, height, path):
     video_preview = QtWidgets.QLabel(parent=parent)
     video_preview.setGeometry(QtCore.QRect(xoffset, yoffset, width, height))

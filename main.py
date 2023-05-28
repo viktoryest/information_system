@@ -4,7 +4,6 @@ from PySide6.QtWidgets import QApplication, QMainWindow
 from info_sys import Ui_MyMainWindow
 from PySide6.QtGui import QMouseEvent
 import images, main_hall, jewelry, left_menu, fonts, embroidery
-import video.thumbnail_script
 
 
 class MainWindow(QMainWindow):
@@ -26,6 +25,9 @@ class MainWindow(QMainWindow):
         if event.button() == Qt.LeftButton and self.ui.play_video_state:
             self.ui.stop_video()
             self.ui.play_video_state = True
+        elif event.button() == Qt.LeftButton and self.ui.embroidery_play_video_state:
+            self.ui.embroidery_stop_video()
+            self.ui.embroidery_play_video_state = True
 
 
 if __name__ == "__main__":
