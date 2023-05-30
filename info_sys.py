@@ -8,7 +8,7 @@ from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimediaWidgets import QVideoWidget
 from functools import partial
 from PySide6 import QtCore, QtGui, QtWidgets
-from PySide6.QtWidgets import QScrollArea, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QScrollArea, QVBoxLayout, QWidget, QScrollBar
 
 from current_embroiderer_elements import create_current_embroiderer_photo, create_current_embroiderer_title, \
     create_current_embroiderer_description
@@ -278,7 +278,8 @@ class Ui_MyMainWindow(object):
 
         self.embroidery_history = QtWidgets.QTextBrowser(self.embroidery_content)
         self.embroidery_history.setGeometry(QtCore.QRect(600, 200, 1200, 700))
-        self.embroidery_history.setStyleSheet("background: transparent; border: 0;")
+
+        self.embroidery_history.setStyleSheet("QTextEdit {background: transparent; border: 0;} QScrollBar {width: 0;}")
         self.embroidery_history.setTextColor(QColor(73, 64, 69))
         self.embroidery_history.setFont(self.font_18)
         self.embroidery_history.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)

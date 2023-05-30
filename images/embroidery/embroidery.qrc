@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="embroidery">
     <file>embroidery_bg.png</file>
+    <file>scroll_bar.png</file>
+    <file>scroll_bar_slider.png</file>
   </qresource>
 </RCC>
