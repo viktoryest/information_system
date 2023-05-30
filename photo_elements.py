@@ -16,7 +16,7 @@ def create_photo_title(parent):
     
 def create_left_arrow_button(parent, clicked):
     photo_left_button = QtWidgets.QPushButton(parent=parent)
-    photo_left_button.setGeometry(QtCore.QRect(585, 765, 33, 92))
+    photo_left_button.setGeometry(QtCore.QRect(570, 765, 33, 92))
     photo_left_button.setStyleSheet("background-image: url(:/images/photo_left_button.png); border: 0;")
     photo_left_button.setText("")
     photo_left_button.setObjectName("photo_left_button")
@@ -26,8 +26,8 @@ def create_left_arrow_button(parent, clicked):
 
 def create_right_arrow_button(parent, clicked):
     photo_right_button = QtWidgets.QPushButton(parent=parent)
-    photo_right_button.setGeometry(QtCore.QRect(1790, 765, 33, 92))
-    photo_right_button.setStyleSheet("background-image: url(:/images/photo_right_button.png); border: 0;")
+    photo_right_button.setGeometry(QtCore.QRect(1780, 765, 60, 92))
+    photo_right_button.setStyleSheet("background-image: url(:/images/photo_right_button.png); background-repeat: no-repeat; border: 0;")
     photo_right_button.setText("")
     photo_right_button.setObjectName("photo_right_button")
     photo_right_button.clicked.connect(clicked)
