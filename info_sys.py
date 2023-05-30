@@ -31,6 +31,7 @@ from video_elements import create_video_title, create_video_preview, create_play
 class Ui_MyMainWindow(object):
     play_video_state = False
     embroidery_play_video_state = False
+    embroidery_play_buttons = []
     current_photo_index = 0
     clicked_photo_index = 0
     indicators = []
@@ -342,21 +343,19 @@ class Ui_MyMainWindow(object):
                                                                      self.back_to_embroidery)
 
         self.embroidery_player = QMediaPlayer()
+        self.embroidery_videoWidget = QVideoWidget(parent=self.embroidery_video_photo)
+        self.embroidery_player.setVideoOutput(self.embroidery_videoWidget)
+        self.embroidery_player.videoOutput().setFixedSize(1920, 1080)
+        self.embroidery_player.videoOutput().move(0, 0)
+        self.embroidery_player.videoOutput().hide()
+        self.embroidery_player.setAudioOutput(QtMultimedia.QAudioOutput(self.embroidery_videoWidget))
         for i in range(1, 4):
             self.embroidery_video_preview = create_video_preview(self.embroidery_video_photo, 290 + i * 361, 285,
                                                                  361, 307,
                                                                  f'images/embroidery/video_previews/preview_{i}.png')
-            self.embroidery_play_button = create_play_button(self.embroidery_video_photo, self.embroidery_play_video)
+            self.embroidery_play_button = create_play_button(self.embroidery_video_photo, partial(self.embroidery_play_video, i))
             self.embroidery_play_button.setGeometry(QtCore.QRect(290 + i * 361, 285, 361, 307))
-            self.embroidery_player.setSource(QUrl.fromLocalFile(f"video/embroidery/video_{i}.mp4"))
-            print(f"video/embroidery/video_{i}.mp4")
-            print(self.embroidery_player.errorString())
-            self.embroidery_videoWidget = QVideoWidget(parent=self.embroidery_video_photo)
-            self.embroidery_player.setVideoOutput(self.embroidery_videoWidget)
-            self.embroidery_player.videoOutput().setFixedSize(1920, 1080)
-            self.embroidery_player.videoOutput().move(0, 0)
-            self.embroidery_player.videoOutput().hide()
-            self.embroidery_player.setAudioOutput(QtMultimedia.QAudioOutput(self.embroidery_videoWidget))
+            self.embroidery_play_buttons.append(self.embroidery_play_button)
 
         for i in range(4):
             canvas = create_photo_previews(i, self.embroidery_files_amount, self.embroidery_video_photo,
@@ -390,7 +389,8 @@ class Ui_MyMainWindow(object):
                                                         " border: 0;")
         self.jewelry_button_on_embroidery.setGeometry(QtCore.QRect(0, 285, 491, 161))
 
-        self.embroidery_button_on_embroidery = create_embroidery_button(self.embroidery_widget, None)
+        self.embroidery_button_on_embroidery = create_embroidery_button(self.embroidery_widget,
+                                                                        self.embroidery_widget.show())
         self.embroidery_button_on_embroidery.setStyleSheet("background-image: "
                                                            "url(:/left_menu/embroidery_menu_active.png); border: 0;")
         self.embroidery_button_on_embroidery.setGeometry(QtCore.QRect(0, 445, 465, 121))
@@ -434,11 +434,12 @@ class Ui_MyMainWindow(object):
         self.current_embroiderer.hide()
 
     def show_embroidery_video_photo(self):
+        self.embroidery_widget.show()
         self.embroidery_video_photo.show()
-        self.embroidery_content.hide()
         self.embroidery_widget.show()
         self.embroidery_buttons_widget.hide()
         self.current_embroiderer.hide()
+        self.embroidery_content.hide()
 
     def show_video_photo(self):
         self.play_video_state = True
@@ -454,13 +455,15 @@ class Ui_MyMainWindow(object):
         self.player.videoOutput().show()
         self.player.play()
 
-    def embroidery_play_video(self):
+    def embroidery_play_video(self, index):
         self.embroidery_play_video_state = True
         self.embroidery_play_button.hide()
         self.embroidery_video_preview.hide()
-
-        # for button in self.photo_preview_buttons:
-        #     button.hide()
+        self.embroidery_player.setSource(QUrl.fromLocalFile(f"video/embroidery/video_{index}.mp4"))
+        for button in self.embroidery_preview_buttons:
+            button.hide()
+        for button in self.embroidery_play_buttons:
+            button.hide()
         self.embroidery_videoWidget.show()
         self.embroidery_player.videoOutput().show()
         self.embroidery_player.play()
@@ -469,8 +472,6 @@ class Ui_MyMainWindow(object):
         self.play_video_state = False
         self.player.stop()
         self.player.videoOutput().hide()
-        for button in self.photo_preview_buttons:
-            button.show()
         self.video_preview.show()
         self.play_button.show()
 
@@ -478,9 +479,13 @@ class Ui_MyMainWindow(object):
         self.embroidery_play_video_state = False
         self.embroidery_player.stop()
         self.embroidery_player.videoOutput().hide()
-        # for button in self.photo_preview_buttons:
-        #     button.show()
+        for button in self.embroidery_preview_buttons:
+            button.show()
+        for button in self.embroidery_play_buttons:
+            button.show()
+
         self.embroidery_video_preview.show()
+
         self.embroidery_play_button.show()
 
     def open_gallery(self):
