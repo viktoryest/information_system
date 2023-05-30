@@ -3,7 +3,7 @@ import json
 import os.path
 from PySide6 import QtMultimedia
 from PySide6.QtCore import QUrl
-from PySide6.QtGui import QFont, QFontDatabase, Qt
+from PySide6.QtGui import QFont, QFontDatabase, Qt, QColor
 from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimediaWidgets import QVideoWidget
 from functools import partial
@@ -276,11 +276,21 @@ class Ui_MyMainWindow(object):
         self.embroidery_content.setObjectName("embroiderers")
         self.embroidery_content.hide()
 
-        self.test_label = QtWidgets.QLabel(self.embroidery_content)
-        self.test_label.setGeometry(QtCore.QRect(800, 200, 1300, 700))
-        self.test_label.setStyleSheet("background: transparent; border: 0;")
-        self.test_label.setText("test")
-        self.test_label.setObjectName("test_label")
+        self.embroidery_history = QtWidgets.QTextBrowser(self.embroidery_content)
+        self.embroidery_history.setGeometry(QtCore.QRect(600, 200, 1200, 700))
+        self.embroidery_history.setStyleSheet("background: transparent; border: 0;")
+        self.embroidery_history.setTextColor(QColor(73, 64, 69))
+        self.embroidery_history.setFont(self.font_18)
+        self.embroidery_history.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.embroidery_history.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
+        self.embroidery_history.setLineWidth(0)
+        self.embroidery_history.setObjectName("embroidery_history")
+
+        with open("texts/embroidery/embroidery_history.html", "r", encoding="utf-8") as file:
+            html_text = file.read()
+            html_with_color = f'<font color="#494045">{html_text}</font>'
+            self.embroidery_history.setHtml(html_with_color)
+
 
         self.embroidery_buttons_widget = QtWidgets.QWidget(parent=self.embroiderers)
         self.embroidery_buttons_widget.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
