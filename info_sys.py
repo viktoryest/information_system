@@ -10,6 +10,8 @@ from functools import partial
 from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtWidgets import QScrollArea, QVBoxLayout, QWidget, QScrollBar
 
+from current_artist_elements import create_current_artist_photo, create_current_artist_title, \
+    create_current_artist_description
 from current_embroiderer_elements import create_current_embroiderer_photo, create_current_embroiderer_title, \
     create_current_embroiderer_description
 from current_master_elements import create_current_master_button, create_name_button, create_current_master_title, \
@@ -42,12 +44,13 @@ class Ui_MyMainWindow(object):
     photo_preview = None
     jewelry_data = None
     embroidery_data = None
-    artist_data = None
+    artists_data = None
     jewelry_master_buttons = []
     embroidery_master_buttons = []
     painting_master_buttons = []
     current_master_index = 0
     current_embroiderer_index = 0
+    current_artist_index = 0
 
     dirname = os.path.dirname(__file__)
 
@@ -416,7 +419,7 @@ class Ui_MyMainWindow(object):
         self.painting_master_buttons = create_painting_masters_buttons(self.buttons_on_painting, self.font_18,
                                                                            self.painting_master_buttons,
                                                                            self.change_clicked_artist)[0]
-        self.painting_data = create_painting_masters_buttons(self.buttons_on_painting, self.font_18,
+        self.artists_data = create_painting_masters_buttons(self.buttons_on_painting, self.font_18,
                                                                  self.painting_master_buttons,
                                                                  self.change_clicked_artist)[1]
 
@@ -431,10 +434,10 @@ class Ui_MyMainWindow(object):
         self.left_arrow = create_left_arrow(self.current_artist, self.show_previous_artist)
         self.right_arrow = create_right_arrow(self.current_artist, self.show_next_artist)
 
-        self.emb_line = QtWidgets.QLabel(parent=self.current_embroiderer)
-        self.emb_line.setGeometry(QtCore.QRect(1300, 292, 564, 2))
-        self.emb_line.setStyleSheet("background-image: url(:/jewelry/line.png); border: 0;")
-        self.emb_line.setObjectName("emb_line")
+        self.artist_line = QtWidgets.QLabel(parent=self.current_artist)
+        self.artist_line.setGeometry(QtCore.QRect(1300, 292, 564, 2))
+        self.artist_line.setStyleSheet("background-image: url(:/jewelry/line.png); border: 0;")
+        self.artist_line.setObjectName("artist_line")
 
         self.jewelry_button_on_painting = create_jewelry_pass(self.painting_widget, self.show_jewelry_widget)
         self.jewelry_button_on_painting.setStyleSheet("background-image: url(:/left_menu/jewelry_menu_inactive.png); "
@@ -967,9 +970,40 @@ class Ui_MyMainWindow(object):
         self.show_current_artist(self.current_artist_index)
 
     def show_current_artist(self, index):
-        print(index)
-        self.current_artist.show()
         self.buttons_on_painting.hide()
+
+        if hasattr(self, 'artist_photo_label'):
+            full_path = os.path.abspath(f"{self.artists_data['persons'][index]['image']}")
+            pixmap = QtGui.QPixmap(full_path)
+            pixmap = pixmap.scaledToWidth(413)
+            pixmap = pixmap.scaledToHeight(517)
+            self.artist_photo_label.setPixmap(pixmap)
+        else:
+            full_path = os.path.abspath(f"{self.artists_data['persons'][index]['image']}")
+            self.artist_photo_label = create_current_artist_photo(self.current_artist, index,
+                                                                            self.artists_data)
+
+        if hasattr(self, 'artist_name_button'):
+            self.artist_name_button.setText(self.artists_data['persons'][index]['full_name'])
+        else:
+            self.artist_name_button = create_name_button(self.current_artist, index, self.artists_data,
+                                                         self.font_24)
+
+        if hasattr(self, 'artist_title'):
+            self.artist_title.setText(self.artists_data['persons'][index]['title'])
+            self.artist_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        else:
+            self.artist_title = create_current_artist_title(self.current_artist, index,
+                                                                      self.artists_data, self.font_20)
+
+        if hasattr(self, 'artist_description'):
+            self.artist_description.setText(self.artists_data['persons'][index]['description'])
+            self.artist_description.setAlignment(Qt.AlignmentFlag.AlignJustify)
+        else:
+            self.artist_description = create_current_artist_description(self.current_artist, index,
+                                                                                  self.artists_data, self.font_16)
+
+        self.current_artist.show()
 
     def show_previous_artist(self):
         if self.current_artist_index > 0:
