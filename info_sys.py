@@ -19,6 +19,7 @@ from embroidery_widget_elements import create_embroiderers_button, create_embroi
 from jewelry_masters_buttons import create_jewelry_masters_buttons
 from left_menu_buttons import create_masters_button, create_video_photo_button, create_embroidery_button, \
     create_painting_button
+from painting_master_buttons import create_painting_masters_buttons
 from photo_elements import create_left_arrow_button, create_right_arrow_button, create_photo_title, \
     create_left_arrow_button_full, create_right_arrow_button_full, create_photo_previews
 from common_elements import create_back_button
@@ -43,6 +44,7 @@ class Ui_MyMainWindow(object):
     embroidery_data = None
     jewelry_master_buttons = []
     embroidery_master_buttons = []
+    painting_master_buttons = []
     current_master_index = 0
     current_embroiderer_index = 0
 
@@ -404,6 +406,30 @@ class Ui_MyMainWindow(object):
         self.painting_widget.setObjectName("painting_widget")
         self.painting_widget.hide()
 
+        self.buttons_on_painting = QtWidgets.QWidget(parent=self.painting_widget)
+        self.buttons_on_painting.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.buttons_on_painting.setStyleSheet("background: transparent; border: 0;")
+        self.buttons_on_painting.setObjectName("buttons_on_painting")
+        self.buttons_on_painting.hide()
+
+        self.painting_master_buttons = create_painting_masters_buttons(self.buttons_on_painting, self.font_18,
+                                                                           self.painting_master_buttons,
+                                                                           self.change_clicked_artist)[0]
+        self.painting_data = create_painting_masters_buttons(self.buttons_on_painting, self.font_18,
+                                                                 self.painting_master_buttons,
+                                                                 self.change_clicked_artist)[1]
+
+        self.jewelry_button_on_painting = create_jewelry_pass(self.painting_widget, self.show_jewelry_widget)
+        self.jewelry_button_on_painting.setStyleSheet("background-image: url(:/left_menu/jewelry_menu_inactive.png); "
+                                                      "border: 0; background-repeat: no-repeat;")
+        self.jewelry_button_on_painting.setGeometry(QtCore.QRect(0, 285, 491, 307))
+
+        self.embroidery_button_on_painting = create_embroidery_button(self.painting_widget, self.show_embroidery_widget)
+        self.embroidery_button_on_painting.setGeometry(QtCore.QRect(0, 440, 491, 150))
+        self.painting_on_painting = create_painting_button(self.painting_widget, None)
+        self.painting_on_painting.setStyleSheet("background-image: url(:/left_menu/painting_inactive.png); "
+                                                "background-repeat: no-repeat;")
+        self.painting_on_painting.setGeometry(QtCore.QRect(0, 620, 491, 150))
 
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
@@ -442,16 +468,18 @@ class Ui_MyMainWindow(object):
     def show_jewelry_widget(self):
         self.jewelry_widget.show()
         self.embroidery_widget.hide()
+        self.painting_widget.hide()
 
     def show_embroidery_widget(self):
         self.embroidery_widget.show()
         self.embroidery_content.show()
+        self.painting_widget.hide()
 
     def show_painting_widget(self):
-        print('hey')
         self.painting_widget.show()
         self.embroidery_widget.hide()
         self.jewelry_widget.hide()
+        self.buttons_on_painting.show()
 
     def show_embroiderers_buttons(self):
         self.embroidery_content.hide()
@@ -915,6 +943,9 @@ class Ui_MyMainWindow(object):
                                                                                   self.embroidery_data, self.font_16)
 
         self.current_embroiderer.show()
+
+    def change_clicked_artist(self):
+        pass
 
     def retranslateUi(self, MyMainWindow):
         _translate = QtCore.QCoreApplication.translate
