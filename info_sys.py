@@ -68,9 +68,6 @@ class Ui_MyMainWindow(object):
     embroidery_photo_paths = sorted(glob.glob(embroidery_photo_common_path))
     embroidery_files_amount = len(glob.glob(embroidery_photo_common_path))
 
-    embroidery_photo_common = os.path.join(dirname, 'images/embroidery/photo_common')
-    embroidery_photo_common_path = os.path.join(embroidery_photo_common, '*')
-
     embroidery_photo_widgets = []
     embroidery_current_photo_index = 0
     embroidery_clicked_photo_index = 0
@@ -288,6 +285,7 @@ class Ui_MyMainWindow(object):
         self.embroidery_history.setStyleSheet("QTextEdit {background: transparent; border: 0;} QScrollBar {width: 0;}")
         self.embroidery_history.setTextColor(QColor(73, 64, 69))
         self.embroidery_history.setFont(self.font_18)
+        self.embroidery_history.setFontPointSize(18)
         self.embroidery_history.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.embroidery_history.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.embroidery_history.setLineWidth(0)
@@ -391,6 +389,15 @@ class Ui_MyMainWindow(object):
         self.embroidery_photo_gallery.setObjectName("embroidery_photo_gallery")
         self.embroidery_photo_gallery.hide()
 
+        self.back_button_gallery = create_back_button(self.embroidery_photo_gallery, self.back_to_embroidery_video_photo)
+
+        self.embroidery_photo_viewer = QtWidgets.QLabel(parent=self.embroidery_photo_gallery)
+
+        self.gallery_left_arrow = create_left_arrow_button_full(self.embroidery_photo_gallery,
+                                                                self.embroidery_show_previous_photo)
+        self.gallery_right_arrow = create_right_arrow_button_full(self.embroidery_photo_gallery,
+                                                                  self.embroidery_show_next_photo)
+
         # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
         self.video_photo_button = create_video_photo_button(self.jewelry_widget, self.video_photo_pressed)
@@ -402,8 +409,7 @@ class Ui_MyMainWindow(object):
                                                         " border: 0;")
         self.jewelry_button_on_embroidery.setGeometry(QtCore.QRect(0, 285, 491, 161))
 
-        self.embroidery_button_on_embroidery = create_embroidery_button(self.embroidery_widget,
-                                                                        self.embroidery_widget.show())
+        self.embroidery_button_on_embroidery = create_embroidery_button(self.embroidery_widget, self.show_embroidery_content)
         self.embroidery_button_on_embroidery.setStyleSheet("background-image: "
                                                            "url(:/left_menu/embroidery_menu_active.png); border: 0;")
         self.embroidery_button_on_embroidery.setGeometry(QtCore.QRect(0, 445, 465, 121))
@@ -453,6 +459,13 @@ class Ui_MyMainWindow(object):
         self.embroidery_buttons_widget.hide()
         self.current_embroiderer.hide()
         self.embroidery_content.hide()
+        self.embroidery_photo_gallery.hide()
+
+    def show_embroidery_content(self):
+        self.embroidery_content.show()
+        self.embroidery_buttons_widget.hide()
+        self.embroidery_video_photo.hide()
+        self.current_embroiderer.hide()
         self.embroidery_photo_gallery.hide()
 
     def show_video_photo(self):
@@ -544,17 +557,17 @@ class Ui_MyMainWindow(object):
 
     def embroidery_open_gallery(self):
         self.embroidery_video_photo.hide()
-        self.photo_viewer = QtWidgets.QLabel(parent=self.embroidery_photo_gallery)
+        if hasattr(self, 'embroidery_photo_viewer'):
+            self.embroidery_photo_viewer.hide()
+        self.embroidery_photo_viewer = QtWidgets.QLabel(parent=self.embroidery_photo_gallery)
         photo_amount = len(self.embroidery_photo_paths)
         half_photo_amount = photo_amount // 2
         offset = 1180 - half_photo_amount * 32
-        clicked_index = self.embroidery_current_photo_index + self.embroidery_clicked_photo_index
-        if clicked_index >= len(self.embroidery_photo_paths):
-            clicked_index = clicked_index - len(self.embroidery_photo_paths)
-        if clicked_index < 0:
-            clicked_index = clicked_index + len(self.embroidery_photo_paths)
-
-
+        embroidery_clicked_photo_index = self.embroidery_current_photo_index + self.embroidery_clicked_photo_index
+        if embroidery_clicked_photo_index >= len(self.embroidery_photo_paths):
+            embroidery_clicked_photo_index = embroidery_clicked_photo_index - len(self.embroidery_photo_paths)
+        if embroidery_clicked_photo_index < 0:
+            embroidery_clicked_photo_index = embroidery_clicked_photo_index + len(self.embroidery_photo_paths)
 
         if 10 >= photo_amount > 0:
             for i in range(photo_amount):
@@ -566,22 +579,25 @@ class Ui_MyMainWindow(object):
                 indicator.setObjectName("indicator")
                 self.indicators.append(indicator)
 
-            self.indicators[clicked_index].setStyleSheet(
+            self.indicators[embroidery_clicked_photo_index].setStyleSheet(
                 "background-image: url(:/jewelry/indicator_active.png); border: 0;")
 
-        gallery_pixmap = QtGui.QPixmap(self.embroidery_photo_paths[clicked_index])
-        self.photo_viewer.setStyleSheet("border: 0;")
-        self.photo_viewer.setGeometry(QtCore.QRect(731, 283, 923, 627))
+        gallery_pixmap = QtGui.QPixmap(self.embroidery_photo_paths[embroidery_clicked_photo_index])
+        self.embroidery_photo_viewer.setStyleSheet("border: 0;")
+        self.embroidery_photo_viewer.setGeometry(QtCore.QRect(731, 283, 923, 627))
 
         max_width = 923
         max_height = 627
         scaled_pixmap = gallery_pixmap.scaled(max_width, max_height, QtCore.Qt.KeepAspectRatio,
                                               QtCore.Qt.SmoothTransformation)
-        self.photo_viewer.setPixmap(scaled_pixmap)
 
-        self.photo_viewer.setAlignment(QtCore.Qt.AlignCenter)
-        self.photo_viewer.setText("")
-        self.photo_viewer.setObjectName("photo_viewer")
+
+        self.embroidery_photo_viewer.setAlignment(QtCore.Qt.AlignCenter)
+        self.embroidery_photo_viewer.setText("")
+        self.embroidery_photo_viewer.setPixmap(scaled_pixmap)
+        self.embroidery_photo_viewer.setObjectName("embroidery_photo_viewer")
+
+        self.embroidery_photo_viewer.show()
         self.embroidery_photo_gallery.show()
 
     def change_cliked(self, clicked_index):
@@ -591,6 +607,11 @@ class Ui_MyMainWindow(object):
     def embroidery_change_clicked(self, clicked_index):
         self.embroidery_clicked_photo_index = clicked_index
         self.embroidery_open_gallery()
+
+    def back_to_embroidery_video_photo(self):
+        self.embroidery_video_photo.show()
+        self.embroidery_photo_gallery.hide()
+        self.embroidery_photo_viewer.hide()
 
     def video_photo_pressed(self):
         self.video_photo_button.setGeometry(QtCore.QRect(64, 508, 452, 121))
@@ -621,6 +642,8 @@ class Ui_MyMainWindow(object):
         self.jewelry_widget.hide()
         self.embroidery_widget.show()
         self.embroidery_content.show()
+        self.video_photo_widget.hide()
+        self.embroidery_photo_gallery.hide()
 
     def back_to_jewelry(self):
         self.masters_widget.hide()
@@ -695,28 +718,28 @@ class Ui_MyMainWindow(object):
 
             self.photo_widgets[i].setPixmap(canvas)
 
-    def embroidery_show_images(self, photo_paths):
-        # if self.embroidery_photo_gallery_widget.isVisible():
-        #     self.embroidery_photo_common_path = photo_paths
-            # self.video_photo_pressed()
-            # self.open_gallery()
+    def embroidery_show_images(self, embroidery_photo_paths):
+        if self.embroidery_photo_gallery.isVisible():
+            self.embroidery_photo_paths = embroidery_photo_paths
+            self.video_photo_pressed()
+            self.embroidery_open_gallery()
 
-        if len(photo_paths) < 4:
+        if len(embroidery_photo_paths) < 4:
             return
-        elif self.embroidery_current_photo_index >= len(photo_paths):
+        elif self.embroidery_current_photo_index >= len(embroidery_photo_paths):
             self.embroidery_current_photo_index = 0
         elif self.embroidery_current_photo_index < 0:
-            self.embroidery_current_photo_index = len(photo_paths) - 1
+            self.embroidery_current_photo_index = len(embroidery_photo_paths) - 1
 
         for i in range(4):
             photo_index = self.embroidery_current_photo_index + i
-            if photo_index >= len(photo_paths):
-                photo_index = photo_index - len(photo_paths)
+            if photo_index >= len(embroidery_photo_paths):
+                photo_index = photo_index - len(embroidery_photo_paths)
 
-            pixmap = QtGui.QPixmap(photo_paths[photo_index])
+            pixmap = QtGui.QPixmap(embroidery_photo_paths[photo_index])
 
-            preview_width = self.photo_widgets[i].width()
-            preview_height = self.photo_widgets[i].height()
+            preview_width = self.embroidery_photo_widgets[i].width()
+            preview_height = self.embroidery_photo_widgets[i].height()
 
             image_ratio = pixmap.width() / pixmap.height()
 
