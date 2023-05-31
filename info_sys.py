@@ -489,6 +489,7 @@ class Ui_MyMainWindow(object):
         self.jewelry_widget.show()
         self.embroidery_widget.hide()
         self.painting_widget.hide()
+        self.jewelry_content.show()
 
     def show_embroidery_widget(self):
         self.embroidery_widget.show()
@@ -522,6 +523,7 @@ class Ui_MyMainWindow(object):
         self.current_embroiderer.hide()
         self.embroidery_content.hide()
         self.embroidery_photo_gallery.hide()
+        self.jewelry_content.hide()
 
     def show_embroidery_content(self):
         self.embroidery_content.show()
@@ -529,6 +531,7 @@ class Ui_MyMainWindow(object):
         self.embroidery_video_photo.hide()
         self.current_embroiderer.hide()
         self.embroidery_photo_gallery.hide()
+        self.jewelry_content.hide()
 
     def show_video_photo(self):
         self.play_video_state = True
@@ -702,15 +705,19 @@ class Ui_MyMainWindow(object):
 
     def embroidery_pressed(self):
         self.jewelry_widget.hide()
+        self.masters_widget.hide()
+        self.video_photo_widget.hide()
+        self.masters_widget.hide()
+        self.jewelry_content.hide()
         self.embroidery_widget.show()
         self.embroidery_content.show()
-        self.video_photo_widget.hide()
         self.embroidery_photo_gallery.hide()
 
     def back_to_jewelry(self):
         self.masters_widget.hide()
         self.video_photo_widget.hide()
         self.jewelry_content.show()
+        self.jewelry_widget.show()
         self.video_photo_button.setGeometry(QtCore.QRect(40, 485, 452, 121))
         self.video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png); border: 0;")
         self.masters_button.setGeometry(QtCore.QRect(40, 392, 452, 121))
