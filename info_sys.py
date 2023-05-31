@@ -42,6 +42,7 @@ class Ui_MyMainWindow(object):
     photo_preview = None
     jewelry_data = None
     embroidery_data = None
+    artist_data = None
     jewelry_master_buttons = []
     embroidery_master_buttons = []
     painting_master_buttons = []
@@ -419,6 +420,22 @@ class Ui_MyMainWindow(object):
                                                                  self.painting_master_buttons,
                                                                  self.change_clicked_artist)[1]
 
+        self.current_artist = QtWidgets.QWidget(parent=self.painting_widget)
+        self.current_artist.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.current_artist.setStyleSheet("background: transparent; border: 0;")
+        self.current_artist.setObjectName("current_artist")
+        self.current_artist.hide()
+
+        self.current_artist_back_button = create_back_button(self.current_artist, self.show_painting_widget)
+
+        self.left_arrow = create_left_arrow(self.current_artist, self.show_previous_artist)
+        self.right_arrow = create_right_arrow(self.current_artist, self.show_next_artist)
+
+        self.emb_line = QtWidgets.QLabel(parent=self.current_embroiderer)
+        self.emb_line.setGeometry(QtCore.QRect(1300, 292, 564, 2))
+        self.emb_line.setStyleSheet("background-image: url(:/jewelry/line.png); border: 0;")
+        self.emb_line.setObjectName("emb_line")
+
         self.jewelry_button_on_painting = create_jewelry_pass(self.painting_widget, self.show_jewelry_widget)
         self.jewelry_button_on_painting.setStyleSheet("background-image: url(:/left_menu/jewelry_menu_inactive.png); "
                                                       "border: 0; background-repeat: no-repeat;")
@@ -480,6 +497,7 @@ class Ui_MyMainWindow(object):
         self.embroidery_widget.hide()
         self.jewelry_widget.hide()
         self.buttons_on_painting.show()
+        self.current_artist.hide()
 
     def show_embroiderers_buttons(self):
         self.embroidery_content.hide()
@@ -944,8 +962,28 @@ class Ui_MyMainWindow(object):
 
         self.current_embroiderer.show()
 
-    def change_clicked_artist(self):
-        pass
+    def change_clicked_artist(self, artist_index):
+        self.current_artist_index = artist_index
+        self.show_current_artist(self.current_artist_index)
+
+    def show_current_artist(self, index):
+        print(index)
+        self.current_artist.show()
+        self.buttons_on_painting.hide()
+
+    def show_previous_artist(self):
+        if self.current_artist_index > 0:
+            self.current_artist_index -= 1
+        else:
+            self.current_artist_index = len(self.artists_data['persons']) - 1
+        self.show_current_artist(self.current_artist_index)
+
+    def show_next_artist(self):
+        if self.current_artist_index < len(self.artists_data['persons']) - 1:
+            self.current_artist_index += 1
+        else:
+            self.current_artist_index = 0
+        self.show_current_artist(self.current_artist_index)
 
     def retranslateUi(self, MyMainWindow):
         _translate = QtCore.QCoreApplication.translate

@@ -28,18 +28,18 @@ def create_painting_masters_buttons(parent, font_18, painting_master_buttons, ch
             painting_master_button.clicked.connect(partial(change_clicked_artist, j+i*4))
             painting_master_buttons.append(painting_master_button)
     for i in range(last_row):
-        embroidery_master_button = QtWidgets.QPushButton(parent=parent)
-        embroidery_master_button.setGeometry(QtCore.QRect(535 + offset + i * 300, 275 + rows * 137, 300, 137))
-        embroidery_master_button.setStyleSheet("background-image: url(:/jewelry/jewelry_masters_button.png); "
+        painting_master_button = QtWidgets.QPushButton(parent=parent)
+        painting_master_button.setGeometry(QtCore.QRect(535 + offset + i * 300, 275 + rows * 137, 300, 137))
+        painting_master_button.setStyleSheet("background-image: url(:/jewelry/jewelry_masters_button.png); "
                                             "border: 0;")
-        embroidery_master_button.setFont(font_18)
-        palette = embroidery_master_button.palette()
+        painting_master_button.setFont(font_18)
+        palette = painting_master_button.palette()
         color = QColor(228, 213, 189)
         palette.setColor(QPalette.ButtonText, color)
-        embroidery_master_button.setPalette(palette)
-        embroidery_master_button.setText(f"{data['persons'][i + rows * 4]['person']}")
-        embroidery_master_button.setObjectName(f"painting_master_button_{i + rows * 4}")
-        embroidery_master_button.clicked.connect(partial(change_clicked_artist, i + rows * 4))
-        painting_master_buttons.append(embroidery_master_button)
+        painting_master_button.setPalette(palette)
+        painting_master_button.setText(f"{data['persons'][i + rows * 4]['person']}")
+        painting_master_button.setObjectName(f"painting_master_button_{i + rows * 4}")
+        painting_master_button.clicked.connect(partial(change_clicked_artist, i + rows * 4))
+        painting_master_buttons.append(painting_master_button)
 
     return painting_master_buttons, painting_data
