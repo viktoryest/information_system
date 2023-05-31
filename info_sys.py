@@ -11,7 +11,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtWidgets import QScrollArea, QVBoxLayout, QWidget, QScrollBar
 
 from current_artist_elements import create_current_artist_photo, create_current_artist_title, \
-    create_current_artist_description
+    create_current_artist_description, create_paintings_button
 from current_embroiderer_elements import create_current_embroiderer_photo, create_current_embroiderer_title, \
     create_current_embroiderer_description
 from current_master_elements import create_current_master_button, create_name_button, create_current_master_title, \
@@ -302,7 +302,6 @@ class Ui_MyMainWindow(object):
             html_with_color = f'<font color="#494045">{html_text}</font>'
             self.embroidery_history.setHtml(html_with_color)
 
-
         self.embroidery_buttons_widget = QtWidgets.QWidget(parent=self.embroiderers)
         self.embroidery_buttons_widget.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
         self.embroidery_buttons_widget.setStyleSheet("background: transparent; border: 0;")
@@ -344,8 +343,10 @@ class Ui_MyMainWindow(object):
         self.embroidery_video_photo.hide()
 
         self.embroidery_photo_title = create_photo_title(self.embroidery_video_photo)
-        self.photo_left_button = create_left_arrow_button(self.embroidery_video_photo, self.embroidery_show_previous_photo)
-        self.photo_right_button = create_right_arrow_button(self.embroidery_video_photo, self.embroidery_show_next_photo)
+        self.photo_left_button = create_left_arrow_button(self.embroidery_video_photo,
+                                                          self.embroidery_show_previous_photo)
+        self.photo_right_button = create_right_arrow_button(self.embroidery_video_photo,
+                                                            self.embroidery_show_next_photo)
         self.embroidery_video_title = create_video_title(self.embroidery_video_photo)
 
         self.embroidery_video_photo_back_button = create_back_button(self.embroidery_video_photo,
@@ -371,8 +372,8 @@ class Ui_MyMainWindow(object):
             canvas = create_photo_previews(i, self.embroidery_files_amount, self.embroidery_video_photo,
                                            self.embroidery_photo_common_path)[1]
             self.embroidery_photo_preview = \
-            create_photo_previews(i, self.embroidery_files_amount, self.embroidery_video_photo,
-                                  self.embroidery_photo_common_path)[0]
+                create_photo_previews(i, self.embroidery_files_amount, self.embroidery_video_photo,
+                                      self.embroidery_photo_common_path)[0]
             self.embroidery_photo_preview.setPixmap(canvas)
             self.embroidery_photo_preview.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
             self.embroidery_photo_preview.setText("")
@@ -395,7 +396,8 @@ class Ui_MyMainWindow(object):
         self.embroidery_photo_gallery.setObjectName("embroidery_photo_gallery")
         self.embroidery_photo_gallery.hide()
 
-        self.back_button_gallery = create_back_button(self.embroidery_photo_gallery, self.back_to_embroidery_video_photo)
+        self.back_button_gallery = create_back_button(self.embroidery_photo_gallery,
+                                                      self.back_to_embroidery_video_photo)
 
         self.embroidery_photo_viewer = QtWidgets.QLabel(parent=self.embroidery_photo_gallery)
 
@@ -417,11 +419,11 @@ class Ui_MyMainWindow(object):
         self.buttons_on_painting.hide()
 
         self.painting_master_buttons = create_painting_masters_buttons(self.buttons_on_painting, self.font_18,
-                                                                           self.painting_master_buttons,
-                                                                           self.change_clicked_artist)[0]
+                                                                       self.painting_master_buttons,
+                                                                       self.change_clicked_artist)[0]
         self.artists_data = create_painting_masters_buttons(self.buttons_on_painting, self.font_18,
-                                                                 self.painting_master_buttons,
-                                                                 self.change_clicked_artist)[1]
+                                                            self.painting_master_buttons,
+                                                            self.change_clicked_artist)[1]
 
         self.current_artist = QtWidgets.QWidget(parent=self.painting_widget)
         self.current_artist.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
@@ -462,7 +464,8 @@ class Ui_MyMainWindow(object):
                                                         " border: 0;")
         self.jewelry_button_on_embroidery.setGeometry(QtCore.QRect(0, 285, 491, 161))
 
-        self.embroidery_button_on_embroidery = create_embroidery_button(self.embroidery_widget, self.show_embroidery_content)
+        self.embroidery_button_on_embroidery = create_embroidery_button(self.embroidery_widget,
+                                                                        self.show_embroidery_content)
         self.embroidery_button_on_embroidery.setStyleSheet("background-image: "
                                                            "url(:/left_menu/embroidery_menu_active.png); border: 0;")
         self.embroidery_button_on_embroidery.setGeometry(QtCore.QRect(0, 445, 465, 121))
@@ -655,7 +658,6 @@ class Ui_MyMainWindow(object):
         max_height = 627
         scaled_pixmap = gallery_pixmap.scaled(max_width, max_height, QtCore.Qt.KeepAspectRatio,
                                               QtCore.Qt.SmoothTransformation)
-
 
         self.embroidery_photo_viewer.setAlignment(QtCore.Qt.AlignCenter)
         self.embroidery_photo_viewer.setText("")
@@ -978,6 +980,7 @@ class Ui_MyMainWindow(object):
 
     def show_current_artist(self, index):
         self.buttons_on_painting.hide()
+        no_photo = self.artists_data['persons'][index]['image'] == 'No photo'
 
         if hasattr(self, 'artist_photo_label'):
             full_path = os.path.abspath(f"{self.artists_data['persons'][index]['image']}")
@@ -986,9 +989,8 @@ class Ui_MyMainWindow(object):
             pixmap = pixmap.scaledToHeight(517)
             self.artist_photo_label.setPixmap(pixmap)
         else:
-            full_path = os.path.abspath(f"{self.artists_data['persons'][index]['image']}")
             self.artist_photo_label = create_current_artist_photo(self.current_artist, index,
-                                                                            self.artists_data)
+                                                                  self.artists_data)
 
         if hasattr(self, 'artist_name_button'):
             self.artist_name_button.setText(self.artists_data['persons'][index]['full_name'])
@@ -1001,14 +1003,26 @@ class Ui_MyMainWindow(object):
             self.artist_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         else:
             self.artist_title = create_current_artist_title(self.current_artist, index,
-                                                                      self.artists_data, self.font_20)
+                                                            self.artists_data, self.font_20)
 
         if hasattr(self, 'artist_description'):
+            if no_photo:
+                self.artist_description.setGeometry(580, 440, 1220, 350)
+            else:
+                self.artist_description.setGeometry(1109, 440, 684, 350)
             self.artist_description.setText(self.artists_data['persons'][index]['description'])
             self.artist_description.setAlignment(Qt.AlignmentFlag.AlignJustify)
         else:
-            self.artist_description = create_current_artist_description(self.current_artist, index,
-                                                                                  self.artists_data, self.font_16)
+            if no_photo:
+                self.artist_description = create_current_artist_description(self.current_artist, index,
+                                                                            self.artists_data, self.font_16,
+                                                                            580, 440, 1220, 350)
+            else:
+                self.artist_description = create_current_artist_description(self.current_artist, index,
+                                                                        self.artists_data, self.font_16,
+                                                                        1109, 440, 684, 350)
+
+        self.paintings_button = create_paintings_button(self.current_artist, None)
 
         self.current_artist.show()
 

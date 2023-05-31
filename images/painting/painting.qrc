@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="painting">
     <file>painting_bg.png</file>
+    <file>paintings_button.png</file>
   </qresource>
 </RCC>

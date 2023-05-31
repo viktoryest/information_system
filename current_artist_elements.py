@@ -33,9 +33,9 @@ def create_current_artist_title(parent, index, artists_data, font_20):
     return artist_title
 
 
-def create_current_artist_description(parent, index, artists_data, font_16):
+def create_current_artist_description(parent, index, artists_data, font_16, x_offset, y_offset, width, height):
     artist_description = QtWidgets.QTextEdit(parent=parent)
-    artist_description.setGeometry(QtCore.QRect(1109, 440, 684, 477))
+    artist_description.setGeometry(QtCore.QRect(x_offset, y_offset, width, height))
     artist_description.setStyleSheet("background: transparent; qproperty-textInteractionFlags: NoTextInteraction;")
     artist_description.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
     artist_description.setTextColor(QColor(68, 59, 64))
@@ -45,3 +45,12 @@ def create_current_artist_description(parent, index, artists_data, font_16):
     artist_description.setObjectName("artist_description")
     artist_description.setReadOnly(True)
     return artist_description
+
+
+def create_paintings_button(parent, clicked):
+    paintings_button = QtWidgets.QPushButton(parent=parent)
+    paintings_button.setGeometry(QtCore.QRect(1250, 800, 402, 106))
+    paintings_button.setStyleSheet("background: url(:/painting/paintings_button.png); border: 0;")
+    paintings_button.setText("")
+    paintings_button.clicked.connect(clicked)
+    return paintings_button
