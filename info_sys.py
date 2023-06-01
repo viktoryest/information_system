@@ -443,6 +443,12 @@ class Ui_MyMainWindow(object):
         self.artist_line.setStyleSheet("background-image: url(:/jewelry/line.png); border: 0;")
         self.artist_line.setObjectName("artist_line")
 
+        self.paintings_gallery = QtWidgets.QWidget(parent=self.current_artist)
+        self.paintings_gallery.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.paintings_gallery.setStyleSheet("background: transparent; border: 0;")
+        self.paintings_gallery.setObjectName("paintings_gallery")
+        self.paintings_gallery.hide()
+
         self.jewelry_button_on_painting = create_jewelry_pass(self.painting_widget, self.show_jewelry_widget)
         self.jewelry_button_on_painting.setStyleSheet("background-image: url(:/left_menu/jewelry_menu_inactive.png); "
                                                       "border: 0; background-repeat: no-repeat;")
@@ -1042,11 +1048,15 @@ class Ui_MyMainWindow(object):
                 self.paintings_button.setGeometry(1250, 800, 402, 106)
         else:
             if no_photo:
-                self.paintings_button = create_paintings_button(self.current_artist, None, 990, 800, 402, 106)
+                self.paintings_button = create_paintings_button(self.current_artist, self.show_paintings_gallery, 990, 800, 402, 106)
             else:
-                self.paintings_button = create_paintings_button(self.current_artist, None, 1250, 800, 402, 106)
+                self.paintings_button = create_paintings_button(self.current_artist, self.show_paintings_gallery, 1250, 800, 402, 106)
 
         self.current_artist.show()
+
+    def show_paintings_gallery(self):
+        self.current_artist.hide()
+        self.paintings_gallery.show()
 
     def show_previous_artist(self):
         if self.current_artist_index > 0:
