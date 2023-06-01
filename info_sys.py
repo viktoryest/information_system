@@ -138,6 +138,7 @@ class Ui_MyMainWindow(object):
         fontName = QFontDatabase.applicationFontFamilies(fontId)[0]
         # font for title
         self.font_20 = QFont(fontName, 20)
+        self.font_20_bold = QFont(fontName, 20, QFont.Bold)
         # font for text
         self.font_16 = QFont(fontName, 16)
         # font for buttons
@@ -999,11 +1000,23 @@ class Ui_MyMainWindow(object):
                                                          self.font_24)
 
         if hasattr(self, 'artist_title'):
-            self.artist_title.setText(self.artists_data['persons'][index]['title'])
-            self.artist_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+            if no_photo:
+                self.artist_title.setGeometry(580, 380, 1220, 36)
+                self.artist_title.setText(self.artists_data['persons'][index]['title'])
+                self.artist_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+            else:
+                self.artist_title.setGeometry(1109, 393, 684, 36)
+                self.artist_title.setText(self.artists_data['persons'][index]['title'])
+                self.artist_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         else:
-            self.artist_title = create_current_artist_title(self.current_artist, index,
-                                                            self.artists_data, self.font_20)
+            if no_photo:
+                self.artist_title = create_current_artist_title(self.current_artist, index,
+                                                                self.artists_data, self.font_20_bold,
+                                                                580, 380, 1220, 36)
+            else:
+                self.artist_title = create_current_artist_title(self.current_artist, index,
+                                                                self.artists_data, self.font_20_bold,
+                                                                1109, 393, 684, 36)
 
         if hasattr(self, 'artist_description'):
             if no_photo:

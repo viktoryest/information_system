@@ -19,9 +19,9 @@ def create_current_artist_photo(parent, index, artists_data):
     return artist_photo_label
 
 
-def create_current_artist_title(parent, index, artists_data, font_20):
+def create_current_artist_title(parent, index, artists_data, font_20, x_offset, y_offset, width, height):
     artist_title = QtWidgets.QTextEdit(parent=parent)
-    artist_title.setGeometry(QtCore.QRect(1109, 393, 684, 36))
+    artist_title.setGeometry(QtCore.QRect(x_offset, y_offset, width, height))
     artist_title.setStyleSheet("background: transparent; qproperty-textInteractionFlags: NoTextInteraction;")
     artist_title.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
     artist_title.setTextColor(QColor(68, 59, 64))
