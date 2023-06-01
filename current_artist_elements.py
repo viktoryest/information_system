@@ -47,9 +47,9 @@ def create_current_artist_description(parent, index, artists_data, font_16, x_of
     return artist_description
 
 
-def create_paintings_button(parent, clicked):
+def create_paintings_button(parent, clicked, x_offset, y_offset, width, height):
     paintings_button = QtWidgets.QPushButton(parent=parent)
-    paintings_button.setGeometry(QtCore.QRect(1250, 800, 402, 106))
+    paintings_button.setGeometry(QtCore.QRect(x_offset, y_offset, width, height))
     paintings_button.setStyleSheet("background: url(:/painting/paintings_button.png); border: 0;")
     paintings_button.setText("")
     paintings_button.clicked.connect(clicked)

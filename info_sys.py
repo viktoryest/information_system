@@ -433,6 +433,7 @@ class Ui_MyMainWindow(object):
         self.current_artist.hide()
 
         self.current_artist_back_button = create_back_button(self.current_artist, self.show_painting_widget)
+        self.current_artist_back_button.setGeometry(QtCore.QRect(1100, 975, 175, 73))
 
         self.left_arrow = create_left_arrow(self.current_artist, self.show_previous_artist)
         self.right_arrow = create_right_arrow(self.current_artist, self.show_next_artist)
@@ -1034,8 +1035,16 @@ class Ui_MyMainWindow(object):
                 self.artist_description = create_current_artist_description(self.current_artist, index,
                                                                         self.artists_data, self.font_16,
                                                                         1109, 440, 684, 350)
-
-        self.paintings_button = create_paintings_button(self.current_artist, None)
+        if hasattr(self, 'paintings_button'):
+            if no_photo:
+                self.paintings_button.setGeometry(990, 800, 402, 106)
+            else:
+                self.paintings_button.setGeometry(1250, 800, 402, 106)
+        else:
+            if no_photo:
+                self.paintings_button = create_paintings_button(self.current_artist, None, 990, 800, 402, 106)
+            else:
+                self.paintings_button = create_paintings_button(self.current_artist, None, 1250, 800, 402, 106)
 
         self.current_artist.show()
 
