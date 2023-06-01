@@ -51,6 +51,8 @@ class Ui_MyMainWindow(object):
     current_master_index = 0
     current_embroiderer_index = 0
     current_artist_index = 0
+    painting_index = 0
+    current_artist_index = 0
 
     dirname = os.path.dirname(__file__)
 
@@ -419,6 +421,8 @@ class Ui_MyMainWindow(object):
         self.buttons_on_painting.setObjectName("buttons_on_painting")
         self.buttons_on_painting.hide()
 
+        self.painting_buttons_back = create_back_button(self.buttons_on_painting, self.show_main_hall)
+
         self.painting_master_buttons = create_painting_masters_buttons(self.buttons_on_painting, self.font_18,
                                                                        self.painting_master_buttons,
                                                                        self.change_clicked_artist)[0]
@@ -443,11 +447,13 @@ class Ui_MyMainWindow(object):
         self.artist_line.setStyleSheet("background-image: url(:/jewelry/line.png); border: 0;")
         self.artist_line.setObjectName("artist_line")
 
-        self.paintings_gallery = QtWidgets.QWidget(parent=self.current_artist)
+        self.paintings_gallery = QtWidgets.QWidget(parent=self.painting_widget)
         self.paintings_gallery.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
         self.paintings_gallery.setStyleSheet("background: transparent; border: 0;")
         self.paintings_gallery.setObjectName("paintings_gallery")
         self.paintings_gallery.hide()
+
+        self.paintings_gallery_back = create_back_button(self.paintings_gallery, self.show_current_artist)
 
         self.jewelry_button_on_painting = create_jewelry_pass(self.painting_widget, self.show_jewelry_widget)
         self.jewelry_button_on_painting.setStyleSheet("background-image: url(:/left_menu/jewelry_menu_inactive.png); "
@@ -495,6 +501,7 @@ class Ui_MyMainWindow(object):
         self.main_hall.show()
         self.jewelry_widget.hide()
         self.embroidery_widget.hide()
+        self.painting_widget.hide()
 
     def show_jewelry_widget(self):
         self.jewelry_widget.show()
@@ -987,6 +994,7 @@ class Ui_MyMainWindow(object):
         self.show_current_artist(self.current_artist_index)
 
     def show_current_artist(self, index):
+        self.paintings_gallery.hide()
         self.buttons_on_painting.hide()
         no_photo = self.artists_data['persons'][index]['image'] == 'No photo'
 
@@ -1039,8 +1047,8 @@ class Ui_MyMainWindow(object):
                                                                             580, 440, 1220, 350)
             else:
                 self.artist_description = create_current_artist_description(self.current_artist, index,
-                                                                        self.artists_data, self.font_16,
-                                                                        1109, 440, 684, 350)
+                                                                            self.artists_data, self.font_16,
+                                                                            1109, 440, 684, 350)
         if hasattr(self, 'paintings_button'):
             if no_photo:
                 self.paintings_button.setGeometry(990, 800, 402, 106)
@@ -1048,14 +1056,56 @@ class Ui_MyMainWindow(object):
                 self.paintings_button.setGeometry(1250, 800, 402, 106)
         else:
             if no_photo:
-                self.paintings_button = create_paintings_button(self.current_artist, self.show_paintings_gallery, 990, 800, 402, 106)
+                self.paintings_button = create_paintings_button(self.current_artist, self.show_paintings_gallery,
+                                                                990, 800, 402, 106)
             else:
-                self.paintings_button = create_paintings_button(self.current_artist, self.show_paintings_gallery, 1250, 800, 402, 106)
+                self.paintings_button = create_paintings_button(self.current_artist, self.show_paintings_gallery,
+                                                                1250, 800, 402, 106)
 
         self.current_artist.show()
 
     def show_paintings_gallery(self):
         self.current_artist.hide()
+        if hasattr(self, 'painting_viewer'):
+            self.painting_viewer.hide()
+
+        paintings_folder = os.path.abspath(os.path.join
+                                        (f"{self.artists_data['persons'][self.current_artist_index]['paintings_path']}",
+                                            "*"))
+        paintings_path = sorted(glob.glob(paintings_folder))
+
+        self.painting_viewer = QtWidgets.QLabel(parent=self.paintings_gallery)
+        photo_amount = len(paintings_path)
+        half_photo_amount = photo_amount // 2
+        offset = 1920 - half_photo_amount * 32
+        if 10 >= photo_amount > 0:
+            for i in range(photo_amount):
+                indicator = QtWidgets.QLabel(parent=self.paintings_gallery)
+                indicator.setGeometry(QtCore.QRect(offset + i * 32, 830, 30, 29))
+                indicator.setStyleSheet("background-image: url(:/jewelry/indicator.png); border: 0; "
+                                        "background-repeat: no-repeat")
+                indicator.setText("")
+                indicator.setObjectName("indicator")
+                self.indicators.append(indicator)
+
+        clicked_index = self.painting_index
+        if clicked_index >= len(paintings_path):
+            clicked_index = clicked_index - len(paintings_path)
+        if clicked_index < 0:
+            clicked_index = clicked_index + len(paintings_path)
+        self.indicators[clicked_index].setStyleSheet(
+            "background-image: url(:/jewelry/indicator_active.png); border: 0;")
+        gallery_pixmap = QtGui.QPixmap(paintings_path[clicked_index])
+        self.painting_viewer.setStyleSheet("border: 0;")
+        self.painting_viewer.setGeometry(QtCore.QRect(731, 283, 923, 627))
+
+        max_width = 923
+        max_height = 627
+        scaled_pixmap = gallery_pixmap.scaled(max_width, max_height, QtCore.Qt.KeepAspectRatio,
+                                              QtCore.Qt.SmoothTransformation)
+        self.painting_viewer.setPixmap(scaled_pixmap)
+        self.painting_viewer.setObjectName("photo_viewer")
+
         self.paintings_gallery.show()
 
     def show_previous_artist(self):
