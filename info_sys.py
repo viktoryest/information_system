@@ -58,7 +58,7 @@ class Ui_MyMainWindow(object):
                                         (f"{artists_data['persons'][current_artist_index]['paintings_path']}",
                                             "*"))
     paintings_path = sorted(glob.glob(paintings_folder))
-    current_folder_length =len(paintings_path)
+
     paintings_widgets = []
 
     dirname = os.path.dirname(__file__)
@@ -532,6 +532,7 @@ class Ui_MyMainWindow(object):
         self.jewelry_widget.hide()
         self.buttons_on_painting.show()
         self.current_artist.hide()
+        self.paintings_gallery.hide()
 
     def show_embroiderers_buttons(self):
         self.embroidery_content.hide()
@@ -1087,6 +1088,7 @@ class Ui_MyMainWindow(object):
                                         (f"{self.artists_data['persons'][self.current_artist_index]['paintings_path']}",
                                             "*"))
         paintings_path = sorted(glob.glob(paintings_folder))
+
         if hasattr(self, 'painting_viewer'):
             gallery_pixmap = QtGui.QPixmap(paintings_path[self.painting_index])
             self.painting_viewer.setPixmap(gallery_pixmap)
@@ -1105,7 +1107,6 @@ class Ui_MyMainWindow(object):
             self.paintings_widgets.append(self.painting_viewer)
         else:
             self.painting_viewer = QtWidgets.QLabel(parent=self.paintings_gallery)
-            self.current_folder_length = len(paintings_path)
             gallery_pixmap = QtGui.QPixmap(paintings_path[self.painting_index])
             self.painting_viewer.setStyleSheet("border: 0;")
 
@@ -1116,16 +1117,17 @@ class Ui_MyMainWindow(object):
             self.painting_viewer.setPixmap(scaled_pixmap)
             x_offset = (923 - scaled_pixmap.width()) / 2
             y_offset = (627 - scaled_pixmap.height()) / 2
-            self.painting_viewer.setGeometry(QtCore.QRect(731 + x_offset, 283 + y_offset, 923, 627))
+
             self.painting_viewer.setObjectName("painting_viewer")
+            self.painting_viewer.setGeometry(QtCore.QRect(731 + x_offset, 283 + y_offset, 923, 627))
             self.paintings_widgets.append(self.painting_viewer)
 
         if len(paintings_path) <= 1:
             self.painting_left_arrow.hide()
             self.painting_right_arrow.hide()
         else:
-            self.painting_left_arrow.show()
-            self.painting_right_arrow.show()
+            self.painting_left_arrow = create_left_arrow_button_full(self.paintings_gallery, self.show_previous_painting)
+            self.painting_right_arrow = create_right_arrow_button_full(self.paintings_gallery, self.show_next_painting)
 
             # photo_amount = len(paintings_path)
             # half_photo_amount = photo_amount // 2
@@ -1160,10 +1162,29 @@ class Ui_MyMainWindow(object):
         self.show_current_artist(self.current_artist_index)
 
     def show_previous_painting(self):
-        pass
+        paintings_folder = os.path.abspath(os.path.join
+                                           (f"{self.artists_data['persons'][self.current_artist_index]['paintings_path']}",
+                                            "*"))
+        paintings_path = sorted(glob.glob(paintings_folder))
+        current_folder_length = len(paintings_path)
+        if self.painting_index < 0:
+            self.painting_index = current_folder_length - 1
+        else:
+            self.painting_index -= 1
+        self.show_paintings_gallery()
 
     def show_next_painting(self):
-        pass
+        paintings_folder = os.path.abspath(os.path.join
+                                           (f"{self.artists_data['persons'][self.current_artist_index]['paintings_path']}",
+                                            "*"))
+        paintings_path = sorted(glob.glob(paintings_folder))
+        current_folder_length = len(paintings_path)
+
+        if self.painting_index >= current_folder_length - 1:
+            self.painting_index = 0
+        else:
+            self.painting_index += 1
+        self.show_paintings_gallery()
 
 
     def retranslateUi(self, MyMainWindow):
