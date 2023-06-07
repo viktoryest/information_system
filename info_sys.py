@@ -472,7 +472,7 @@ class Ui_MyMainWindow(object):
                                                       "border: 0; background-repeat: no-repeat;")
         self.jewelry_button_on_painting.setGeometry(QtCore.QRect(0, 285, 491, 307))
 
-        self.embroidery_button_on_painting = create_embroidery_button(self.painting_widget, self.show_embroidery_widget)
+        self.embroidery_button_on_painting = create_embroidery_button(self.painting_widget, self.embroidery_pressed)
         self.embroidery_button_on_painting.setGeometry(QtCore.QRect(0, 440, 491, 150))
         self.painting_on_painting = create_painting_button(self.painting_widget, None)
         self.painting_on_painting.setStyleSheet("background-image: url(:/left_menu/painting_inactive.png); "
@@ -739,9 +739,12 @@ class Ui_MyMainWindow(object):
         self.video_photo_widget.hide()
         self.masters_widget.hide()
         self.jewelry_content.hide()
+        self.embroidery_video_photo.hide()
         self.embroidery_widget.show()
         self.embroidery_content.show()
         self.embroidery_photo_gallery.hide()
+        self.painting_widget.hide()
+
 
     def back_to_jewelry(self):
         self.masters_widget.hide()
@@ -1122,12 +1125,36 @@ class Ui_MyMainWindow(object):
             self.painting_viewer.setGeometry(QtCore.QRect(731 + x_offset, 283 + y_offset, 923, 627))
             self.paintings_widgets.append(self.painting_viewer)
 
-        if len(paintings_path) <= 1:
-            self.painting_left_arrow.hide()
-            self.painting_right_arrow.hide()
+        if hasattr(self, "painting_title"):
+            print('hasattr')
+            self.painting_title.setStyleSheet("background: transparent; border: 0; "
+                                              "qproperty-textInteractionFlags: NoTextInteraction;")
+            self.painting_title.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+            self.painting_title.setGeometry(QtCore.QRect(700, 200, 1000, 36))
+            self.painting_title.setText(paintings_path[self.painting_index].split('\\')[-1].split('.')[0])
+            self.painting_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+            self.painting_title.setTextColor(QColor(73, 64, 69))
+            self.painting_title.setFont(self.font_20)
+            self.painting_title.setObjectName("painting_title")
+
         else:
-            self.painting_left_arrow = create_left_arrow_button_full(self.paintings_gallery, self.show_previous_painting)
-            self.painting_right_arrow = create_right_arrow_button_full(self.paintings_gallery, self.show_next_painting)
+            print('no attr')
+            self.painting_title = QtWidgets.QTextEdit(self.paintings_gallery)
+            self.painting_title.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+            self.painting_title.setGeometry(QtCore.QRect(700, 200, 1000, 36))
+            self.painting_title.setText(paintings_path[self.painting_index].split('\\')[-1].split('.')[0])
+            self.painting_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+            self.painting_title.setTextColor(QColor(73, 64, 69))
+            self.painting_title.setFont(self.font_20)
+            self.painting_title.setObjectName("painting_title")
+            self.painting_title.setStyleSheet("background: transparent; border: 0; "
+                                              "qproperty-textInteractionFlags: NoTextInteraction;")
+
+        self.painting_left_arrow = create_left_arrow_button_full(self.paintings_gallery, self.show_previous_painting)
+        self.painting_right_arrow = create_right_arrow_button_full(self.paintings_gallery, self.show_next_painting)
+
+
+
 
             # photo_amount = len(paintings_path)
             # half_photo_amount = photo_amount // 2
