@@ -291,7 +291,8 @@ class Ui_MyMainWindow(object):
 
         self.embroidery_content = QtWidgets.QWidget(parent=self.embroidery_widget)
         self.embroidery_content.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
-        self.embroidery_content.setStyleSheet("background-image: transparent; border: 0;")
+        self.embroidery_content.setStyleSheet("background-image: transparent; border: 0; "
+                                              "qproperty-textInteractionFlags: NoTextInteraction;")
         self.embroidery_content.setObjectName("embroiderers")
         self.embroidery_content.hide()
 
