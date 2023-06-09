@@ -473,7 +473,7 @@ class Ui_MyMainWindow(object):
                                                       "border: 0; background-repeat: no-repeat;")
         self.jewelry_button_on_painting.setGeometry(QtCore.QRect(0, 285, 491, 307))
 
-        self.embroidery_button_on_painting = create_embroidery_button(self.painting_widget, self.embroidery_pressed)
+        self.embroidery_button_on_painting = create_embroidery_button(self.painting_widget, self.show_embroidery_content)
         self.embroidery_button_on_painting.setGeometry(QtCore.QRect(0, 440, 491, 150))
         self.painting_on_painting = create_painting_button(self.painting_widget, None)
         self.painting_on_painting.setStyleSheet("background-image: url(:/left_menu/painting_inactive.png); "
@@ -517,6 +517,10 @@ class Ui_MyMainWindow(object):
         self.painting_widget.hide()
 
     def show_jewelry_widget(self):
+        self.masters_button.setStyleSheet("background-image: url(:/jewelry/masters.png); border: 0;")
+        self.video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png);"
+                                              "background-repeat: no-repeat; border: 0;")
+        self.video_photo_button.setGeometry(QtCore.QRect(40, 485, 452, 121))
         self.jewelry_widget.show()
         self.embroidery_widget.hide()
         self.painting_widget.hide()
@@ -536,6 +540,12 @@ class Ui_MyMainWindow(object):
         self.paintings_gallery.hide()
 
     def show_embroiderers_buttons(self):
+        self.embroiderers_button.setStyleSheet("background-image: url(:/left_menu/embroiderers_active.png); "
+                                               "background-repeat: no-repeat; border: 0;")
+        self.embroiderers_button.setGeometry(QtCore.QRect(60, 554, 402, 115))
+        self.embroidery_video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png); "
+                                                         "border: 0; background-repeat: no-repeat;")
+        self.embroidery_video_photo_button.setGeometry(QtCore.QRect(37, 645, 452, 130))
         self.embroidery_content.hide()
         self.embroidery_buttons_widget.show()
         self.embroiderers.show()
@@ -548,6 +558,12 @@ class Ui_MyMainWindow(object):
         self.current_embroiderer.hide()
 
     def show_embroidery_video_photo(self):
+        self.embroidery_video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo_pressed.png); "
+                                                         "border: 0; background-repeat: no-repeat;")
+        self.embroidery_video_photo_button.setGeometry(QtCore.QRect(63, 670, 452, 130))
+        self.embroiderers_button.setStyleSheet("background-image: url(:/left_menu/embroiderers.png);"
+                                               "border: 0; background-repeat: no-repeat;")
+        self.embroiderers_button.setGeometry(QtCore.QRect(40, 554, 452, 121))
         self.embroidery_widget.show()
         self.embroidery_video_photo.show()
         self.embroidery_widget.show()
@@ -558,6 +574,12 @@ class Ui_MyMainWindow(object):
         self.jewelry_content.hide()
 
     def show_embroidery_content(self):
+        self.embroidery_video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png); "
+                                                         "border: 0; background-repeat: no-repeat;")
+        self.embroidery_video_photo_button.setGeometry(QtCore.QRect(37, 645, 452, 130))
+        self.embroiderers_button.setStyleSheet("background-image: url(:/left_menu/embroiderers.png);"
+                                               "border: 0; background-repeat: no-repeat;")
+        self.embroiderers_button.setGeometry(QtCore.QRect(40, 554, 452, 121))
         self.embroidery_content.show()
         self.embroidery_buttons_widget.hide()
         self.embroidery_video_photo.hide()
