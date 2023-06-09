@@ -1107,6 +1107,9 @@ class Ui_MyMainWindow(object):
 
     def show_paintings_gallery(self):
         self.current_artist.hide()
+        self.title_line = QtWidgets.QLabel(parent=self.paintings_gallery)
+        self.title_line.setGeometry(830, 250, 727, 2)
+        self.title_line.setStyleSheet("background-image: url(:/painting/title_line.png); border: 0;")
         if not self.paintings_gallery.isVisible():
             self.painting_index = 0
 
@@ -1165,10 +1168,12 @@ class Ui_MyMainWindow(object):
             self.painting_title = QtWidgets.QTextEdit(self.paintings_gallery)
             self.painting_title.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
             self.painting_title.setGeometry(QtCore.QRect(700, 200, 1000, 36))
-            self.painting_title.setText(paintings_path[self.painting_index].split('\\')[-1].split('.')[0])
-            self.painting_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+
+
             self.painting_title.setTextColor(QColor(73, 64, 69))
             self.painting_title.setFont(self.font_20)
+            self.painting_title.setText(paintings_path[self.painting_index].split('\\')[-1].split('.')[0])
+            self.painting_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
             self.painting_title.setObjectName("painting_title")
             self.painting_title.setStyleSheet("background: transparent; border: 0; "
                                               "qproperty-textInteractionFlags: NoTextInteraction;")
