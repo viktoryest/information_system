@@ -525,6 +525,8 @@ class Ui_MyMainWindow(object):
         self.embroidery_widget.hide()
         self.painting_widget.hide()
         self.jewelry_content.show()
+        self.embroidery_content.hide()
+        self.embroidery_video_photo.hide()
 
     def show_embroidery_widget(self):
         self.embroidery_widget.show()
@@ -606,6 +608,10 @@ class Ui_MyMainWindow(object):
 
     def embroidery_play_video(self, index):
         self.embroidery_play_video_state = True
+        self.jewelry_widget.hide()
+        self.video_photo_widget.hide()
+        self.jewelry_content.hide()
+        self.photo_gallery_widget.hide()
         self.embroidery_play_button.hide()
         self.embroidery_video_preview.hide()
         self.embroidery_player.setSource(QUrl.fromLocalFile(f"video/embroidery/video_{index}.mp4"))
@@ -622,6 +628,9 @@ class Ui_MyMainWindow(object):
         self.player.stop()
         self.player.videoOutput().hide()
         self.video_preview.show()
+        self.videoWidget.hide()
+        self.player.videoOutput().hide()
+        self.player.stop()
         self.play_button.show()
 
     def embroidery_stop_video(self):
