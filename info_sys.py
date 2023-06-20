@@ -277,12 +277,14 @@ class Ui_MyMainWindow(object):
         self.left_arrow = create_left_arrow(self.current_master, self.show_previous_master)
         self.right_arrow = create_right_arrow(self.current_master, self.show_next_master)
 
+        # set embroidery widget
         self.embroidery_widget = QtWidgets.QWidget(parent=self.main_hall)
         self.embroidery_widget.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
         self.embroidery_widget.setStyleSheet("background-image: url(:/embroidery/embroidery_bg.png); border: 0;")
         self.embroidery_widget.setObjectName("embroidery_widget")
         self.embroidery_widget.hide()
 
+        # set wdget for embroidery buttons
         self.embroiderers = QtWidgets.QWidget(parent=self.embroidery_widget)
         self.embroiderers.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
         self.embroiderers.setStyleSheet("background-image: transparent; border: 0;")
@@ -527,6 +529,7 @@ class Ui_MyMainWindow(object):
         self.jewelry_content.show()
         self.embroidery_content.hide()
         self.embroidery_video_photo.hide()
+        self.video_photo_widget.hide()
 
     def show_embroidery_widget(self):
         self.embroidery_widget.show()
