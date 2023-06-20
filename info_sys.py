@@ -32,25 +32,36 @@ from video_elements import create_video_title, create_video_preview, create_play
 
 
 class Ui_MyMainWindow(object):
+    from directories import jewelry_photo_common_path, embroidery_photo_common_path
+    dirname = os.path.dirname(__file__)
+
     play_video_state = False
     embroidery_play_video_state = False
-    embroidery_play_buttons = []
-    current_photo_index = 0
-    clicked_photo_index = 0
+
     indicators = []
     photo_widgets = []
     photo_preview_buttons = []
-    embroidery_preview_buttons = []
-    photo_preview = None
-    jewelry_data = None
-    embroidery_data = None
     jewelry_master_buttons = []
+    embroidery_play_buttons = []
     embroidery_master_buttons = []
+    embroidery_preview_buttons = []
+    embroidery_photo_widgets = []
     painting_master_buttons = []
+    paintings_widgets = []
+
+    current_photo_index = 0
+    clicked_photo_index = 0
     current_master_index = 0
+    embroidery_current_photo_index = 0
+    embroidery_clicked_photo_index = 0
     current_embroiderer_index = 0
     current_artist_index = 0
     painting_index = 0
+
+    photo_preview = None
+    embroidery_data = None
+    jewelry_data = None
+
     with open("texts/painting/artists.json", "r", encoding="utf-8") as file:
         data = json.load(file)
         artists_data = data
@@ -59,33 +70,8 @@ class Ui_MyMainWindow(object):
                                             "*"))
     paintings_path = sorted(glob.glob(paintings_folder))
 
-    paintings_widgets = []
-
-    dirname = os.path.dirname(__file__)
-
-    jewelry_photo_common = os.path.join(dirname, 'images/jewelry/photo_common')
-    jewelry_photo_common_path = os.path.join(jewelry_photo_common, '*')
-
-    jewelry_photo_masters = os.path.join(dirname, 'images/jewelry/photo_masters')
-    jewelry_photo_masters_path = os.path.join(jewelry_photo_masters, '*')
-
-    masters_paths = sorted(glob.glob(jewelry_photo_masters_path))
-    photo_paths = sorted(glob.glob(jewelry_photo_common_path))
     files_amount = len(glob.glob(jewelry_photo_common_path))
-
-    embroidery_photo_common = os.path.join(dirname, 'images/embroidery/photo_common')
-    embroidery_photo_common_path = os.path.join(embroidery_photo_common, '*')
-
-    embroiderers_photos = os.path.join(dirname, 'images/embroidery/embroiderers_photos')
-    embroiderers_photo_path = os.path.join(embroiderers_photos, '*')
-
-    embroiderers_paths = sorted(glob.glob(embroiderers_photo_path))
-    embroidery_photo_paths = sorted(glob.glob(embroidery_photo_common_path))
     embroidery_files_amount = len(glob.glob(embroidery_photo_common_path))
-
-    embroidery_photo_widgets = []
-    embroidery_current_photo_index = 0
-    embroidery_clicked_photo_index = 0
 
     # main screen
     def setupUi(self, MyMainWindow):
