@@ -3,7 +3,7 @@ import json
 import os.path
 from PySide6 import QtMultimedia
 from PySide6.QtCore import QUrl
-from PySide6.QtGui import QFont, QFontDatabase, Qt, QColor
+from PySide6.QtGui import Qt, QColor
 from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimediaWidgets import QVideoWidget
 from functools import partial
@@ -29,10 +29,13 @@ from jewelry_widget_elements import create_jewelry_pass, create_jewelry_content,
     create_jewelry_main_text_1, create_jewelry_title_2, create_jewelry_main_text_2
 from main_hall_buttons import create_jewelry, create_embroidery, create_painting
 from video_elements import create_video_title, create_video_preview, create_play_button
+from json_sourses import*
+from fonts_sourses import*
 
 
 class Ui_MyMainWindow(object):
     from directories import jewelry_photo_common_path, embroidery_photo_common_path
+
     dirname = os.path.dirname(__file__)
 
     play_video_state = False
@@ -125,26 +128,12 @@ class Ui_MyMainWindow(object):
         self.jewelry_pass = create_jewelry_pass(self.jewelry_widget, None)
         self.jewelry_content = create_jewelry_content(self.jewelry_widget)
 
-        # set fornt for jewelry content
-        with open('texts/jewelry/jewelry_art.json', 'r', encoding='utf-8') as file:
-            data = json.load(file)
-
-        fontId = QFontDatabase.addApplicationFont(":/fonts/MinionPro-Regular.ttf")
-        fontName = QFontDatabase.applicationFontFamilies(fontId)[0]
-        # font for title
-        self.font_20 = QFont(fontName, 20)
-        self.font_20_bold = QFont(fontName, 20, QFont.Bold)
-        # font for text
-        self.font_16 = QFont(fontName, 16)
-        # font for buttons
-        self.font_18 = QFont(fontName, 18)
-        self.font_24 = QFont(fontName, 24)
-
         # set text for jewelry content
-        self.jewelry_title_1 = create_jewelry_title_1(self.jewelry_content, data, self.font_20)
-        self.jewelry_main_text_1 = create_jewelry_main_text_1(self.jewelry_content, data, self.font_16)
-        self.jewelry_title_2 = create_jewelry_title_2(self.jewelry_content, data, self.font_20)
-        self.jewelry_main_text_2 = create_jewelry_main_text_2(self.jewelry_content, data, self.font_16)
+        jewelry_data = get_jewelry_data()
+        self.jewelry_title_1 = create_jewelry_title_1(self.jewelry_content, jewelry_data, get_font(20))
+        self.jewelry_main_text_1 = create_jewelry_main_text_1(self.jewelry_content, jewelry_data, get_font(16))
+        self.jewelry_title_2 = create_jewelry_title_2(self.jewelry_content, jewelry_data, get_font(20))
+        self.jewelry_main_text_2 = create_jewelry_main_text_2(self.jewelry_content, jewelry_data, get_font(16))
 
         # set back button
         self.back_button_jewelry_content = create_back_button(self.jewelry_content, self.show_main_hall)
@@ -239,10 +228,10 @@ class Ui_MyMainWindow(object):
         self.masters_buttons_widget.hide()
 
         self.back_button_jewelry_masters = create_back_button(self.masters_buttons_widget, self.back_to_jewelry)
-        self.jewelry_master_buttons = create_jewelry_masters_buttons(self.masters_buttons_widget, self.font_18,
+        self.jewelry_master_buttons = create_jewelry_masters_buttons(self.masters_buttons_widget, get_font(18),
                                                                      self.jewelry_master_buttons,
                                                                      self.change_clicked_master)[0]
-        self.jewelry_data = create_jewelry_masters_buttons(self.masters_buttons_widget, self.font_18,
+        self.jewelry_data = create_jewelry_masters_buttons(self.masters_buttons_widget, get_font(18),
                                                            self.jewelry_master_buttons,
                                                            self.change_clicked_master)[1]
 
@@ -289,7 +278,7 @@ class Ui_MyMainWindow(object):
 
         self.embroidery_history.setStyleSheet("QTextEdit {background: transparent; border: 0;} QScrollBar {width: 0;}")
         self.embroidery_history.setTextColor(QColor(73, 64, 69))
-        self.embroidery_history.setFont(self.font_18)
+        self.embroidery_history.setFont(get_font(18))
         self.embroidery_history.setFontPointSize(18)
         self.embroidery_history.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.embroidery_history.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
@@ -308,10 +297,10 @@ class Ui_MyMainWindow(object):
         self.embroidery_buttons_widget.hide()
 
         # embroidery masters buttons
-        self.embroidery_master_buttons = create_embroidery_masters_buttons(self.embroidery_buttons_widget, self.font_18,
+        self.embroidery_master_buttons = create_embroidery_masters_buttons(self.embroidery_buttons_widget, get_font(18),
                                                                            self.embroidery_master_buttons,
                                                                            self.change_clicked_embroiderer)[0]
-        self.embroidery_data = create_embroidery_masters_buttons(self.embroidery_buttons_widget, self.font_18,
+        self.embroidery_data = create_embroidery_masters_buttons(self.embroidery_buttons_widget, get_font(18),
                                                                  self.embroidery_master_buttons,
                                                                  self.change_clicked_embroiderer)[1]
 
@@ -419,10 +408,10 @@ class Ui_MyMainWindow(object):
 
         self.painting_buttons_back = create_back_button(self.buttons_on_painting, self.show_main_hall)
 
-        self.painting_master_buttons = create_painting_masters_buttons(self.buttons_on_painting, self.font_18,
+        self.painting_master_buttons = create_painting_masters_buttons(self.buttons_on_painting, get_font(18),
                                                                        self.painting_master_buttons,
                                                                        self.change_clicked_artist)[0]
-        self.artists_data = create_painting_masters_buttons(self.buttons_on_painting, self.font_18,
+        self.artists_data = create_painting_masters_buttons(self.buttons_on_painting, get_font(18),
                                                             self.painting_master_buttons,
                                                             self.change_clicked_artist)[1]
 
@@ -976,20 +965,20 @@ class Ui_MyMainWindow(object):
         if hasattr(self, 'person_name_button'):
             self.person_name_button.setText(self.jewelry_data['persons'][index]['full_name'])
         else:
-            self.person_name_button = create_name_button(self.current_master, index, self.jewelry_data, self.font_24)
+            self.person_name_button = create_name_button(self.current_master, index, self.jewelry_data, get_font(24))
 
         if hasattr(self, 'master_title'):
             self.master_title.setText(self.jewelry_data['persons'][index]['title'])
             self.master_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         else:
-            self.master_title = create_current_master_title(self.current_master, index, self.jewelry_data, self.font_20)
+            self.master_title = create_current_master_title(self.current_master, index, self.jewelry_data, get_font(20))
 
         if hasattr(self, 'master_description'):
             self.master_description.setText(self.jewelry_data['persons'][index]['description'])
             self.master_description.setAlignment(Qt.AlignmentFlag.AlignJustify)
         else:
             self.master_description = create_current_master_description(self.current_master, index, self.jewelry_data,
-                                                                        self.font_16)
+                                                                        get_font(16))
 
         self.current_master.show()
 
@@ -1011,21 +1000,21 @@ class Ui_MyMainWindow(object):
             self.person_name_button.setText(self.embroidery_data['persons'][index]['full_name'])
         else:
             self.person_name_button = create_name_button(self.current_embroiderer, index, self.embroidery_data,
-                                                         self.font_24)
+                                                         get_font(24))
 
         if hasattr(self, 'embroiderer_title'):
             self.embroiderer_title.setText(self.embroidery_data['persons'][index]['title'])
             self.embroiderer_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         else:
             self.embroiderer_title = create_current_embroiderer_title(self.current_embroiderer, index,
-                                                                      self.embroidery_data, self.font_20)
+                                                                      self.embroidery_data, get_font(20))
 
         if hasattr(self, 'embroiderer_description'):
             self.embroiderer_description.setText(self.embroidery_data['persons'][index]['description'])
             self.embroiderer_description.setAlignment(Qt.AlignmentFlag.AlignJustify)
         else:
             self.embroiderer_description = create_current_embroiderer_description(self.current_embroiderer, index,
-                                                                                  self.embroidery_data, self.font_16)
+                                                                                  self.embroidery_data, get_font(16))
 
         self.current_embroiderer.show()
 
@@ -1054,7 +1043,7 @@ class Ui_MyMainWindow(object):
             self.artist_name_button.setText(self.artists_data['persons'][index]['full_name'])
         else:
             self.artist_name_button = create_name_button(self.current_artist, index, self.artists_data,
-                                                         self.font_24)
+                                                         get_font(24))
 
         if hasattr(self, 'artist_title'):
             if no_photo:
@@ -1068,11 +1057,11 @@ class Ui_MyMainWindow(object):
         else:
             if no_photo:
                 self.artist_title = create_current_artist_title(self.current_artist, index,
-                                                                self.artists_data, self.font_20_bold,
+                                                                self.artists_data, get_font(20, QFont.Bold),
                                                                 580, 380, 1220, 36)
             else:
                 self.artist_title = create_current_artist_title(self.current_artist, index,
-                                                                self.artists_data, self.font_20_bold,
+                                                                self.artists_data, get_font(20, QFont.Bold),
                                                                 1109, 393, 684, 36)
 
         if hasattr(self, 'artist_description'):
@@ -1085,11 +1074,11 @@ class Ui_MyMainWindow(object):
         else:
             if no_photo:
                 self.artist_description = create_current_artist_description(self.current_artist, index,
-                                                                            self.artists_data, self.font_16,
+                                                                            self.artists_data, get_font(16),
                                                                             580, 440, 1220, 350)
             else:
                 self.artist_description = create_current_artist_description(self.current_artist, index,
-                                                                            self.artists_data, self.font_16,
+                                                                            self.artists_data, get_font(16),
                                                                             1109, 440, 684, 350)
         if hasattr(self, 'paintings_button'):
             if no_photo:
@@ -1160,7 +1149,7 @@ class Ui_MyMainWindow(object):
             self.painting_title.setText(paintings_path[self.painting_index].split('\\')[-1].split('.')[0])
             self.painting_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
             self.painting_title.setTextColor(QColor(73, 64, 69))
-            self.painting_title.setFont(self.font_20)
+            self.painting_title.setFont(get_font(20))
             self.painting_title.setObjectName("painting_title")
 
         else:
@@ -1170,7 +1159,7 @@ class Ui_MyMainWindow(object):
 
 
             self.painting_title.setTextColor(QColor(73, 64, 69))
-            self.painting_title.setFont(self.font_20)
+            self.painting_title.setFont(get_font(20))
             self.painting_title.setText(paintings_path[self.painting_index].split('\\')[-1].split('.')[0])
             self.painting_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
             self.painting_title.setObjectName("painting_title")
