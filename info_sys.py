@@ -509,13 +509,13 @@ class Ui_MyMainWindow(object):
         self.video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png);"
                                               "background-repeat: no-repeat; border: 0;")
         self.video_photo_button.setGeometry(QtCore.QRect(40, 485, 452, 121))
+        self.video_photo_widget.hide()
         self.jewelry_widget.show()
-        self.embroidery_widget.hide()
-        self.painting_widget.hide()
         self.jewelry_content.show()
+        self.embroidery_widget.hide()
         self.embroidery_content.hide()
         self.embroidery_video_photo.hide()
-        self.video_photo_widget.hide()
+        self.painting_widget.hide()
 
     def show_embroidery_widget(self):
         self.embroidery_widget.show()
@@ -523,9 +523,9 @@ class Ui_MyMainWindow(object):
         self.painting_widget.hide()
 
     def show_painting_widget(self):
-        self.painting_widget.show()
-        self.embroidery_widget.hide()
         self.jewelry_widget.hide()
+        self.embroidery_widget.hide()
+        self.painting_widget.show()
         self.buttons_on_painting.show()
         self.current_artist.hide()
         self.paintings_gallery.hide()
