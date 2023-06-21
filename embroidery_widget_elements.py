@@ -1,5 +1,4 @@
 import json
-
 from PySide6 import QtWidgets, QtCore
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor

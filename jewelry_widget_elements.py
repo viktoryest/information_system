@@ -1,5 +1,3 @@
-import json
-
 from PySide6 import QtWidgets, QtCore
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor
@@ -23,18 +21,18 @@ def create_jewelry_content(parent):
     return jewelry_content
 
 
-def create_jewelry_title_1(parent, data, font_20):
-    jewelry_title_1 = QtWidgets.QTextEdit(parent=parent)
-    jewelry_title_1.setGeometry(QtCore.QRect(583, 229, 1174, 36))
-    jewelry_title_1.setStyleSheet("background: transparent; qproperty-textInteractionFlags: NoTextInteraction;")
-    jewelry_title_1.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-    jewelry_title_1.setTextColor(QColor(73, 64, 69))
-    jewelry_title_1.setFont(font_20)
-    jewelry_title_1.setObjectName("jewelry_title_1")
-    jewelry_title_1.setReadOnly(True)
-    jewelry_title_1.setText(data['title_1'])
-    jewelry_title_1.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-    return jewelry_title_1
+def create_jewelry_title(parent, data, font_20, obj_name, json_title):
+    jewelry_title = QtWidgets.QTextEdit(parent=parent)
+    jewelry_title.setGeometry(QtCore.QRect(583, 229, 1174, 36))
+    jewelry_title.setStyleSheet("background: transparent; qproperty-textInteractionFlags: NoTextInteraction;")
+    jewelry_title.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+    jewelry_title.setTextColor(QColor(73, 64, 69))
+    jewelry_title.setFont(font_20)
+    jewelry_title.setObjectName(obj_name)
+    jewelry_title.setReadOnly(True)
+    jewelry_title.setText(data[json_title])
+    jewelry_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+    return jewelry_title
 
 
 def create_jewelry_main_text_1(parent, data, font_16):

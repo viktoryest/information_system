@@ -1,36 +1,21 @@
-import glob
-import json
 import os.path
-from PySide6 import QtMultimedia
-from PySide6.QtCore import QUrl
-from PySide6.QtGui import Qt, QColor
-from PySide6.QtMultimedia import QMediaPlayer
-from PySide6.QtMultimediaWidgets import QVideoWidget
 from functools import partial
-from PySide6 import QtCore, QtGui, QtWidgets
-from PySide6.QtWidgets import QScrollArea, QVBoxLayout, QWidget, QScrollBar
 
-from current_artist_elements import create_current_artist_photo, create_current_artist_title, \
-    create_current_artist_description, create_paintings_button
-from current_embroiderer_elements import create_current_embroiderer_photo, create_current_embroiderer_title, \
-    create_current_embroiderer_description
-from current_master_elements import create_current_master_button, create_name_button, create_current_master_title, \
-    create_current_master_description, create_left_arrow, create_right_arrow
-from embroiderers_masters_buttons import create_embroidery_masters_buttons
-from embroidery_widget_elements import create_embroiderers_button, create_embroidery_title, create_embroidery_main_text
-from jewelry_masters_buttons import create_jewelry_masters_buttons
-from left_menu_buttons import create_masters_button, create_video_photo_button, create_embroidery_button, \
-    create_painting_button
-from painting_master_buttons import create_painting_masters_buttons
-from photo_elements import create_left_arrow_button, create_right_arrow_button, create_photo_title, \
-    create_left_arrow_button_full, create_right_arrow_button_full, create_photo_previews
+from main_hall_buttons import *
+from left_menu_buttons import *
 from common_elements import create_back_button
-from jewelry_widget_elements import create_jewelry_pass, create_jewelry_content, create_jewelry_title_1, \
-    create_jewelry_main_text_1, create_jewelry_title_2, create_jewelry_main_text_2
-from main_hall_buttons import create_jewelry, create_embroidery, create_painting
-from video_elements import create_video_title, create_video_preview, create_play_button
-from json_sourses import*
-from fonts_sourses import*
+from json_sourses import *
+from fonts_sourses import *
+from photo_elements import *
+from video_elements import *
+from jewelry_widget_elements import *
+from jewelry_masters_buttons import create_jewelry_masters_buttons
+from current_master_elements import *
+from current_embroiderer_elements import *
+from embroidery_widget_elements import create_embroiderers_button
+from embroiderers_masters_buttons import create_embroidery_masters_buttons
+from painting_master_buttons import create_painting_masters_buttons
+from current_artist_elements import *
 
 
 class Ui_MyMainWindow(object):
@@ -69,8 +54,8 @@ class Ui_MyMainWindow(object):
         data = json.load(file)
         artists_data = data
     paintings_folder = os.path.abspath(os.path.join
-                                        (f"{artists_data['persons'][current_artist_index]['paintings_path']}",
-                                            "*"))
+                                       (f"{artists_data['persons'][current_artist_index]['paintings_path']}",
+                                        "*"))
     paintings_path = sorted(glob.glob(paintings_folder))
 
     files_amount = len(glob.glob(jewelry_photo_common_path))
@@ -130,7 +115,7 @@ class Ui_MyMainWindow(object):
 
         # set text for jewelry content
         jewelry_data = get_jewelry_data()
-        self.jewelry_title_1 = create_jewelry_title_1(self.jewelry_content, jewelry_data, get_font(20))
+        self.jewelry_title_1 = create_jewelry_title(self.jewelry_content, jewelry_data, get_font(20), 'jewelry_title_1', 'title_1')
         self.jewelry_main_text_1 = create_jewelry_main_text_1(self.jewelry_content, jewelry_data, get_font(16))
         self.jewelry_title_2 = create_jewelry_title_2(self.jewelry_content, jewelry_data, get_font(20))
         self.jewelry_main_text_2 = create_jewelry_main_text_2(self.jewelry_content, jewelry_data, get_font(16))
@@ -450,7 +435,8 @@ class Ui_MyMainWindow(object):
                                                       "border: 0; background-repeat: no-repeat;")
         self.jewelry_button_on_painting.setGeometry(QtCore.QRect(0, 285, 491, 307))
 
-        self.embroidery_button_on_painting = create_embroidery_button(self.painting_widget, self.show_embroidery_content)
+        self.embroidery_button_on_painting = create_embroidery_button(self.painting_widget,
+                                                                      self.show_embroidery_content)
         self.embroidery_button_on_painting.setGeometry(QtCore.QRect(0, 440, 491, 150))
         self.painting_on_painting = create_painting_button(self.painting_widget, None)
         self.painting_on_painting.setStyleSheet("background-image: url(:/left_menu/painting_inactive.png); "
@@ -568,7 +554,6 @@ class Ui_MyMainWindow(object):
         self.current_embroiderer.hide()
         self.embroidery_photo_gallery.hide()
         self.jewelry_content.hide()
-
 
     def show_video_photo(self):
         self.play_video_state = True
@@ -757,7 +742,6 @@ class Ui_MyMainWindow(object):
         self.embroidery_content.show()
         self.embroidery_photo_gallery.hide()
         self.painting_widget.hide()
-
 
     def back_to_jewelry(self):
         self.masters_widget.hide()
@@ -1104,7 +1088,7 @@ class Ui_MyMainWindow(object):
             self.painting_index = 0
 
         paintings_folder = os.path.abspath(os.path.join
-                                        (f"{self.artists_data['persons'][self.current_artist_index]['paintings_path']}",
+                                           (f"{self.artists_data['persons'][self.current_artist_index]['paintings_path']}",
                                             "*"))
         paintings_path = sorted(glob.glob(paintings_folder))
 
@@ -1157,7 +1141,6 @@ class Ui_MyMainWindow(object):
             self.painting_title.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
             self.painting_title.setGeometry(QtCore.QRect(700, 200, 1000, 36))
 
-
             self.painting_title.setTextColor(QColor(73, 64, 69))
             self.painting_title.setFont(get_font(20))
             self.painting_title.setText(paintings_path[self.painting_index].split('\\')[-1].split('.')[0])
@@ -1169,21 +1152,21 @@ class Ui_MyMainWindow(object):
         self.painting_left_arrow = create_left_arrow_button_full(self.paintings_gallery, self.show_previous_painting)
         self.painting_right_arrow = create_right_arrow_button_full(self.paintings_gallery, self.show_next_painting)
 
-            # photo_amount = len(paintings_path)
-            # half_photo_amount = photo_amount // 2
-            # offset = 1420 - half_photo_amount * 32
-            # if 10 >= photo_amount > 0:
-            #     for i in range(photo_amount):
-            #         indicator = QtWidgets.QLabel(parent=self.paintings_gallery)
-            #         indicator.setGeometry(QtCore.QRect(offset + i * 32, 830, 30, 29))
-            #         indicator.setStyleSheet("background-image: url(:/jewelry/indicator.png); border: 0; "
-            #                                 "background-repeat: no-repeat")
-            #         indicator.setText("")
-            #         indicator.setObjectName("indicator")
-            #         self.indicators.append(indicator)
-            #
-            # self.indicators[self.painting_index].setStyleSheet(
-            #     "background-image: url(:/jewelry/indicator_active.png); border: 0;")
+        # photo_amount = len(paintings_path)
+        # half_photo_amount = photo_amount // 2
+        # offset = 1420 - half_photo_amount * 32
+        # if 10 >= photo_amount > 0:
+        #     for i in range(photo_amount):
+        #         indicator = QtWidgets.QLabel(parent=self.paintings_gallery)
+        #         indicator.setGeometry(QtCore.QRect(offset + i * 32, 830, 30, 29))
+        #         indicator.setStyleSheet("background-image: url(:/jewelry/indicator.png); border: 0; "
+        #                                 "background-repeat: no-repeat")
+        #         indicator.setText("")
+        #         indicator.setObjectName("indicator")
+        #         self.indicators.append(indicator)
+        #
+        # self.indicators[self.painting_index].setStyleSheet(
+        #     "background-image: url(:/jewelry/indicator_active.png); border: 0;")
 
         self.paintings_gallery.show()
 
@@ -1225,7 +1208,6 @@ class Ui_MyMainWindow(object):
         else:
             self.painting_index += 1
         self.show_paintings_gallery()
-
 
     def retranslateUi(self, MyMainWindow):
         _translate = QtCore.QCoreApplication.translate
