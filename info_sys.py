@@ -19,7 +19,10 @@ from current_artist_elements import *
 
 
 class Ui_MyMainWindow(object):
-    from directories import jewelry_photo_common_path, embroidery_photo_common_path
+    from directories import jewelry_photo_common, jewelry_photo_common_path, jewelry_photo_masters, \
+        jewelry_photo_masters_path, masters_paths, photo_paths, embroidery_photo_common, \
+        embroidery_photo_common_path, embroiderers_photos, embroiderers_photo_path, embroiderers_paths, \
+        embroidery_photo_paths
 
     dirname = os.path.dirname(__file__)
 
