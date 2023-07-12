@@ -1132,21 +1132,32 @@ class Ui_MyMainWindow(object):
             self.painting_title.setStyleSheet("background: transparent; border: 0; "
                                               "qproperty-textInteractionFlags: NoTextInteraction;")
             self.painting_title.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-            self.painting_title.setGeometry(QtCore.QRect(700, 200, 1000, 36))
-            self.painting_title.setText(paintings_path[self.painting_index].split('\\')[-1].split('.')[0])
+            painting_name = paintings_path[self.painting_index].split('\\')[-1][0:-4]
+            self.painting_title.setText(painting_name)
             self.painting_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
             self.painting_title.setTextColor(QColor(73, 64, 69))
-            self.painting_title.setFont(get_font(20))
+            if len(painting_name) > 50:
+                self.painting_title.setGeometry(QtCore.QRect(600, 200, 1200, 36))
+                self.painting_title.setFont(get_font(16))
+            else:
+                self.painting_title.setGeometry(QtCore.QRect(700, 200, 1000, 36))
+                self.painting_title.setFont(get_font(20))
             self.painting_title.setObjectName("painting_title")
 
         else:
             self.painting_title = QtWidgets.QTextEdit(self.paintings_gallery)
             self.painting_title.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-            self.painting_title.setGeometry(QtCore.QRect(700, 200, 1000, 36))
+
 
             self.painting_title.setTextColor(QColor(73, 64, 69))
-            self.painting_title.setFont(get_font(20))
-            self.painting_title.setText(paintings_path[self.painting_index].split('\\')[-1].split('.')[0])
+            painting_name = paintings_path[self.painting_index].split('\\')[-1][0:-4]
+            if len(painting_name) > 50:
+                self.painting_title.setGeometry(QtCore.QRect(600, 200, 1200, 36))
+                self.painting_title.setFont(get_font(16))
+            else:
+                self.painting_title.setGeometry(QtCore.QRect(700, 200, 1000, 36))
+                self.painting_title.setFont(get_font(20))
+            self.painting_title.setText(painting_name)
             self.painting_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
             self.painting_title.setObjectName("painting_title")
             self.painting_title.setStyleSheet("background: transparent; border: 0; "
