@@ -29,3 +29,12 @@ def create_painting(parent, clicked):
     painting.setObjectName("painting")
     painting.clicked.connect(clicked)
     return painting
+
+def create_video_page(parent, clicked):
+    video_page = QtWidgets.QPushButton(parent=parent)
+    video_page.setGeometry(QtCore.QRect(1500, 397, 527, 265))
+    video_page.setStyleSheet("background-image: url(:/main_hall/video_page.png); border: 0;")
+    video_page.setText("")
+    video_page.setObjectName("video_page")
+    video_page.clicked.connect(clicked)
+    return video_page
