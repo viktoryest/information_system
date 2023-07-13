@@ -426,13 +426,9 @@ class Ui_MyMainWindow(object):
         self.paintings_gallery.setObjectName("paintings_gallery")
         self.paintings_gallery.hide()
 
-        # self.painting_left_arrow = create_left_arrow_button_full(self.paintings_gallery,
-        #                                                          self.show_previous_painting)
-        # self.painting_right_arrow = create_right_arrow_button_full(self.paintings_gallery,
-        #                                                            self.show_next_painting)
-
         self.paintings_gallery_back = create_back_button(self.paintings_gallery, self.show_current_artist)
 
+        # buttons for left menu
         self.jewelry_button_on_painting = create_jewelry_pass(self.painting_widget, self.show_jewelry_widget)
         self.jewelry_button_on_painting.setStyleSheet("background-image: url(:/left_menu/jewelry_menu_inactive.png); "
                                                       "border: 0; background-repeat: no-repeat;")
@@ -445,12 +441,18 @@ class Ui_MyMainWindow(object):
         self.painting_on_painting.setStyleSheet("background-image: url(:/left_menu/painting_inactive.png); "
                                                 "background-repeat: no-repeat;")
         self.painting_on_painting.setGeometry(QtCore.QRect(0, 620, 491, 150))
+        self.video_button_on_painting = create_video_button(self.painting_widget, self.show_video_widget)
+        self.video_button_on_painting.setStyleSheet("background-image: url(:/left_menu/video_inactive.png); "
+                                                    "background-repeat: no-repeat;")
+        self.video_button_on_painting.setGeometry(QtCore.QRect(0, 700, 491, 150))
 
-        # buttons for left menu
         self.masters_button = create_masters_button(self.jewelry_widget, self.masters_pressed)
         self.video_photo_button = create_video_photo_button(self.jewelry_widget, self.video_photo_pressed)
         self.embroidery_button = create_embroidery_button(self.jewelry_widget, self.embroidery_pressed)
         self.painting_button = create_painting_button(self.jewelry_widget, self.show_painting_widget)
+        self.video_button = create_video_button(self.jewelry_widget, self.show_video_widget)
+        self.video_button.setStyleSheet("background-image: url(:/left_menu/video_inactive.png);"
+                                        " border: 0; background-repeat: no-repeat;")
 
         self.jewelry_button_on_embroidery = create_jewelry_pass(self.embroidery_widget, self.show_jewelry_widget)
         self.jewelry_button_on_embroidery.setStyleSheet("background-image: url(:/left_menu/jewelry_menu_inactive.png);"
@@ -469,6 +471,9 @@ class Ui_MyMainWindow(object):
                                                          "background-repeat: no-repeat;")
         self.embroidery_video_photo_button.setGeometry(QtCore.QRect(40, 645, 452, 130))
         self.embroidery_painting_button = create_painting_button(self.embroidery_widget, self.show_painting_widget)
+        self.video_button_on_embroidery = create_video_button(self.embroidery_widget, self.show_video_widget)
+        self.video_button_on_embroidery.setStyleSheet("background-image: url(:/left_menu/video_inactive.png);"
+                                        " border: 0; background-repeat: no-repeat;")
         self.embroidery_content_back_button = create_back_button(self.embroidery_content, self.show_main_hall)
 
         MyMainWindow.setCentralWidget(self.centralwidget)
@@ -507,6 +512,9 @@ class Ui_MyMainWindow(object):
         self.buttons_on_painting.show()
         self.current_artist.hide()
         self.paintings_gallery.hide()
+
+    def show_video_widget(self):
+        pass
 
     def show_embroiderers_buttons(self):
         self.embroiderers_button.setStyleSheet("background-image: url(:/left_menu/embroiderers_active.png); "

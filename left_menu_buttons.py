@@ -41,3 +41,13 @@ def create_painting_button(parent, clicked):
     return painting_button
 
 
+def create_video_button(parent, clicked):
+    video_button = QtWidgets.QPushButton(parent=parent)
+    video_button.setGeometry(QtCore.QRect(0, 900, 491, 121))
+    video_button.setStyleSheet("background-image: url(:/left_menu/video_menu.png); border: 0;")
+    video_button.setText("")
+    video_button.setObjectName("video_button")
+    video_button.clicked.connect(clicked)
+    return video_button
+
+
