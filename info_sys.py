@@ -87,7 +87,7 @@ class Ui_MyMainWindow(object):
 
         # set main button
         self.main_button = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.main_button.setGeometry(QtCore.QRect(560, 390, 859, 299))
+        self.main_button.setGeometry(QtCore.QRect(520, 350, 859, 299))
         self.main_button.setSizePolicy(sizePolicy)
         self.main_button.setStyleSheet("background-image: url(:/images/main_button.png); border: 0;")
         self.main_button.setText("")
@@ -97,6 +97,7 @@ class Ui_MyMainWindow(object):
         # set main hall widget (contains 3 buttons)
         self.main_hall = QtWidgets.QWidget(parent=self.centralwidget)
         self.main_hall.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.main_hall.setStyleSheet("background-image: url(:/main_hall/main_hall_bg.png); border: 0;")
         self.main_hall.setObjectName("main_hall")
         self.main_hall.hide()
 
@@ -104,6 +105,7 @@ class Ui_MyMainWindow(object):
         self.jewelry = create_jewelry(self.main_hall, self.show_jewelry_widget)
         self.embroidery = create_embroidery(self.main_hall, self.show_embroidery_widget)
         self.painting = create_painting(self.main_hall, self.show_painting_widget)
+        self.video_page = create_video_page(self.main_hall, self.show_video_widget)
 
         # set left menu widget
         self.jewelry_widget = QtWidgets.QWidget(parent=self.main_hall)
@@ -428,6 +430,12 @@ class Ui_MyMainWindow(object):
 
         self.paintings_gallery_back = create_back_button(self.paintings_gallery, self.show_current_artist)
 
+        self.video_widget = QtWidgets.QWidget(parent=self.main_hall)
+        self.video_widget.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
+        self.video_widget.setStyleSheet("background: url(:video/video_bg.png); border: 0;")
+        self.video_widget.setObjectName("video_widget")
+        self.video_widget.hide()
+
         # buttons for left menu
         self.jewelry_button_on_painting = create_jewelry_pass(self.painting_widget, self.show_jewelry_widget)
         self.jewelry_button_on_painting.setStyleSheet("background-image: url(:/left_menu/jewelry_menu_inactive.png); "
@@ -486,6 +494,7 @@ class Ui_MyMainWindow(object):
         self.jewelry_widget.hide()
         self.embroidery_widget.hide()
         self.painting_widget.hide()
+        self.main_button.hide()
 
     def show_jewelry_widget(self):
         self.masters_button.setStyleSheet("background-image: url(:/jewelry/masters.png); border: 0;")
@@ -514,7 +523,10 @@ class Ui_MyMainWindow(object):
         self.paintings_gallery.hide()
 
     def show_video_widget(self):
-        pass
+        self.jewelry_widget.hide()
+        self.embroidery_widget.hide()
+        self.painting_widget.hide()
+        self.video_widget.show()
 
     def show_embroiderers_buttons(self):
         self.embroiderers_button.setStyleSheet("background-image: url(:/left_menu/embroiderers_active.png); "
@@ -1173,23 +1185,6 @@ class Ui_MyMainWindow(object):
 
         self.painting_left_arrow = create_left_arrow_button_full(self.paintings_gallery, self.show_previous_painting)
         self.painting_right_arrow = create_right_arrow_button_full(self.paintings_gallery, self.show_next_painting)
-
-        # photo_amount = len(paintings_path)
-        # half_photo_amount = photo_amount // 2
-        # offset = 1420 - half_photo_amount * 32
-        # if 10 >= photo_amount > 0:
-        #     for i in range(photo_amount):
-        #         indicator = QtWidgets.QLabel(parent=self.paintings_gallery)
-        #         indicator.setGeometry(QtCore.QRect(offset + i * 32, 830, 30, 29))
-        #         indicator.setStyleSheet("background-image: url(:/jewelry/indicator.png); border: 0; "
-        #                                 "background-repeat: no-repeat")
-        #         indicator.setText("")
-        #         indicator.setObjectName("indicator")
-        #         self.indicators.append(indicator)
-        #
-        # self.indicators[self.painting_index].setStyleSheet(
-        #     "background-image: url(:/jewelry/indicator_active.png); border: 0;")
-
         self.paintings_gallery.show()
 
     def show_previous_artist(self):

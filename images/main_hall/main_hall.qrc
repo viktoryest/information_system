@@ -3,5 +3,7 @@
     <file>painting.png</file>
     <file>embroidery.png</file>
     <file>jewelry.png</file>
+    <file>main_hall_bg.png</file>
+    <file>video.png</file>
   </qresource>
 </RCC>
