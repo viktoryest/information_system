@@ -436,6 +436,9 @@ class Ui_MyMainWindow(object):
         self.video_widget.setObjectName("video_widget")
         self.video_widget.hide()
 
+        self.video_widget_back = create_back_button(self.video_widget, self.show_main_hall)
+
+
         # buttons for left menu
         self.jewelry_button_on_painting = create_jewelry_pass(self.painting_widget, self.show_jewelry_widget)
         self.jewelry_button_on_painting.setStyleSheet("background-image: url(:/left_menu/jewelry_menu_inactive.png); "
@@ -446,7 +449,7 @@ class Ui_MyMainWindow(object):
                                                                       self.show_embroidery_content)
         self.embroidery_button_on_painting.setGeometry(QtCore.QRect(0, 440, 491, 150))
         self.painting_on_painting = create_painting_button(self.painting_widget, None)
-        self.painting_on_painting.setStyleSheet("background-image: url(:/left_menu/painting_inactive.png); "
+        self.painting_on_painting.setStyleSheet("background-image: url(:/left_menu/painting_active.png); "
                                                 "background-repeat: no-repeat;")
         self.painting_on_painting.setGeometry(QtCore.QRect(0, 620, 491, 150))
         self.video_button_on_painting = create_video_button(self.painting_widget, self.show_video_widget)
@@ -484,6 +487,24 @@ class Ui_MyMainWindow(object):
                                         " border: 0; background-repeat: no-repeat;")
         self.embroidery_content_back_button = create_back_button(self.embroidery_content, self.show_main_hall)
 
+        self.jewelry_on_video = create_jewelry_pass(self.video_widget, self.show_jewelry_widget)
+        self.jewelry_on_video.setStyleSheet("background-image: url(:/left_menu/jewelry_menu_inactive.png);"
+                                            " border: 0; background-repeat: no-repeat;")
+        self.jewelry_on_video.setGeometry(QtCore.QRect(0, 285, 491, 307))
+        self.embroidery_on_video = create_embroidery_button(self.video_widget, self.show_embroidery_content)
+        self.embroidery_on_video.setStyleSheet("background-image: url(:/left_menu/embroidery_menu.png);"
+                                                  " border: 0; background-repeat: no-repeat;")
+        self.embroidery_on_video.setGeometry(QtCore.QRect(0, 440, 491, 150))
+        self.painting_on_video = create_painting_button(self.video_widget, self.show_painting_widget)
+        self.painting_on_video.setStyleSheet("background-image: url(:/left_menu/painting_menu.png);"
+                                                " border: 0; background-repeat: no-repeat;")
+        self.painting_on_video.setGeometry(QtCore.QRect(0, 600, 491, 150))
+        self.video_on_video = create_video_button(self.video_widget, self.show_video_widget)
+        self.video_on_video.setStyleSheet("background-image: url(:/left_menu/video_menu.png);"
+                                                " border: 0; background-repeat: no-repeat;")
+        self.video_on_video.setGeometry(QtCore.QRect(0, 740, 491, 150))
+
+
         MyMainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MyMainWindow)
@@ -495,6 +516,7 @@ class Ui_MyMainWindow(object):
         self.embroidery_widget.hide()
         self.painting_widget.hide()
         self.main_button.hide()
+        self.video_widget.hide()
 
     def show_jewelry_widget(self):
         self.masters_button.setStyleSheet("background-image: url(:/jewelry/masters.png); border: 0;")
@@ -508,6 +530,7 @@ class Ui_MyMainWindow(object):
         self.embroidery_content.hide()
         self.embroidery_video_photo.hide()
         self.painting_widget.hide()
+        self.video_widget.hide()
 
     def show_embroidery_widget(self):
         self.embroidery_widget.show()
@@ -521,6 +544,7 @@ class Ui_MyMainWindow(object):
         self.buttons_on_painting.show()
         self.current_artist.hide()
         self.paintings_gallery.hide()
+        self.video_widget.hide()
 
     def show_video_widget(self):
         self.jewelry_widget.hide()
@@ -577,6 +601,7 @@ class Ui_MyMainWindow(object):
         self.current_embroiderer.hide()
         self.embroidery_photo_gallery.hide()
         self.jewelry_content.hide()
+        self.video_widget.hide()
 
     def show_video_photo(self):
         self.play_video_state = True
