@@ -18,9 +18,8 @@ def create_video_title(parent):
 def create_video_preview(parent, xoffset, yoffset, width, height, path):
     video_preview = QtWidgets.QLabel(parent=parent)
     video_preview.setGeometry(QtCore.QRect(xoffset, yoffset, width, height))
-    # pixmap = QtGui.QPixmap(os.path.abspath('video/mstera_video.mp4_thumbnail.jpg'))
     pixmap = QtGui.QPixmap(os.path.abspath(path))
-    video_preview.setStyleSheet(f"border: 0;")
+    video_preview.setStyleSheet(f"border: 0; background: transparent;")
     video_preview.setPixmap(pixmap)
     video_preview.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
     video_preview.setText("")

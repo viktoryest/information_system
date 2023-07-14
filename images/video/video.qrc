@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="video">
     <file>video_bg.png</file>
+    <file>video_button_1.png</file>
+    <file>video_button_2.png</file>
   </qresource>
 </RCC>

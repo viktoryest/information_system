@@ -438,6 +438,23 @@ class Ui_MyMainWindow(object):
 
         self.video_widget_back = create_back_button(self.video_widget, self.show_main_hall)
 
+        self.video_widget_player = QMediaPlayer()
+        self.video_videoWidget = QVideoWidget(parent=self.embroidery_video_photo)
+        self.video_widget_player.setVideoOutput(self.embroidery_videoWidget)
+        self.video_widget_player.videoOutput().setFixedSize(1920, 1080)
+        self.video_widget_player.videoOutput().move(0, 0)
+        self.video_widget_player.videoOutput().hide()
+        self.video_widget_player.setAudioOutput(QtMultimedia.QAudioOutput(self.video_videoWidget))
+
+        self.video_video_preview_1 = create_video_preview(self.video_widget, 620, 300, 547, 504,
+                                                          'images/video/video_button_1.png')
+        self.video_video_preview_2 = create_video_preview(self.video_widget, 1220, 291, 547, 504,
+                                                          'images/video/video_button_2.png')
+        # self.video_play_button = create_play_button(self.video_widget,
+        #                                                  partial(self.video_play_video, i))
+        # self.video_play_button.setGeometry(QtCore.QRect(290 + i * 361, 285, 361, 307))
+        # self.video_play_buttons.append(self.video_play_button)
+
 
         # buttons for left menu
         self.jewelry_button_on_painting = create_jewelry_pass(self.painting_widget, self.show_jewelry_widget)
