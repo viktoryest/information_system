@@ -439,8 +439,8 @@ class Ui_MyMainWindow(object):
         self.video_widget_back = create_back_button(self.video_widget, self.show_main_hall)
 
         self.video_widget_player = QMediaPlayer()
-        self.video_videoWidget = QVideoWidget(parent=self.embroidery_video_photo)
-        self.video_widget_player.setVideoOutput(self.embroidery_videoWidget)
+        self.video_videoWidget = QVideoWidget(parent=self.video_widget)
+        self.video_widget_player.setVideoOutput(self.video_videoWidget)
         self.video_widget_player.videoOutput().setFixedSize(1920, 1080)
         self.video_widget_player.videoOutput().move(0, 0)
         self.video_widget_player.videoOutput().hide()
