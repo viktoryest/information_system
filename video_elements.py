@@ -30,7 +30,7 @@ def create_video_preview(parent, xoffset, yoffset, width, height, path):
 def create_play_button(parent, clicked):
     play_button = QtWidgets.QPushButton(parent=parent)
     play_button.setGeometry(QtCore.QRect(1014, 285, 361, 307))
-    play_button.setStyleSheet("background-image: transparent; border: 0;")
+    play_button.setStyleSheet("background: transparent; border: 0;")
     play_button.setText("")
     play_button.setObjectName("play_button")
     play_button.clicked.connect(clicked)

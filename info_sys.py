@@ -28,6 +28,7 @@ class Ui_MyMainWindow(object):
 
     play_video_state = False
     embroidery_play_video_state = False
+    video_play_video_state = False
 
     indicators = []
     photo_widgets = []
@@ -438,6 +439,19 @@ class Ui_MyMainWindow(object):
 
         self.video_widget_back = create_back_button(self.video_widget, self.show_main_hall)
 
+        self.video_video_preview_1 = create_video_preview(self.video_widget, 620, 300, 547, 504,
+                                                          'images/video/video_button_1.png')
+        self.video_video_preview_2 = create_video_preview(self.video_widget, 1220, 291, 547, 504,
+                                                          'images/video/video_button_2.png')
+
+        self.video_play_button_1 = create_play_button(self.video_widget, partial(self.video_play_video, 1))
+        self.video_play_button_1.setGeometry(QtCore.QRect(620, 300, 547, 504))
+        self.video_play_button_1.setObjectName("video_play_button_1")
+
+        self.video_play_button_2 = create_play_button(self.video_widget, partial(self.video_play_video, 2))
+        self.video_play_button_2.setGeometry(QtCore.QRect(1220, 291, 547, 504))
+        self.video_play_button_2.setObjectName("video_play_button_2")
+
         self.video_widget_player = QMediaPlayer()
         self.video_videoWidget = QVideoWidget(parent=self.video_widget)
         self.video_widget_player.setVideoOutput(self.video_videoWidget)
@@ -445,15 +459,6 @@ class Ui_MyMainWindow(object):
         self.video_widget_player.videoOutput().move(0, 0)
         self.video_widget_player.videoOutput().hide()
         self.video_widget_player.setAudioOutput(QtMultimedia.QAudioOutput(self.video_videoWidget))
-
-        self.video_video_preview_1 = create_video_preview(self.video_widget, 620, 300, 547, 504,
-                                                          'images/video/video_button_1.png')
-        self.video_video_preview_2 = create_video_preview(self.video_widget, 1220, 291, 547, 504,
-                                                          'images/video/video_button_2.png')
-        # self.video_play_button = create_play_button(self.video_widget,
-        #                                                  partial(self.video_play_video, i))
-        # self.video_play_button.setGeometry(QtCore.QRect(290 + i * 361, 285, 361, 307))
-        # self.video_play_buttons.append(self.video_play_button)
 
 
         # buttons for left menu
@@ -651,6 +656,21 @@ class Ui_MyMainWindow(object):
         self.embroidery_player.videoOutput().show()
         self.embroidery_player.play()
 
+    def video_play_video(self, index):
+        self.video_play_video_state = True
+        self.jewelry_widget.hide()
+        self.video_photo_widget.hide()
+        self.jewelry_content.hide()
+        self.photo_gallery_widget.hide()
+        self.video_play_button_1.hide()
+        self.video_play_button_2.hide()
+        self.video_video_preview_1.hide()
+        self.video_video_preview_2.hide()
+        self.video_widget_player.setSource(QUrl.fromLocalFile(f"video/video/video_{index}.mp4"))
+        self.video_videoWidget.show()
+        self.video_widget_player.videoOutput().show()
+        self.video_widget_player.play()
+
     def stop_video(self):
         self.play_video_state = False
         self.player.stop()
@@ -671,8 +691,16 @@ class Ui_MyMainWindow(object):
             button.show()
 
         self.embroidery_video_preview.show()
-
         self.embroidery_play_button.show()
+
+    def video_stop_video(self):
+        self.video_play_video_state = False
+        self.video_widget_player.stop()
+        self.video_widget_player.videoOutput().hide()
+        self.video_video_preview_1.show()
+        self.video_video_preview_2.show()
+        self.video_play_button_1.show()
+        self.video_play_button_2.show()
 
     def open_gallery(self):
         self.video_photo_widget.hide()

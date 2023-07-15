@@ -26,6 +26,9 @@ class MainWindow(QMainWindow):
             self.ui.stop_video()
         elif event.button() == Qt.LeftButton and self.ui.embroidery_play_video_state:
             self.ui.embroidery_stop_video()
+        elif event.button() == Qt.LeftButton and self.ui.video_play_video_state:
+            self.ui.video_stop_video()
+
 
 
 if __name__ == "__main__":
