@@ -566,13 +566,16 @@ class Ui_MyMainWindow(object):
                                               "background-repeat: no-repeat; border: 0;")
         self.video_photo_button.setGeometry(QtCore.QRect(40, 485, 452, 121))
         self.video_photo_widget.hide()
+        self.photo_gallery_widget.hide()
         self.jewelry_widget.show()
         self.jewelry_content.show()
         self.embroidery_widget.hide()
         self.embroidery_content.hide()
         self.embroidery_video_photo.hide()
+        self.embroidery_photo_gallery.hide()
         self.painting_widget.hide()
         self.video_widget.hide()
+        self.current_embroiderer.hide()
 
     def show_embroidery_widget(self):
         self.embroidery_widget.show()
@@ -707,6 +710,8 @@ class Ui_MyMainWindow(object):
         self.player.videoOutput().hide()
         self.player.stop()
         self.play_button.show()
+        for button in self.photo_preview_buttons:
+            button.show()
         for button in self.left_menu_buttons:
             button.show()
 
