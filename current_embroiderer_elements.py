@@ -46,9 +46,9 @@ def create_current_embroiderer_title(parent, index, embroidery_data, font_20):
     return embroiderer_title
 
 
-def create_current_embroiderer_description(parent, index, embroidery_data, font_16):
+def create_current_embroiderer_description(parent, index, embroidery_data, font_16, x, y, width, height):
     embroiderer_description = QtWidgets.QTextEdit(parent=parent)
-    embroiderer_description.setGeometry(QtCore.QRect(1109, 440, 684, 477))
+    embroiderer_description.setGeometry(QtCore.QRect(x, y, width, height))
     embroiderer_description.setStyleSheet("background: transparent; qproperty-textInteractionFlags: NoTextInteraction;")
     embroiderer_description.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
     embroiderer_description.setTextColor(QColor(68, 59, 64))

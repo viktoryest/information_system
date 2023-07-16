@@ -598,6 +598,7 @@ class Ui_MyMainWindow(object):
         self.embroiderers.show()
         self.current_embroiderer.hide()
         self.embroidery_video_photo.hide()
+        self.embroidery_photo_gallery.hide()
 
     def back_to_embroiderers(self):
         self.embroidery_buttons_widget.show()
@@ -1074,6 +1075,7 @@ class Ui_MyMainWindow(object):
     def show_current_embroiderer(self, index):
         self.embroidery_buttons_widget.hide()
         self.embroidery_content.hide()
+        no_photo = self.embroidery_data['persons'][index]['image'] == 'No photo'
 
         if hasattr(self, 'embroiderer_photo_label'):
             full_path = os.path.abspath(f"{self.embroidery_data['persons'][index]['image']}")
@@ -1085,25 +1087,47 @@ class Ui_MyMainWindow(object):
             self.embroiderer_photo_label = create_current_embroiderer_photo(self.current_embroiderer, index,
                                                                             self.embroidery_data)
 
-        if hasattr(self, 'person_name_button'):
-            self.person_name_button.setText(self.embroidery_data['persons'][index]['full_name'])
+        if hasattr(self, 'embroiderer_name_button'):
+            self.embroiderer_name_button.setText(self.embroidery_data['persons'][index]['full_name'])
         else:
-            self.person_name_button = create_name_button(self.current_embroiderer, index, self.embroidery_data,
+            self.embroiderer_name_button = create_name_button(self.current_embroiderer, index, self.embroidery_data,
                                                          get_font(24))
 
         if hasattr(self, 'embroiderer_title'):
-            self.embroiderer_title.setText(self.embroidery_data['persons'][index]['title'])
-            self.embroiderer_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+            if no_photo:
+                self.embroiderer_title.setGeometry(580, 380, 1220, 36)
+                self.embroiderer_title.setText(self.embroidery_data['persons'][index]['title'])
+                self.embroiderer_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+            else:
+                self.embroiderer_title.setGeometry(1109, 393, 684, 36)
+                self.embroiderer_title.setText(self.embroidery_data['persons'][index]['title'])
+                self.embroiderer_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         else:
-            self.embroiderer_title = create_current_embroiderer_title(self.current_embroiderer, index,
-                                                                      self.embroidery_data, get_font(20))
+            if no_photo:
+                self.embroiderer_title = create_current_artist_title(self.current_embroiderer, index,
+                                                                self.embroidery_data, get_font(20, QFont.Bold),
+                                                                580, 380, 1220, 36)
+            else:
+                self.embroiderer_title = create_current_artist_title(self.current_embroiderer, index,
+                                                                self.embroidery_data, get_font(20, QFont.Bold),
+                                                                1109, 393, 684, 36)
 
         if hasattr(self, 'embroiderer_description'):
+            if no_photo:
+                self.embroiderer_description.setGeometry(580, 440, 1220, 350)
+            else:
+                self.embroiderer_description.setGeometry(1109, 440, 684, 350)
             self.embroiderer_description.setText(self.embroidery_data['persons'][index]['description'])
             self.embroiderer_description.setAlignment(Qt.AlignmentFlag.AlignJustify)
         else:
-            self.embroiderer_description = create_current_embroiderer_description(self.current_embroiderer, index,
-                                                                                  self.embroidery_data, get_font(16))
+            if no_photo:
+                self.embroiderer_description = create_current_embroiderer_description(self.current_embroiderer, index,
+                                                                            self.embroidery_data, get_font(16),
+                                                                            580, 440, 1220, 350)
+            else:
+                self.embroiderer_description = create_current_embroiderer_description(self.current_embroiderer, index,
+                                                                            self.embroidery_data, get_font(16),
+                                                                            1109, 440, 684, 350)
 
         self.current_embroiderer.show()
 
