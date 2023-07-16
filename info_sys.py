@@ -4,7 +4,6 @@ from functools import partial
 from main_hall_buttons import *
 from left_menu_buttons import *
 from common_elements import create_back_button
-from json_sourses import *
 from fonts_sourses import *
 from photo_elements import *
 from video_elements import *
@@ -120,11 +119,24 @@ class Ui_MyMainWindow(object):
         self.jewelry_content = create_jewelry_content(self.jewelry_widget)
 
         # set text for jewelry content
-        jewelry_data = get_jewelry_data()
-        self.jewelry_title_1 = create_jewelry_title(self.jewelry_content, jewelry_data, get_font(20), 'jewelry_title_1', 'title_1')
-        self.jewelry_main_text_1 = create_jewelry_main_text_1(self.jewelry_content, jewelry_data, get_font(16))
-        self.jewelry_title_2 = create_jewelry_title_2(self.jewelry_content, jewelry_data, get_font(20))
-        self.jewelry_main_text_2 = create_jewelry_main_text_2(self.jewelry_content, jewelry_data, get_font(16))
+
+
+        self.jewelry_art = QtWidgets.QTextBrowser(self.jewelry_widget)
+        self.jewelry_art.setGeometry(QtCore.QRect(600, 200, 1200, 700))
+
+        self.jewelry_art.setStyleSheet("QTextEdit {background: transparent; border: 0;} QScrollBar {width: 0;}")
+        self.jewelry_art.setTextColor(QColor(73, 64, 69))
+        self.jewelry_art.setFont(get_font(18))
+        self.jewelry_art.setFontPointSize(18)
+        self.jewelry_art.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.jewelry_art.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
+        self.jewelry_art.setLineWidth(0)
+        self.jewelry_art.setObjectName("jewelry_art")
+
+        with open("texts/jewelry/jewelry_art.html", "r", encoding="utf-8") as file:
+            html_text = file.read()
+            html_with_color = f'<font color="#494045">{html_text}</font>'
+            self.jewelry_art.setHtml(html_with_color)
 
         # set back button
         self.back_button_jewelry_content = create_back_button(self.jewelry_content, self.show_main_hall)
