@@ -537,6 +537,14 @@ class Ui_MyMainWindow(object):
                                                 " border: 0; background-repeat: no-repeat;")
         self.video_on_video.setGeometry(QtCore.QRect(0, 740, 491, 150))
 
+        self.left_menu_buttons = [self.jewelry_button_on_painting, self.embroidery_button_on_painting,
+                             self.painting_on_painting, self.video_button_on_painting, self.masters_button,
+                             self.video_photo_button, self.embroidery_button, self.painting_button, self.video_button,
+                             self.jewelry_button_on_embroidery, self.embroidery_button_on_embroidery,
+                             self.embroiderers_button, self.embroidery_video_photo_button,
+                             self.embroidery_painting_button, self.video_button_on_embroidery, self.jewelry_on_video,
+                             self.embroidery_on_video, self.painting_on_video, self.video_on_video]
+
 
         MyMainWindow.setCentralWidget(self.centralwidget)
 
@@ -639,11 +647,11 @@ class Ui_MyMainWindow(object):
         self.video_widget.hide()
 
     def show_video_photo(self):
-        self.play_video_state = True
         self.jewelry_content.hide()
         self.video_photo_widget.show()
 
     def play_video(self):
+        self.play_video_state = True
         self.video_preview.hide()
         self.play_button.hide()
         for button in self.photo_preview_buttons:
@@ -651,6 +659,8 @@ class Ui_MyMainWindow(object):
         self.videoWidget.show()
         self.player.videoOutput().show()
         self.player.play()
+        for button in self.left_menu_buttons:
+            button.hide()
 
     def embroidery_play_video(self, index):
         self.embroidery_play_video_state = True
@@ -668,6 +678,8 @@ class Ui_MyMainWindow(object):
         self.embroidery_videoWidget.show()
         self.embroidery_player.videoOutput().show()
         self.embroidery_player.play()
+        for button in self.left_menu_buttons:
+            button.hide()
 
     def video_play_video(self, index):
         self.video_play_video_state = True
@@ -683,6 +695,8 @@ class Ui_MyMainWindow(object):
         self.video_videoWidget.show()
         self.video_widget_player.videoOutput().show()
         self.video_widget_player.play()
+        for button in self.left_menu_buttons:
+            button.hide()
 
     def stop_video(self):
         self.play_video_state = False
@@ -693,6 +707,8 @@ class Ui_MyMainWindow(object):
         self.player.videoOutput().hide()
         self.player.stop()
         self.play_button.show()
+        for button in self.left_menu_buttons:
+            button.show()
 
     def embroidery_stop_video(self):
         self.embroidery_play_video_state = False
@@ -705,6 +721,8 @@ class Ui_MyMainWindow(object):
 
         self.embroidery_video_preview.show()
         self.embroidery_play_button.show()
+        for button in self.left_menu_buttons:
+            button.show()
 
     def video_stop_video(self):
         self.video_play_video_state = False
@@ -714,6 +732,8 @@ class Ui_MyMainWindow(object):
         self.video_video_preview_2.show()
         self.video_play_button_1.show()
         self.video_play_button_2.show()
+        for button in self.left_menu_buttons:
+            button.show()
 
     def open_gallery(self):
         self.video_photo_widget.hide()
