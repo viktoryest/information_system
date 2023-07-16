@@ -1,3 +1,4 @@
+import json
 import os.path
 from functools import partial
 
@@ -119,9 +120,7 @@ class Ui_MyMainWindow(object):
         self.jewelry_content = create_jewelry_content(self.jewelry_widget)
 
         # set text for jewelry content
-
-
-        self.jewelry_art = QtWidgets.QTextBrowser(self.jewelry_widget)
+        self.jewelry_art = QtWidgets.QTextBrowser(self.jewelry_content)
         self.jewelry_art.setGeometry(QtCore.QRect(600, 200, 1200, 700))
 
         self.jewelry_art.setStyleSheet("QTextEdit {background: transparent; border: 0;} QScrollBar {width: 0;}")
@@ -554,6 +553,7 @@ class Ui_MyMainWindow(object):
 
     def show_jewelry_widget(self):
         self.masters_button.setStyleSheet("background-image: url(:/jewelry/masters.png); border: 0;")
+        self.masters_button.setGeometry(QtCore.QRect(40, 390, 452, 121))
         self.video_photo_button.setStyleSheet("background-image: url(:/jewelry/video_photo.png);"
                                               "background-repeat: no-repeat; border: 0;")
         self.video_photo_button.setGeometry(QtCore.QRect(40, 485, 452, 121))
