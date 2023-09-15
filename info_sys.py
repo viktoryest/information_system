@@ -4,7 +4,7 @@ from functools import partial
 
 from main_hall_buttons import *
 from left_menu_buttons import *
-from common_elements import create_back_button
+from common_elements import create_back_button, create_line
 from fonts_sourses import *
 from photo_elements import *
 from video_elements import *
@@ -246,10 +246,7 @@ class Ui_MyMainWindow(object):
 
         self.back_button_master = create_back_button(self.current_master, self.back_to_masters)
 
-        self.line = QtWidgets.QLabel(parent=self.current_master)
-        self.line.setGeometry(QtCore.QRect(1300, 292, 564, 2))
-        self.line.setStyleSheet("background-image: url(:/jewelry/line.png); border: 0;")
-        self.line.setObjectName("line")
+        self.line = create_line(self.current_master)
 
         self.left_arrow = create_left_arrow(self.current_master, self.show_previous_master)
         self.right_arrow = create_right_arrow(self.current_master, self.show_next_master)
@@ -321,10 +318,7 @@ class Ui_MyMainWindow(object):
         self.left_arrow = create_left_arrow(self.current_embroiderer, self.show_previous_embroiderer)
         self.right_arrow = create_right_arrow(self.current_embroiderer, self.show_next_embroiderer)
 
-        self.emb_line = QtWidgets.QLabel(parent=self.current_embroiderer)
-        self.emb_line.setGeometry(QtCore.QRect(1300, 292, 564, 2))
-        self.emb_line.setStyleSheet("background-image: url(:/jewelry/line.png); border: 0;")
-        self.emb_line.setObjectName("emb_line")
+        self.emb_line = create_line(self.current_embroiderer)
 
         self.embroidery_video_photo = QtWidgets.QWidget(parent=self.embroidery_widget)
         self.embroidery_video_photo.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
@@ -429,10 +423,7 @@ class Ui_MyMainWindow(object):
         self.left_arrow = create_left_arrow(self.current_artist, self.show_previous_artist)
         self.right_arrow = create_right_arrow(self.current_artist, self.show_next_artist)
 
-        self.artist_line = QtWidgets.QLabel(parent=self.current_artist)
-        self.artist_line.setGeometry(QtCore.QRect(1300, 292, 564, 2))
-        self.artist_line.setStyleSheet("background-image: url(:/jewelry/line.png); border: 0;")
-        self.artist_line.setObjectName("artist_line")
+        self.artist_line = create_line(self.current_artist)
 
         self.paintings_gallery = QtWidgets.QWidget(parent=self.painting_widget)
         self.paintings_gallery.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
